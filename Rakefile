@@ -1,4 +1,5 @@
 require './app'
+require 'sinatra/activerecord/rake'
 
 desc 'Look for style guide offenses in your code'
 task :rubocop do
