@@ -5,7 +5,7 @@ require 'base64'
 
 class ScreenGenerator
 
-  def initialize(html, image = nil)
+  def initialize(html, image = false)
     self.input = html
     self.image = image
   end
