@@ -1,2 +1,2 @@
 # Ignore locally generated content
-public/images/generated
+public/images/generated/*.bmp
