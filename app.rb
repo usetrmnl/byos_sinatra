@@ -84,7 +84,7 @@ get '/api/display/' do
       status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
       image_url: screen[:image_url],
       filename: screen[:filename],
-      refresh_rate: 900,
+      refresh_rate: @device.refresh_interval,
       reset_firmware: false,
       update_firmware: false,
       firmware_url: nil,
