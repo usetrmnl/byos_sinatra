@@ -19,7 +19,7 @@ class ScreenFetcher
     end
 
     def empty_state_image
-      "#{base_domain}/images/setup/setup-logo.bmp"
+      { filename: 'empty_state', image_url: "#{base_domain}/images/setup/setup-logo.bmp" }
     end
 
     def base_path
