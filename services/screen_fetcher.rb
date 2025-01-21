@@ -14,9 +14,8 @@ class ScreenFetcher
       { filename:, image_url: }
     end
 
-    # TODO: fix to variable
     def base_domain
-      'http://localhost:4567'
+      BASE_URL
     end
 
     def empty_state_image
