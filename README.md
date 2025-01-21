@@ -27,13 +27,14 @@ ScreenGenerator.new("<p>Some HTML here</p>").process # => creates img in /public
 
 **deploying**
 
-to run TRMNL on your local network only:
+on your local network:
 
-1. run app in production mode (`ruby app.rb -e production`)
+1. run app in production mode (`ruby app.rb`)
 2. retrieve your machine's local IP, ex 192.168.x.x (Mac: `ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'`)
 3. confirm it works by visiting `http://192.168.x.x:4567/devices` from any device also on the network
-4. point your [forked FW's](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to `http://192.168.x.x:4567`
+4. set `BASE_URL` inside `app.rb` to this domain (`http://192.168.x.x:4567`, no trailing slash)
+4. point your [forked FW's](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to same value as `BASE_URL`
 
-to run TRMNL on a cloud server:
+in the cloud:
 
 TBD
