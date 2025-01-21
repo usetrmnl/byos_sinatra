@@ -1,0 +1,36 @@
+<form autocomplete="off" action="/devices<%= "/#{device.id}" if device.persisted? %>" accept-charset="UTF-8" method="post">
+
+  <% if device.persisted? %>
+    <input name="_method" value="patch" type="hidden"/>
+  <% end %>
+
+  <div class="rounded-xl bg-gray-50 shadow-sm border mb-6 divide-y divide-gray-200">
+    <div class="p-6">
+      <label for="device_name" class="block text-gray-700 text-md leading-4 font-medium mb-2">Name</label>
+      <input type="text" required="true" name="device[name]" id="device_name" value="<%= device.name %>" class="block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150" placeholder="My TRMNL">
+    </div>
+    <div class="p-6">
+      <label for="device_mac_address" class="block text-gray-700 text-md leading-4 font-medium mb-2">Mac Address</label>
+      <input type="text" required="true" name="device[mac_address]" id="device_mac_address" value="<%= device.mac_address %>" class="block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150" placeholder="XX:XX:XX:XX:XX">
+    </div>
+
+    <% if device.persisted? %>
+      <div class="p-6">
+        <label for="device_refresh_interval" class="block text-gray-700 text-md leading-4 font-medium mb-2">Refresh Interval</label>
+        <input type="text" required="true" name="device[refresh_interval]" id="device_refresh_interval" value="<%= device.refresh_interval %>" class="block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150" placeholder="qwerty_asdf_420">
+      </div>
+      <div class="p-6">
+        <label for="device_friendly_id" class="block text-gray-700 text-md leading-4 font-medium mb-2">Friendly ID</label>
+        <input type="text" required="true" name="device[friendly_id]" id="device_friendly_id" value="<%= device.friendly_id %>" class="block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150" placeholder="qwerty_asdf_420">
+      </div>
+      <div class="p-6">
+        <label for="device_api_key" class="block text-gray-700 text-md leading-4 font-medium mb-2">API Key</label>
+        <input type="text" required="true" name="device[api_key]" id="device_api_key" value="<%= device.api_key %>" class="block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150" placeholder="qwerty_asdf_420">
+      </div>
+    <% end %>
+
+    <div class="p-6 text-right">
+      <input type="submit" name="commit" value="Save" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+    </div>
+  </div>
+</form>
