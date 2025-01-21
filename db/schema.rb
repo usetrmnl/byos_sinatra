@@ -19,6 +19,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_172428) do
     t.string "mac_address"
     t.string "api_key"
     t.string "friendly_id"
+    t.integer "refresh_interval", default: 900, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
