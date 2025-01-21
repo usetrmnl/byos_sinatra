@@ -2,6 +2,14 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'debug'
 
+require 'sinatra'
+
+# allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
+set :bind, '0.0.0.0'
+
+# set to your local network (or prod domain)
+BASE_URL = 'http://192.168.68.57:4567'
+
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file } # require models
 Dir["#{current_dir}/services/*.rb"].each { |file| require file } # require services
@@ -10,17 +18,9 @@ configure do
   set :json_encoder, :to_json
 end
 
-# before do
-#   headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
-#   headers['Access-Control-Allow-Origin'] = '*'
-#   headers['Access-Control-Allow-Headers'] = 'accept, authorization, origin'
-# end
-#
-# options '*' do
-#   response.headers['Allow'] = 'HEAD,GET,PUT,DELETE,OPTIONS,POST'
-#   response.headers['Access-Control-Allow-Headers'] =
-#     'X-Requested-With, X-HTTP-Method-Override, Content-Type, Cache-Control, Accept'
-# end
+configure :development, :test, :production do
+  set :force_ssl, false
+end
 
 # DEVICE MANAGEMENT
 get '/devices/?' do
@@ -56,7 +56,7 @@ post '/devices' do
 end
 
 # FIRMWARE SETUP
-get '/api/setup' do
+get '/api/setup/' do
   content_type :json
   @device = Device.find_by_mac_address(env['HTTP_ID']) # => ie "41:B4:10:39:A1:24"
 
@@ -64,7 +64,7 @@ get '/api/setup' do
     status = 200
     api_key = @device.api_key
     friendly_id = @device.friendly_id
-    image_url = "http://localhost:4567/images/setup/setup-logo.bmp"
+    image_url = "#{BASE_URL}/images/setup/setup-logo.bmp"
     message = "Welcome to TRMNL BYOS"
 
     { status:, api_key:, friendly_id:, image_url:, message: }.to_json
@@ -74,7 +74,7 @@ get '/api/setup' do
 end
 
 # DISPLAY CONTENT
-get '/api/display' do
+get '/api/display/' do
   content_type :json
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
   screen = ScreenFetcher.call
@@ -93,4 +93,9 @@ get '/api/display' do
   else
     { status: 404 }.to_json
   end
+end
+
+# ERROR MESSAGES
+post '/api/log' do
+  puts "API/LOG: #{env}"
 end
