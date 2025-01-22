@@ -1,3 +1,15 @@
+<% byos_database = ENV.fetch('BYOS_DATABASE', 'pg') %>
+<% if byos_database == "sqlite" %>
+development:
+  adapter: sqlite3
+  encoding: unicode
+  database: db/trmnl_byos_sinatra.sqlite3
+
+production:
+  adapter: sqlite3
+  encoding: unicode
+  database: db/trmnl_byos_sinatra.sqlite3
+<% else %>
 development:
   adapter: postgresql
   encoding: unicode
@@ -13,3 +25,4 @@ production:
   pool: 2
   # username: your_username
   # password: your_password
+<% end %>
