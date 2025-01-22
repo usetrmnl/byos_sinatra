@@ -4,8 +4,6 @@ source 'https://rubygems.org'
 gem 'activerecord'
 gem 'json'
 gem 'rake'
-gem 'rackup'
-gem 'puma'
 gem 'sinatra-activerecord'
 
 # browser automation
