@@ -5,7 +5,7 @@ with this project you can point a TRMNL (https://usetrmnl.com) device to your ow
 
 - TRMNL device
 - TRMNL firmware (forked with new base url - your server)
-- Ruby installed on your machine
+- Ruby installed on your machine (or Docker)
 
 **quickstart**
 
@@ -13,6 +13,13 @@ with this project you can point a TRMNL (https://usetrmnl.com) device to your ow
 bundle config --set # installs gems/libs
 bundle exec rake db:setup # creates db + Devices table
 bundle exec ruby app.rb # => runs server, visit http://localhost:4567
+```
+
+**docker-based setup**
+You may optionally edit the Dockerfile to enable sqlite.
+```
+docker build -t trmnl_byos -f Dockerfile .
+docker run --name trmnl -p 4567:4567 trmnl_byos
 ```
 
 **debugging / building**
