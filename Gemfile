@@ -25,3 +25,7 @@ group :development, :test do
   gem 'debug'
 end
 
+
+gem "puma", "~> 6.5"
+
+gem "rackup", "~> 2.2"

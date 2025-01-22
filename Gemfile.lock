@@ -57,14 +57,17 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2024.1203)
     mini_magick (4.12.0)
+    mini_portile2 (2.8.8)
     minitest (5.25.4)
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
-    pg (1.5.9)
+    nio4r (2.7.4)
     psych (5.2.1)
       date
       stringio
     public_suffix (6.0.1)
+    puma (6.5.0)
+      nio4r (~> 2.0)
     puppeteer-ruby (0.45.6)
       concurrent-ruby (>= 1.1, < 1.4)
       mime-types (>= 3.0)
@@ -77,6 +80,8 @@ GEM
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
+    rackup (2.2.1)
+      rack (>= 3)
     rake (13.2.1)
     rdoc (6.8.1)
       psych (>= 4.0.0)
@@ -94,6 +99,9 @@ GEM
     sinatra-activerecord (2.0.28)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
+    sqlite3 (2.5.0)
+      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.5.0-x86_64-darwin)
     stringio (3.1.2)
     tilt (2.6.0)
     timeout (0.4.2)
@@ -115,10 +123,12 @@ DEPENDENCIES
   ferrum!
   json
   mini_magick (~> 4.12.0)
-  pg
+  puma (~> 6.5)
   puppeteer-ruby (~> 0.45.6)
+  rackup (~> 2.2)
   rake
   sinatra-activerecord
+  sqlite3
 
 BUNDLED WITH
    2.5.6
