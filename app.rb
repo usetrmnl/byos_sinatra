@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'debug'
 
-require 'sinatra'
+require_relative 'config/initializers/tailwind_form'
 
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
 set :bind, '0.0.0.0'
@@ -26,6 +26,25 @@ helpers do
 
     URI.join(base, path).to_s
   end
+
+  def edit_forme(model, attrs, options, &block)
+    attrs[:action] += "/#{@device.id}"
+    options[:before] = -> (form) {
+      TailwindConfig.before.call(form)
+      form.to_s << '<input name="_method" value="patch" type="hidden"/>'
+    }
+    Forme.form(model, attrs, options, &block)
+  end
+
+  def create_forme(model, is_edit, attrs={}, options={}, &block)
+    attrs[:method] = :post
+    options = TailwindConfig.options.merge(options)
+    if model && model.persisted?
+      return edit_forme(model, attrs, options, &block)
+    end
+    return Forme.form(model, attrs, options, &block)
+  end
+
 end
 
 configure do
