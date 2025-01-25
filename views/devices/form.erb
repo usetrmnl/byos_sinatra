@@ -1,9 +1,8 @@
-<%= f.input :name, label: "Name", placeholder: "My TRMNL" %>
-<%= f.input :mac_address, label: "MAC Address", placeholder: "xx:xx:xx:xx:xx:xx" %>
-<% if device.persisted? %>
-  <%= f.input :refresh_interval, label: "Refresh Interval", placeholder: "15" %>
-  <%= f.input :friendly_id, label: "Friendly ID", placeholder: "office_desk" %>
-  <%= f.input :api_key, label: "API Key", placeholder: "xxxxxxxxxx" %>
+<%= @form.input :name, label: "Name", placeholder: "My TRMNL" %>
+<%= @form.input :mac_address, label: "MAC Address", placeholder: "xx:xx:xx:xx:xx:xx" %>
+<% if @device.persisted? %>
+  <%= @form.input :refresh_interval, label: "Refresh Interval", placeholder: "15" %>
+  <%= @form.input :friendly_id, label: "Friendly ID", placeholder: "office_desk" %>
+  <%= @form.input :api_key, label: "API Key", placeholder: "xxxxxxxxxx" %>
 <% end %>
-<%= f.button 'Save' %>
-<input type="text" required="true" name="device[mac_address]" id="device_mac_address" value="" class="block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150" placeholder="XX:XX:XX:XX:XX">
+<%= @form.button 'Save' %>

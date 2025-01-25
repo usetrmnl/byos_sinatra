@@ -1,8 +1,4 @@
 <%= erb :"shared/heading", locals: { title: "Edit '#{@device.name}'" } %>
-<%= create_forme(@device, @device.persisted?, 
-        {autocomplete:"off", action: "/devices"},
-        {namespace: "device"}
-        ) do |form|  
-        erb :"devices/form", locals: { f: form, device: @device } 
-    end
-%>
+<%= @form.form_output() do 
+    erb :"devices/form"
+end %>
