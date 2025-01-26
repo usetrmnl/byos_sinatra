@@ -1,0 +1,4 @@
+<%= erb :"shared/heading", locals: { title: "Edit '#{@schedule.name}'" } %>
+<%= @form.form_output() do 
+    erb :"schedules/form"
+end %>

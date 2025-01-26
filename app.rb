@@ -5,6 +5,7 @@ require 'sinatra/activerecord'
 require 'debug'
 
 require_relative 'config/initializers/tailwind_form'
+require_relative 'config/initializers/subform_plugin'
 require_relative 'config/initializers/explicit_forme_plugin'
 
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
@@ -28,6 +29,7 @@ helpers do
       }
     end
     f = Forme::Form.new(model, options)
+    f.extend(SubformsPlugin)
     f.extend(ExplicitFormePlugin)
     f.form_tag(attrs)
     return f
@@ -85,6 +87,60 @@ end
 
 get '/' do
   erb :"index"
+end
+
+# SCHEDULE MANAGEMENT
+def schedules_form(schedule)
+  create_forme(schedule, schedule.persisted?,
+        {autocomplete:"off", action: "/schedules"},
+        {namespace: "schedule"})
+end
+
+get '/schedules/?' do
+  @active_schedules = ActiveSchedule.all
+  @schedules = Schedule.all
+  @devices = Device.all
+  erb :"schedules/index"
+end
+
+get '/schedules/new' do
+  @schedule = Schedule.new
+  @form = schedules_form(@schedule)
+  erb :"schedules/new"
+end
+
+get '/schedules/:id/delete' do
+  @schedule = Schedule.find(params[:id])
+  @schedule.destroy
+  redirect to('/schedules')
+end
+
+get '/schedules/:id/edit' do
+  @schedule = Schedule.find(params[:id])
+  @form = schedules_form(@schedule)
+  erb :"schedules/edit"
+end
+
+patch '/schedules/:id' do
+  schedule = Schedule.find(params[:id])
+  schedule.update(params[:schedule])
+  redirect to('/schedules')
+end
+
+post '/schedules' do
+  Schedule.create!(params[:schedule])
+  redirect to('/schedules')
+end
+
+post '/schedules/activate' do
+  device = Device.find(params[:device])
+  schedule = Schedule.find(params[:schedule])
+  binding.break
+  ActiveSchedule.create!({
+    device: device,
+    schedule: schedule
+  })
+  redirect to('/schedules')
 end
 
 # FIRMWARE SETUP

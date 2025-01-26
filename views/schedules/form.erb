@@ -1,0 +1,18 @@
+<%= @form.input :name, label: "Schedule name" %>
+<%= @form.input :default_plugin, label: "Default plugin" %>
+
+<h2>Schedule Events</h2>
+<div id="schedule-events">
+    <div class="schedule-event">
+        <%= sf = @form.subform(:schedule_events, { id: 1 }) %>
+        <%= sf.input(:start_time, label: "Start Time:", type: :time, required: true) %>
+        <%= sf.input(:end_time, label: "End Time:", type: :time, required: true) %>
+        <%= sf.input(:interruptible, label: "Interruptible:", type: :checkbox) %>
+        <%= sf.input(:plugins, label: "Plugins:", type: :text) %>
+        <%= sf.input(:update_frequency, label: "Update Frequency:", type: :number) %>
+    </div>
+</div>
+
+<button type="button" onclick="addScheduleEvent()">Add Another Event</button>
+
+<%= @form.button 'Create Schedule' %>

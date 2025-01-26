@@ -1,0 +1,11 @@
+<div class="flex">
+    <input type="hidden" name="schedule" value="<%= schedule.id %>">
+    <%= dl_form.button(value: 'Activate on device', wrapper: nil) %>
+</div>
+<div class="flex grow px-10 items-left">
+    <select name="device" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <% @devices && @devices.each do |device| %>
+        <option value="<%= device.id %>"><%= device.name %> (<%= device.friendly_id %>)</option>
+    <% end %>
+    </select>
+</div>

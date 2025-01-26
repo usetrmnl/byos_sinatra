@@ -1,0 +1,56 @@
+<%= erb :"shared/heading", locals: { title: "Active schedules" } %>
+
+<div class="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-gray-50">
+  <% @active_schedules && @active_schedules.each do |active_schedule| %>
+    <div class="flex border-b last:border-b-0 border-gray-100 transition hover:bg-white dark:hover:bg-gray-750 dark:border-gray-700" data-turbo="false"> 
+      <div class="flex grow flex-row items-center justify-between px-5 py-5">
+        <div>
+          <div class="text-sm">
+            <p>Device ID: <%= active_schedule.device && active_schedule.device.friendly_id %></p>
+            <p>Schedule ID: <%= active_schedule.schedule && active_schedule.schedule.id %></p>
+          </div>
+        </div>
+        <div class="">
+          <a href="/schedules/<%= active_schedule.id %>/delete" class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Delete</a>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= erb :"shared/heading", locals: { title: "All schedules" } %>
+
+<div class="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-gray-50">
+  <% @schedules && @schedules.each do |schedule| %>
+    <div class="flex flex-col border-b last:border-b-0 border-gray-100 transition hover:bg-white dark:hover:bg-gray-750 dark:border-gray-700" 
+         data-turbo="false" href="/schedules/<%= schedule.id %>/edit">
+      <div class="flex border-b grow flex-row items-center justify-between px-5 py-5">
+        <div>
+          <div class="text-sm">
+            <p>Schedule ID: <%= schedule.id %></p>
+          </div>
+        </div>
+        <div class="">
+          <a class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none"
+              href="/schedules/<%= schedule.id %>/delete">Delete</a>
+          <a class="font-medium text-blue-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none"
+              href="/schedules/<%= schedule.id %>/edit">Edit</a>
+        </div>
+      </div>
+      <div class="flex border-b grow flex-row items-center justify-between px-5 py-5">
+          <%= dl_form = create_forme(nil, false, {
+                class: "flex grow",
+                method: "post", 
+                action: "/schedules/activate"
+              }, { 
+                before: nil, 
+                namespace: "activate"
+              })  
+            dl_form.form_output() do
+              erb :"schedules/activate_form", locals: {schedule: schedule, dl_form: dl_form}
+            end
+          %>
+      </div>
+    </div>
+  <% end %>
+</div>
