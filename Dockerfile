@@ -31,7 +31,5 @@ RUN bundle exec rake db:setup
 # Expose the port that the application will run on
 EXPOSE 4567
 
-ENV APP_ENV=production
-
 # Command to run the application
 CMD ["bundle", "exec", "ruby", "app.rb", "-o", "0.0.0.0"]

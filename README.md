@@ -1,4 +1,5 @@
 # TRMNL BYOS - Ruby/Sinatra
+
 with this project you can point a TRMNL (https://usetrmnl.com) device to your own server, either in the cloud or on your local network.
 
 **requirements**
@@ -10,6 +11,7 @@ with this project you can point a TRMNL (https://usetrmnl.com) device to your ow
 **quickstart**
 
 ```
+cp dotenv-sample .env (and edit to set the appropriate variables)
 bundle # installs gems/libs
 rake db:setup # creates db + Devices table
 ruby app.rb # => runs server, visit http://localhost:4567
@@ -17,7 +19,9 @@ ruby app.rb # => runs server, visit http://localhost:4567
 
 **docker-based setup**
 You may optionally edit the Dockerfile to enable sqlite.
+
 ```
+cp dotenv-sample .env (and edit to set the appropriate variables)
 docker build -t trmnl_byos -f Dockerfile .
 docker run --name trmnl -p 4567:4567 trmnl_byos
 ```
@@ -36,11 +40,11 @@ ScreenGenerator.new("<p>Some HTML here</p>").process # => creates img in /public
 
 on your local network:
 
-1. run app in production mode (`ruby app.rb`)
-2. retrieve your machine's local IP, ex 192.168.x.x (Mac: `ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'`)
-3. confirm it works by visiting `http://192.168.x.x:4567/devices` from any device also on the network
-4. set `BASE_URL` inside `app.rb` to this domain (`http://192.168.x.x:4567`, no trailing slash)
-4. point your [forked FW's](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to same value as `BASE_URL`
+1. set `BASE_URL` inside the file `.env` to where this is hosted (eg `http://192.168.x.x:4567`, no trailing slash)
+2. run app in production mode (`ruby app.rb`)
+3. retrieve your machine's local IP, ex 192.168.x.x (Mac: `ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'`)
+4. confirm it works by visiting `http://192.168.x.x:4567/devices` from any device also on the network
+5. point your [forked FW's](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to same value as `BASE_URL`
 
 in the cloud:
 

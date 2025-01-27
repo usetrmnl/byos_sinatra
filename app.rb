@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'dotenv/load'
 require 'debug'
 
 require_relative 'config/initializers/tailwind_form'
@@ -8,8 +9,7 @@ require_relative 'config/initializers/explicit_forme_plugin'
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
 set :bind, '0.0.0.0'
 
-# set to your local network (or prod domain)
-BASE_URL = 'http://192.168.68.57:4567'
+BASE_URL = ENV['BASE_URL']
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file } # require models
