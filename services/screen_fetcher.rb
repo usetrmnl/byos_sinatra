@@ -1,22 +1,25 @@
 class ScreenFetcher
   class << self
-    def call(app)
-      last_generated_image(app) || empty_state_image(app)
+    def call
+      last_generated_image || empty_state_image
     end
 
-    def last_generated_image(app)
+    def last_generated_image
       img_path = Dir.glob(File.join(base_path, '*.*')).max { |a, b| File.ctime(a) <=> File.ctime(b) }
       return nil unless img_path
 
       filename = img_path.split('/').last # => 1as4ff.bmp
-      image_url = app.url_for("/images/generated/#{filename}")
+      image_url = "#{base_domain}/images/generated/#{filename}"
 
       { filename:, image_url: }
     end
 
-    def empty_state_image(app)
-      image_url =  app.url_for("/images/setup/setup-logo.bmp")
-      { filename: 'empty_state', image_url: image_url }
+    def base_domain
+      BASE_URL
+    end
+
+    def empty_state_image
+      { filename: 'empty_state', image_url: "#{base_domain}/images/setup/setup-logo.bmp" }
     end
 
     def base_path

@@ -8,26 +8,14 @@ require_relative 'config/initializers/explicit_forme_plugin'
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
 set :bind, '0.0.0.0'
 
+# set to your local network (or prod domain)
+BASE_URL = 'http://192.168.68.57:4567'
+
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file } # require models
 Dir["#{current_dir}/services/*.rb"].each { |file| require file } # require services
 
 helpers do
-  def url_for(path = '', options = {})
-    scheme = options[:scheme] || request.scheme
-    host = options[:host] || request.host
-    port = options[:port] || request.port
-
-    base = "#{scheme}://#{host}"
-    if scheme == "http"
-      base += ":#{port}" unless port == 80
-    elsif scheme == "https"
-      base += ":#{port}" unless port == 443
-    end
-
-    URI.join(base, path).to_s
-  end
-
   def create_forme(model, is_edit, attrs={}, options={})
     attrs[:method] = :post
     options = TailwindConfig.options.merge(options)
@@ -103,7 +91,7 @@ get '/api/setup/' do
     status = 200
     api_key = @device.api_key
     friendly_id = @device.friendly_id
-    image_url = url_for("/images/setup/setup-logo.bmp")
+    image_url = "#{BASE_URL}/images/setup/setup-logo.bmp"
     message = "Welcome to TRMNL BYOS"
 
     { status:, api_key:, friendly_id:, image_url:, message: }.to_json
@@ -116,7 +104,7 @@ end
 get '/api/display/' do
   content_type :json
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
-  screen = ScreenFetcher.call(self)
+  screen = ScreenFetcher.call
 
   if @device
     {
