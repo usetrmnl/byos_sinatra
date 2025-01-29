@@ -12,7 +12,6 @@ class ScheduleEvent < ActiveRecord::Base
 
   # Custom validation to ensure end_time is after start_time
   def end_time_after_start_time
-    binding.break
     if end_time <= start_time
       errors.add(:end_time, "must be after the start time")
     end
@@ -30,5 +29,9 @@ class ScheduleEvent < ActiveRecord::Base
   # Helper to set plugins from an array
   def plugins_list=(list)
     self.plugins = list.join(',')
+  end
+
+  def format_date(date)
+    date.strftime("%l:%M %p")
   end
 end

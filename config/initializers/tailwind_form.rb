@@ -52,9 +52,15 @@ module TailwindConfig
           class: 'h-8 w-8 rounded-full shadow',
         },
 
+        button: {
+          label_attr: self.label_attr,
+          class: 'font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none', 
+          wrapper_attr: { class: 'p-6 text-right' },
+        },
+
         submit: {
           label_attr: self.label_attr,
-          attr: { class: 'cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none' },
+          class: 'cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none' ,
           wrapper_attr: { class: 'p-6 text-right' },
         },
       },

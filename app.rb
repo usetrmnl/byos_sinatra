@@ -115,6 +115,11 @@ get '/schedules/:id/delete' do
   redirect to('/schedules')
 end
 
+get '/scheduleEvent/:id/delete' do
+  @schedule_event = ScheduleEvent.find(params[:id])
+  @schedule_event.destroy
+end
+
 get '/schedules/:id/edit' do
   @schedule = Schedule.find(params[:id])
   @form = schedules_form(@schedule)
@@ -124,11 +129,24 @@ end
 patch '/schedules/:id' do
   schedule = Schedule.find(params[:id])
   schedule.update(params[:schedule])
+  schedule_events_params = params[:schedule_events]
+  schedule_events_params.each do |key,se|
+    binding.break
+    next if key == "-1"
+    schedule_event = ScheduleEvent.find(key)
+    schedule_event.update(se)
+  end
   redirect to('/schedules')
 end
 
 post '/schedules' do
-  Schedule.create!(params[:schedule])
+  schedule_params = params[:schedule]
+  schedule_events_params = params[:schedule_events]
+  schedule = Schedule.create!(schedule_params)
+  schedule_events_params.each do |key,se|
+    next if key == "-1"
+    schedule.schedule_events.create(se)
+  end
   redirect to('/schedules')
 end
 

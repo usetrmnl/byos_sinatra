@@ -13,7 +13,7 @@ module SubformsPlugin
     end
   end
 
-  def subform(field, options={})
+  def subform(field, model, options={})
     keys_to_exclude = [
       :before, :after, :obj
     ]
@@ -22,8 +22,13 @@ module SubformsPlugin
       :parent => self,
       :namespace => namespace
     })
-    subClass = self.obj.class.reflect_on_association(field).klass
-    form = self.class.new(subClass.new, options)
+    form = nil
+    if model
+      form = self.class.new(model, options)
+    else
+      subClass = self.obj.class.reflect_on_association(field).klass
+      form = self.class.new(subClass.new, options)
+    end
     form.extend(SubformsPlugin::SubformForm)
     return form
   end
