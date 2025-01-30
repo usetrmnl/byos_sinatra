@@ -11,17 +11,17 @@ with this project you can point a TRMNL (https://usetrmnl.com) device to your ow
 **quickstart**
 
 ```
-cp dotenv-sample .env (and edit to set the appropriate variables)
+cp dotenv-sample .env # (and edit to set the appropriate variables)
 bundle # installs gems/libs
 rake db:setup # creates db + Devices table
-ruby app.rb # => runs server, visit http://localhost:4567
+ruby app.rb # runs server, visit http://localhost:4567/devices/new
 ```
 
 **docker-based setup**
 You may optionally edit the Dockerfile to enable sqlite.
 
 ```
-cp dotenv-sample .env (and edit to set the appropriate variables)
+cp dotenv-sample .env # (and edit to set the appropriate variables)
 docker build -t trmnl_byos -f Dockerfile .
 docker run --name trmnl -p 4567:4567 trmnl_byos
 ```
@@ -31,8 +31,8 @@ docker run --name trmnl -p 4567:4567 trmnl_byos
 first access the console: `rake console`
 
 ```
-Device.count # => 0 (interact with db ojects via ActiveRecord ORM)
-ScreenFetcher.call (fetch upcoming render)
+Device.count # => 0 (interact with db object via ActiveRecord ORM)
+ScreenFetcher.call # fetches upcoming render, sorts desc by created timestamp
 ScreenGenerator.new("<p>Some HTML here</p>").process # => creates img in /public/images/generated
 ```
 
