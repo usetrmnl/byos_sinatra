@@ -1,2 +1,4 @@
 <%= erb :"shared/heading", locals: { title: "Edit '#{@device.name}'" } %>
-<%= erb :"devices/form", locals: { device: @device } %>
+<%= @form.form_output() do 
+    erb :"devices/form"
+end %>

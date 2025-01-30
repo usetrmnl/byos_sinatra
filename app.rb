@@ -1,18 +1,37 @@
 require 'sinatra'
 require 'sinatra/activerecord'
+require 'dotenv/load'
 require 'debug'
 
-require 'sinatra'
+require_relative 'config/initializers/tailwind_form'
+require_relative 'config/initializers/explicit_forme_plugin'
 
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
 set :bind, '0.0.0.0'
 
-# set to your local network (or prod domain)
-BASE_URL = 'http://192.168.68.57:4567'
+BASE_URL = ENV['BASE_URL']
 
 current_dir = Dir.pwd
 Dir["#{current_dir}/models/*.rb"].each { |file| require file } # require models
 Dir["#{current_dir}/services/*.rb"].each { |file| require file } # require services
+
+helpers do
+  def create_forme(model, is_edit, attrs={}, options={})
+    attrs[:method] = :post
+    options = TailwindConfig.options.merge(options)
+    if model && model.persisted?
+      attrs[:action] += "/#{@device.id}"
+      options[:before] = -> (form) {
+        TailwindConfig.before.call(form)
+        form.to_s << '<input name="_method" value="patch" type="hidden"/>'
+      }
+    end
+    f = Forme::Form.new(model, options)
+    f.extend(ExplicitFormePlugin)
+    f.form_tag(attrs)
+    return f
+  end
+end
 
 configure do
   set :json_encoder, :to_json
@@ -23,6 +42,12 @@ configure :development, :test, :production do
 end
 
 # DEVICE MANAGEMENT
+def devices_form(device)
+  create_forme(device, device.persisted?,
+        {autocomplete:"off", action: "/devices"},
+        {namespace: "device"})
+end
+
 get '/devices/?' do
   @devices = Device.all
   erb :"devices/index"
@@ -30,6 +55,7 @@ end
 
 get '/devices/new' do
   @device = Device.new
+  @form = devices_form(@device)
   erb :"devices/new"
 end
 
@@ -41,6 +67,7 @@ end
 
 get '/devices/:id/edit' do
   @device = Device.find(params[:id])
+  @form = devices_form(@device)
   erb :"devices/edit"
 end
 
