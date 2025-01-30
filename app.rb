@@ -9,11 +9,10 @@ require_relative 'config/initializers/explicit_forme_plugin'
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
 set :bind, '0.0.0.0'
 
-BASE_URL = ENV['BASE_URL']
-
-current_dir = Dir.pwd
-Dir["#{current_dir}/models/*.rb"].each { |file| require file } # require models
-Dir["#{current_dir}/services/*.rb"].each { |file| require file } # require services
+# make model, service classes accessible
+%w[models services].each do |sub_dir|
+  Dir["#{Dir.pwd}/#{sub_dir}/*.rb"].each { |file| require file }
+end
 
 helpers do
   def create_forme(model, is_edit, attrs={}, options={})
@@ -91,7 +90,7 @@ get '/api/setup/' do
     status = 200
     api_key = @device.api_key
     friendly_id = @device.friendly_id
-    image_url = "#{BASE_URL}/images/setup/setup-logo.bmp"
+    image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
     message = "Welcome to TRMNL BYOS"
 
     { status:, api_key:, friendly_id:, image_url:, message: }.to_json

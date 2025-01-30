@@ -15,7 +15,7 @@ class ScreenFetcher
     end
 
     def base_domain
-      BASE_URL
+      ENV['BASE_URL']
     end
 
     def empty_state_image
