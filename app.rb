@@ -83,6 +83,10 @@ post '/devices' do
   redirect to('/devices')
 end
 
+get '/' do
+  erb :"index"
+end
+
 # FIRMWARE SETUP
 get '/api/setup/' do
   content_type :json

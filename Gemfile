@@ -28,3 +28,7 @@ end
 group :development, :test do
   gem 'debug'
 end
+
+gem "rspec", "~> 3.13"
+
+gem "rack-test", "~> 2.2"
