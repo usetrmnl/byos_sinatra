@@ -131,10 +131,15 @@ patch '/schedules/:id' do
   schedule.update(params[:schedule])
   schedule_events_params = params[:schedule_events]
   schedule_events_params.each do |key,se|
-    binding.break
     next if key == "-1"
-    schedule_event = ScheduleEvent.find(key)
-    schedule_event.update(se)
+    schedule_event = nil
+    if (key[0..("new_".length())])
+      schedule.schedule_events.create(se)
+    else
+      schedule_event = ScheduleEvent.find(key)
+      schedule_event.update(se)
+    end
+
   end
   redirect to('/schedules')
 end
@@ -153,7 +158,6 @@ end
 post '/schedules/activate' do
   device = Device.find(params[:device])
   schedule = Schedule.find(params[:schedule])
-  binding.break
   ActiveSchedule.create!({
     device: device,
     schedule: schedule

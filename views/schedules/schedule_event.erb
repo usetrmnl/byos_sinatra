@@ -1,0 +1,38 @@
+<div id="schedule_events_display[<%= se.id %>]"
+    class="flex border-b grow flex-row items-left justify-between px-5 py-5">
+    <div class="grow">
+        <h3 class="text-gray-900 text-lg">Event</h3>
+        <div class="schedule-event">
+            <input type="hidden" 
+                id="schedule_events[<%= se.id %>][start_time]" 
+                name="schedule_events[<%= se.id %>][start_time]" 
+                value="<%= se.start_time %>">
+            <input type="hidden" 
+                id="schedule_events[<%= se.id %>][end_time]" 
+                name="schedule_events[<%= se.id %>][end_time]" 
+                value="<%= se.end_time %>">
+            <input type="hidden" 
+                id="schedule_events[<%= se.id %>][interruptible]" 
+                name="schedule_events[<%= se.id %>][interruptible]" 
+                value="<%= se.interruptible %>">
+            <input type="hidden" 
+                id="schedule_events[<%= se.id %>][plugins]" 
+                name="schedule_events[<%= se.id %>][plugins]" 
+                value="<%= se.plugins %>">
+            <input type="hidden" 
+                id="schedule_events[<%= se.id %>][update_frequency]" 
+                name="schedule_events[<%= se.id %>][update_frequency]" 
+                value="<%= se.update_frequency %>">
+            Time: <%= formatted_time_range %><br/>
+            Interrupible: <%= se.interruptible %><br/>
+            Plugins: <%= se.plugins %><br/>
+            Update Frequency: <%= se.update_frequency %>
+        </div>
+    </div>
+    <div class="">
+        <%= @form.input(:button, {obj: nil, value: 'Delete', attr: {
+                onclick: 'removeEvent(' + se.id.to_s + ')'}
+            }
+        ) %>
+    </div>
+</div>

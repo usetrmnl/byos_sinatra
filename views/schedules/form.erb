@@ -4,55 +4,18 @@
 </div>
 <%= erb :"shared/heading", locals: { title: "Schedule Events" } %>
 <div id="schedule-events" class="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-gray-50">
-    <% if @schedule.schedule_events.length > 0 %>
     <div class="flex border-b grow flex-col items-left justify-between px-5 py-5">
         <h3 class="font-medium text-gray-900 text-lg md:text-xl mb-0.5 leading-none">
             Existing events
         </h3>
     </div>
+    <% if @schedule.schedule_events.length > 0 %>
         <% @schedule.schedule_events.each do |se| %>
-    <div id="schedule_events_display[<%= se.id %>]"
-        class="flex border-b grow flex-row items-left justify-between px-5 py-5">
-        <div class="grow">
-            <h3 class="text-gray-900 text-lg">Event</h3>
-            <div class="schedule-event">
-                <input type="hidden" 
-                    id="schedule_events[<%= se.id %>][start_time]" 
-                    name="schedule_events[<%= se.id %>][start_time]" 
-                    value="<%= se.start_time %>">
-                <input type="hidden" 
-                    id="schedule_events[<%= se.id %>][end_time]" 
-                    name="schedule_events[<%= se.id %>][end_time]" 
-                    value="<%= se.end_time %>">
-                <input type="hidden" 
-                    id="schedule_events[<%= se.id %>][interruptible]" 
-                    name="schedule_events[<%= se.id %>][interruptible]" 
-                    value="<%= se.interruptible %>">
-                <input type="hidden" 
-                    id="schedule_events[<%= se.id %>][plugins]" 
-                    name="schedule_events[<%= se.id %>][plugins]" 
-                    value="<%= se.plugins %>">
-                <input type="hidden" 
-                    id="schedule_events[<%= se.id %>][update_frequency]" 
-                    name="schedule_events[<%= se.id %>][update_frequency]" 
-                    value="<%= se.update_frequency %>">
-                Time: <%= se.format_date(se.start_time) %> - <%= se.format_date(se.end_time) %><br/>
-                <% if se.interruptible %>
-                    Interrupible<br/>
-                <% end %>
-                Plugins: <%= se.plugins %><br/>
-                Update Frequency: <%= se.update_frequency %>
-            </div>
-        </div>
-        <div class="">
-            <%= @form.input(:button, {obj: nil, value: 'Delete', attr: {
-                    onclick: 'removeEvent(' + se.id.to_s + ')'}
-                }
-            ) %>
-        </div>
-    </div>
+            <% formatted_time_range = sprintf("%s - %s", se.format_date(se.start_time), se.format_date(se.end_time)) %>
+            <%= erb :"schedules/schedule_event", locals: { se: se, formatted_time_range: formatted_time_range } %>
         <% end %>
     <% end %>
+    <a id="last_schedule_mark"></a>
     <div class="flex border-b grow flex-col justify-between px-5 py-5">
         <h3 class="font-medium text-gray-900 text-lg md:text-xl mb-0.5 leading-none">
             Add a new event
@@ -61,21 +24,21 @@
     <div class="flex border-b grow flex-col justify-between px-5 py-5">
         <div class="schedule-event">
             <%= sf = @form.subform(:schedule_events, nil, { id: "-1" }) %>
-            <%= sf.input(:start_time, label: "Start Time:", type: :time) %>
-            <%= sf.input(:end_time, label: "End Time:", type: :time) %>
-            <%= sf.input(:interruptible, label: "Interruptible:", type: :checkbox) %>
-            <%= sf.input(:plugins, label: "Plugins:", type: :text) %>
-            <%= sf.input(:update_frequency, label: "Update Frequency:", type: :number) %>
+            <%= sf.input(:start_time, label: "Start Time:", type: :time, id: "subform[start_time]") %>
+            <%= sf.input(:end_time, label: "End Time:", type: :time, id: "subform[end_time]") %>
+            <%= sf.input(:interruptible, label: "Interruptible:", type: :checkbox, id: "subform[interruptible]") %>
+            <%= sf.input(:plugins, label: "Plugins:", type: :text, id: "subform[plugins]") %>
+            <%= sf.input(:update_frequency, label: "Update Frequency:", type: :number, id: "subform[update_frequency]") %>
         </div>
     </div>
-    <%= @form.input(:button, {obj: nil, value: 'Add another event', attr: {
+    <%= @form.input(:button, {obj: nil, value: 'Add schedule event', attr: {
             onclick: 'addEvent()'}
         }
     ) %>
     <script>
         IDS=["start_time", "end_time", "interruptible", "plugins", "update_frequency"];
+        NEXT_ID = 1
         function removeEvent(id) {
-            debugger;
             displayElem = document.getElementById(`schedule_events_display[${id}]`);
             if (displayElem) {
                 IDS.forEach(fieldName => {
@@ -87,9 +50,34 @@
                 })
             }
         }
-        function addEvent() {
 
+        <% se = ScheduleEvent.new %>
+        <% se.id = -1 %>
+        <% se.interruptible =  "${INTERRUPTIBLE}" %>
+        <% se.plugins = "${PLUGINS}" %>
+        <% se.update_frequency =  "${UPDATE_FREQUENCY}" %>
+        function addEvent() {
+            UPDATE_FREQUENCY = document.getElementById('subform[update_frequency]').value
+            PLUGINS = document.getElementById('subform[plugins]').value
+            INTERRUPTIBLE = document.getElementById('subform[interruptible]').value
+            FORMATTED_TIME_RANGE = `${document.getElementById('subform[start_time]').value} - ${document.getElementById('subform[end_time]').value}`; 
+
+            new_block = `<%= erb :"schedules/schedule_event", locals: { se: se, formatted_time_range: '${FORMATTED_TIME_RANGE}' } %>`;
+            last_schedule_marker = document.getElementById('last_schedule_mark');
+            last_schedule_marker.insertAdjacentHTML('beforebegin', new_block);
+            IDS.forEach(id => {
+                elem = document.getElementById(`subform[${id}]`);
+                hidden_input = document.getElementById(`schedule_events[-1][${id}]`)
+
+                hidden_input.value = elem.value;
+                hidden_input.name = `schedule_events[new_${NEXT_ID}][${id}]`
+                hidden_input.id = `schedule_events[new_${NEXT_ID}][${id}]`
+
+                elem.value = elem.defaultValue;
+            })
+            NEXT_ID += 1;
         }
+
     </script>
 </div>
 
