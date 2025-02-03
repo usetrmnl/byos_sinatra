@@ -12,6 +12,7 @@ with this project you can point a TRMNL (https://usetrmnl.com) device to your ow
 
 ```
 cp dotenv-sample .env # (and edit to set the appropriate variables)
+export BYOS_DATABASE=sqlite # or 'pg' for postgres
 bundle # installs gems/libs
 rake db:setup # creates db + Devices table
 ruby app.rb # runs server, visit http://localhost:4567/devices/new
