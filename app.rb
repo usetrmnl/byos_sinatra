@@ -125,3 +125,18 @@ end
 post '/api/log' do
   puts "API/LOG: #{env}"
 end
+
+puts ""
+puts "Serving API at #{ENV['BASE_URL']}"
+puts ""
+Sinatra::Application.routes.each do |method, routes|
+  if method == "HEAD" then
+    next
+  end
+
+  routes.each do |route|
+    pathname = route[0]
+    puts "    #{method} #{pathname}"
+  end
+end
+puts ""
