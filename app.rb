@@ -8,6 +8,7 @@ require_relative 'config/initializers/explicit_forme_plugin'
 
 # allows access on a local network at 192.168.x.x:4567; remove to scope to localhost:4567
 set :bind, '0.0.0.0'
+set :port, 4567
 
 # make model, service classes accessible
 %w[models services].each do |sub_dir|
