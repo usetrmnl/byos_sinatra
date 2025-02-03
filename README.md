@@ -13,8 +13,8 @@ with this project you can point a TRMNL device (https://usetrmnl.com) to your ow
 ```
 cp dotenv-sample .env # (edit to set desired values)
 bundle # installs dependencies
-rake db:setup # creates database
-ruby app.rb # runs server, visit http://localhost:4567/devices/new
+bundle exec rake db:setup # creates database
+bundle exec ruby app.rb # runs server, visit http://localhost:4567/devices/new
 ```
 
 **docker-based setup**
