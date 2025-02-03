@@ -1,6 +1,6 @@
 # TRMNL BYOS - Ruby/Sinatra
 
-with this project you can point a TRMNL (https://usetrmnl.com) device to your own server, either in the cloud or on your local network.
+with this project you can point a TRMNL device (https://usetrmnl.com) to your own server, either in the cloud or on your local network.
 
 **requirements**
 
@@ -11,9 +11,9 @@ with this project you can point a TRMNL (https://usetrmnl.com) device to your ow
 **quickstart**
 
 ```
-cp dotenv-sample .env # (and edit to set the appropriate variables)
-bundle # installs gems/libs
-bundle exec rake db:setup # creates db + Devices table
+cp dotenv-sample .env # (edit to set desired values)
+bundle # installs dependencies
+bundle exec rake db:setup # creates database
 bundle exec ruby app.rb # runs server, visit http://localhost:4567/devices/new
 ```
 

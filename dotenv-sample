@@ -1,2 +1,3 @@
 BASE_URL="http://192.168.68.57:4567"
 APP_ENV="production"
+BYOS_DATABASE= # 'sqlite' or 'pg' - leave blank for postgres
