@@ -1,6 +1,7 @@
+require 'dotenv/load'
+
 require 'sinatra'
 require 'sinatra/activerecord'
-require 'dotenv/load'
 require 'debug'
 
 require_relative 'config/initializers/tailwind_form'
