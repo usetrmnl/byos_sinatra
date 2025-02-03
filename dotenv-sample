@@ -1,2 +1,7 @@
+# the external, client-facing url
 BASE_URL="http://192.168.68.57:4567"
+
+# database can be 'sqlite' or 'pg'
+BYOS_DATABASE=sqlite
+
 APP_ENV="production"
