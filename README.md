@@ -2,6 +2,9 @@
 
 with this project you can point a TRMNL device (https://usetrmnl.com) to your own server, either in the cloud or on your local network.
 
+10 min demo video:
+https://www.youtube.com/watch?v=3xehPW-PCOM
+
 **requirements**
 
 - TRMNL device
