@@ -27,8 +27,7 @@ end
 
 group :development, :test do
   gem 'debug'
+  gem 'nokogiri'
+  gem "rspec"
+  gem "rack-test"
 end
-
-gem "rspec", "~> 3.13"
-
-gem "rack-test", "~> 2.2"
