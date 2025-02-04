@@ -20,10 +20,8 @@ gem 'puppeteer-ruby', '~> 0.45.6'
 gem 'mini_magick', '~> 4.12.0'
 
 if ENV['BYOS_DATABASE'] == 'sqlite'
-  puts "installing sqlite"
   gem 'sqlite3'
 else
-  puts "installing pg"
   gem 'pg'
 end
 
