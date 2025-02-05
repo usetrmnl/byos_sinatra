@@ -21,7 +21,7 @@ helpers do
     attrs[:method] = :post
     options = TailwindConfig.options.merge(options)
     if model && model.persisted?
-      attrs[:action] += "/#{@device.id}"
+      attrs[:action] += "/#{model.id}" if model.id
       options[:before] = -> (form) {
         TailwindConfig.before.call(form)
         form.to_s << '<input name="_method" value="patch" type="hidden"/>'
@@ -81,6 +81,10 @@ end
 post '/devices' do
   Device.create!(params[:device])
   redirect to('/devices')
+end
+
+get '/' do
+  erb :"index"
 end
 
 # FIRMWARE SETUP

@@ -27,4 +27,9 @@ end
 
 group :development, :test do
   gem 'debug'
+  gem 'nokogiri'
+  gem "rspec"
+  gem "rack-test"
+  gem "database_cleaner-active_record"
 end
+

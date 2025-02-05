@@ -26,3 +26,6 @@ production:
   # username: your_username
   # password: your_password
 <% end %>
+test:
+  adapter: sqlite3
+  database: ":memory:"
