@@ -33,3 +33,6 @@ group :development, :test do
   gem "database_cleaner-active_record"
 end
 
+group :test do
+  gem 'sqlite3'
+end
