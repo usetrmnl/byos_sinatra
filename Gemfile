@@ -30,6 +30,6 @@ group :development, :test do
   gem 'nokogiri'
   gem "rspec"
   gem "rack-test"
+  gem "database_cleaner-active_record"
 end
 
-gem "database_cleaner-active_record", "~> 2.2"
