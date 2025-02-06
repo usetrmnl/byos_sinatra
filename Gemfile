@@ -18,12 +18,8 @@ gem 'puppeteer-ruby', '~> 0.45.6'
 # image processing
 gem 'mini_magick', '~> 4.12.0'
 
-byos_database = ENV.fetch('BYOS_DATABASE', 'pg')
-if byos_database == 'sqlite'
-  gem 'sqlite3'
-else
-  gem 'pg'
-end
+#db
+gem 'sqlite3'
 
 group :development, :test do
   gem 'debug'
