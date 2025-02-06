@@ -21,8 +21,6 @@ bundle exec ruby app.rb # runs server, visit http://localhost:4567/devices/new
 ```
 
 **docker-based setup**
-You may optionally edit the Dockerfile to enable sqlite.
-
 ```
 cp dotenv-sample .env # (and edit to set the appropriate variables)
 docker build -t trmnl_byos -f Dockerfile .
