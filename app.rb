@@ -42,6 +42,7 @@ end
 
 configure do
   set :json_encoder, :to_json
+  set :base_url, ENV['BASE_URL']
 end
 
 configure :development, :test, :production do
