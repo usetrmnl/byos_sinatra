@@ -14,7 +14,7 @@ set :port, 4567
 
 configure :production do
   base_url = URI.parse(ENV['BASE_URL'])
-  use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.HOST]
+  use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.host]
 end
 
 # make model, service classes accessible
