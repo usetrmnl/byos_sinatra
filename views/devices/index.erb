@@ -6,7 +6,7 @@
       </div>
     </div>
     <div>
-      <a href="/devices/new" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+      <a href="<%= @base_url %>/devices/new" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
         Add New
       </a>
     </div>
@@ -15,7 +15,7 @@
 
 <div class="flex flex-col overflow-hidden rounded-xl border border-gray-300 bg-gray-50">
   <% @devices.each do |device| %>
-    <div class="flex border-b last:border-b-0 border-gray-100 transition hover:bg-white dark:hover:bg-gray-750 dark:border-gray-700" data-turbo="false" href="/devices/<%= device.id %>/edit">
+    <div class="flex border-b last:border-b-0 border-gray-100 transition hover:bg-white dark:hover:bg-gray-750 dark:border-gray-700" data-turbo="false" href="<%= @base_url %>/devices/<%= device.id %>/edit">
       <div class="flex grow flex-row items-center justify-between px-5 py-5">
         <div>
           <h3 class="font-medium text-gray-900"><%= device.name %></h3>
@@ -32,8 +32,8 @@
           </div> -->
         </div>
         <div class="">
-          <a href="/devices/<%= device.id %>/delete" class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Delete</a>
-          <a href="/devices/<%= device.id %>/edit" class="font-medium text-blue-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Edit</a>
+          <a href="<%= @base_url %>/devices/<%= device.id %>/delete" class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Delete</a>
+          <a href="<%= @base_url %>/devices/<%= device.id %>/edit" class="font-medium text-blue-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Edit</a>
         </div>
       </div>
     </div>
