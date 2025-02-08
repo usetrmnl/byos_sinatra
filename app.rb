@@ -86,6 +86,7 @@ post '/devices' do
 end
 
 get '/' do
+  @BASE_URL = ENV['BASE_URL']
   erb :"index"
 end
 
@@ -187,7 +188,20 @@ end
 get '/api/display/' do
   content_type :json
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
-  screen = ScreenFetcher.call
+  @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
+  active_plugins = @active_schedule.schedule.get_active_plugins
+  plugin_name = nil
+  if active_plugins.is_a?(String)
+    plugin_name = active_plugins
+  else
+    current_index = active_plugins.index(@active_schedule.last_shown_plugin) 
+    next_index = current_index != nil ? current_index + 1 : 0
+    plugin_name = active_plugins[next_index % active_plugins.length]
+  end
+  @active_schedule.last_shown_plugin = plugin_name
+  @active_schedule.last_update = Time.now
+  @active_schedule.save!
+  screen = ScreenFetcher.generate_image_for_plugin(plugin_name)
 
   if @device
     {

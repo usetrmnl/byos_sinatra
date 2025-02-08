@@ -1,1 +1,23 @@
-To set up your device ...
+<div class="my-4">
+    <div class="flex mb-4">
+        <div class="flex flex-grow">
+            <div>
+            To set up your device point your <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="https://github.com/usetrmnl/firmware">forked FW's</a> 
+            to <b>API_BASE_URL</b> (<a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56">source</a>) to same value 
+            as <span id="baseurl"> <%= @BASE_URL %></span>.
+            </div>
+        </div>
+    </div>
+
+    <div class="flex mb-4">
+        <div class="flex flex">
+            And then click this button: 
+        </div>
+
+        <div class="flex flex-grow">
+            <a href="/devices/new" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+            Add new device
+            </a>
+        </div>
+    </div>
+</div>

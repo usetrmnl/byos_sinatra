@@ -14,6 +14,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_123402) do
   create_table "active_schedules", force: :cascade do |t|
     t.integer "device_id", null: false
     t.integer "schedule_id", null: false
+    t.string "last_shown_plugin", default: ""
+    t.datetime "last_update"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["device_id"], name: "index_active_schedules_on_device_id"
