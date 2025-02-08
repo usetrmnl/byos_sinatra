@@ -100,7 +100,7 @@ end
 # SCHEDULE MANAGEMENT
 def schedules_form(schedule)
   create_forme(schedule, schedule.persisted?,
-        {autocomplete:"off", action: "/schedules"},
+        {autocomplete:"off", action: "#{ENV['BASE_URL']}/schedules"},
         {namespace: "schedule"})
 end
 
@@ -120,7 +120,7 @@ end
 get '/schedules/:id/delete' do
   @schedule = Schedule.find(params[:id])
   @schedule.destroy
-  redirect to('/schedules')
+  redirect to("#{ENV['BASE_URL']}/schedules")
 end
 
 get '/scheduleEvent/:id/delete' do
@@ -149,7 +149,7 @@ patch '/schedules/:id' do
     end
 
   end
-  redirect to('/schedules')
+  redirect to("#{ENV['BASE_URL']}/schedules")
 end
 
 post '/schedules' do
@@ -160,7 +160,7 @@ post '/schedules' do
     next if key == "-1"
     schedule.schedule_events.create(se)
   end
-  redirect to('/schedules')
+  redirect to("#{ENV['BASE_URL']}/schedules")
 end
 
 post '/schedules/activate' do
@@ -170,7 +170,7 @@ post '/schedules/activate' do
     device: device,
     schedule: schedule
   })
-  redirect to('/schedules')
+  redirect to("#{ENV['BASE_URL']}/schedules")
 end
 
 # FIRMWARE SETUP
@@ -195,22 +195,35 @@ end
 get '/api/display/' do
   content_type :json
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
-  @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
-  active_plugins = @active_schedule.schedule.get_active_plugins
-  plugin_name = nil
-  if active_plugins.is_a?(String)
-    plugin_name = active_plugins
-  else
-    current_index = active_plugins.index(@active_schedule.last_shown_plugin) 
-    next_index = current_index != nil ? current_index + 1 : 0
-    plugin_name = active_plugins[next_index % active_plugins.length]
-  end
-  @active_schedule.last_shown_plugin = plugin_name
-  @active_schedule.last_update = Time.now
-  @active_schedule.save!
-  screen = ScreenFetcher.generate_image_for_plugin(plugin_name)
+  @active_schedule = ActiveSchedule.find_by_device_id(@device.id) if @device
 
-  if @device
+  if @device && @active_schedule
+    @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
+    active_plugins = @active_schedule.schedule.get_active_plugins
+    plugin_name = nil
+    if active_plugins.is_a?(String)
+      plugin_name = active_plugins
+    else
+      current_index = active_plugins.index(@active_schedule.last_shown_plugin) 
+      next_index = current_index != nil ? current_index + 1 : 0
+      plugin_name = active_plugins[next_index % active_plugins.length]
+    end
+    @active_schedule.last_shown_plugin = plugin_name
+    @active_schedule.last_update = Time.now
+    @active_schedule.save!
+    screen = ScreenFetcher.generate_image_for_plugin(plugin_name)
+    {
+      status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
+      image_url: screen[:image_url],
+      filename: screen[:filename],
+      refresh_rate: @device.refresh_interval,
+      reset_firmware: false,
+      update_firmware: false,
+      firmware_url: nil,
+      special_function: 'sleep'
+    }.to_json
+  elsif @device
+    screen = ScreenFetcher.empty_state_image
     {
       status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
       image_url: screen[:image_url],

@@ -1,5 +1,6 @@
 ENV['APP_ENV'] = 'test'
 ENV['RACK_ENV'] = 'test'
+ENV['BASE_URL'] = "http://baseurl"
 
 require 'active_record'
 require 'rack/test'

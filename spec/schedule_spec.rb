@@ -37,7 +37,7 @@ RSpec.describe 'schedule path tests' do
     _, sched = create_basic_schedule
 
     doc = get_and_parse '/schedules/'
-    edit_anchor = doc.at(sprintf('a[href="/schedules/%d/edit"]', sched.id))
+    edit_anchor = doc.at(sprintf('a[href="http://baseurl/schedules/%d/edit"]', sched.id))
 
     expect(edit_anchor.text.strip).to eq("Edit")
   end

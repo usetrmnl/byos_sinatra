@@ -11,14 +11,14 @@
           </div>
         </div>
         <div class="">
-          <a href="/schedules/<%= active_schedule.id %>/delete" class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Delete</a>
+          <a href="<%= settings.base_url %>/schedules/<%= active_schedule.id %>/delete" class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none">Delete</a>
         </div>
       </div>
     </div>
   <% end %>
 </div>
 
-<a href="/schedules/new" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+<a href="<%= settings.base_url %>/schedules/new" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
   Add new schedule
 </a>
 
@@ -32,9 +32,9 @@
       </div>
       <div class="">
         <a class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none"
-            href="/schedules/<%= schedule.id %>/delete">Delete</a>
+            href="<%= settings.base_url %>/schedules/<%= schedule.id %>/delete">Delete</a>
         <a class="font-medium text-blue-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none"
-            href="/schedules/<%= schedule.id %>/edit">Edit</a>
+            href="<%= settings.base_url %>/schedules/<%= schedule.id %>/edit">Edit</a>
       </div>
     </div>
     <div class="flex border-b grow flex-row items-center justify-between px-5 py-5">
