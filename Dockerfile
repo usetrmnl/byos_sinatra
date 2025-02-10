@@ -18,9 +18,6 @@ WORKDIR /app
 # Copy Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock ./
 
-# Uncomment the next line to switch to sqlite
-#ENV BYOS_DATABASE=sqlite
-
 RUN bundle install 
 
 # Copy the rest of the application code
