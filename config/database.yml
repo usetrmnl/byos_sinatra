@@ -1,12 +1,12 @@
 development:
   adapter: sqlite3
   encoding: unicode
-  database: db/trmnl_byos_sinatra.sqlite3
+  database: db/sqlite/trmnl_byos_sinatra.sqlite3
 
 production:
   adapter: sqlite3
   encoding: unicode
-  database: db/trmnl_byos_sinatra.sqlite3
+  database: db/sqlite/trmnl_byos_sinatra.sqlite3
 
 test:
   adapter: sqlite3
