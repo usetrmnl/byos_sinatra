@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScreenFetcher
   class << self
     attr_reader :base64
@@ -16,7 +18,7 @@ class ScreenFetcher
 
       image_url = if base64
                     img = File.open("public/#{relative_img_path}")
-                    'data:image/png;base64,' + Base64.strict_encode64(img.read)
+                    "data:image/png;base64,#{Base64.strict_encode64(img.read)}"
                   else
                     "#{base_domain}/#{relative_img_path}"
                   end
