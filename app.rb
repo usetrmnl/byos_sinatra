@@ -109,9 +109,11 @@ end
 get '/api/display/' do
   content_type :json
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
-  screen = ScreenFetcher.call
 
   if @device
+    base64 = (env['HTTP_BASE64'] || params[:base64]) == 'true'
+    screen = ScreenFetcher.call(base64: base64)
+
     {
       status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
       image_url: screen[:image_url],
