@@ -110,7 +110,7 @@ get '/setup/adopt/:id' do
   unadopted_device = UnadoptedDevice.find(params[:id])
 
   if unadopted_device
-    unadopted_device.update(adopt: true)
+    unadopted_device.update(adopted: true)
   end
 
   redirect to('/')
