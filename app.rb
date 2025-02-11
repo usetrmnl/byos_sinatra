@@ -3,6 +3,7 @@ require 'dotenv/load'
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'debug'
+require 'uri'
 
 require_relative 'config/initializers/tailwind_form'
 require_relative 'config/initializers/explicit_forme_plugin'
@@ -36,6 +37,7 @@ end
 
 configure do
   set :json_encoder, :to_json
+  set(:base_url, ENV['BASE_URL'])
 end
 
 configure :development, :test, :production do
@@ -84,7 +86,34 @@ post '/devices' do
 end
 
 get '/' do
+  @adoptable_devices = UnadoptedDevice.all 
+
   erb :"index"
+end
+
+def is_valid_mac(mac_address)
+  return mac_address && mac_address.match(/^[A-Fa-f0-9][048Cc26AaEe][-:]([A-Fa-f0-9]{2}[-:]){4}[A-Fa-f0-9]{2}$/)
+end
+
+get '/setup/ignore/:id' do
+  unadopted_device = UnadoptedDevice.find(params[:id])
+
+  if unadopted_device
+    IgnoredMac.create!(unadopted_device.mac_address)
+    unadopted_device.delete!
+  end
+
+  redirect to('/')
+end
+
+get '/setup/adopt/:id' do
+  unadopted_device = UnadoptedDevice.find(id)
+
+  if unadopted_device
+    unadopted_device.update(adopt: true)
+  end
+
+  redirect to('/')
 end
 
 # FIRMWARE SETUP
@@ -92,17 +121,30 @@ get '/api/setup/' do
   content_type :json
   @device = Device.find_by_mac_address(env['HTTP_ID']) # => ie "41:B4:10:39:A1:24"
 
-  if @device
+  status = 404
+  api_key = nil
+  friendly_id = nil
+  image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
+  message = "Please adopt this device"
+
+  if @device && @device.adopted
     status = 200
     api_key = @device.api_key
     friendly_id = @device.friendly_id
     image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
     message = "Welcome to TRMNL BYOS"
-
-    { status:, api_key:, friendly_id:, image_url:, message: }.to_json
-  else
-    { status: 404, api_key: nil, friendly_id: nil, image_url: nil, message: 'MAC Address not registered' }.to_json
+  elsif @device == nil && is_valid_mac(env['HTTP_ID'])
+    Device.create!({
+      name: "Device #{env['HTTP_ID']}",
+      mac_address: env['HTTP_ID'],
+      api_key: '',
+      friendly_id: nil,
+      adopted: false,
+    })
+  elsif !env['HTTP_ID']
+    message = "MAC Address not registered"
   end
+  return status, { status:, api_key:, friendly_id:, image_url:, message: }.to_json
 end
 
 # DISPLAY CONTENT
@@ -123,7 +165,7 @@ get '/api/display/' do
       special_function: 'sleep'
     }.to_json
   else
-    { status: 404 }.to_json
+    return 404, { status: 404 }.to_json
   end
 end
 

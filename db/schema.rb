@@ -10,9 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_12_172428) do
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "pg_catalog.plpgsql"
+ActiveRecord::Schema[8.0].define(version: 2025_02_09_163618) do
+  create_table "active_schedules", force: :cascade do |t|
+    t.integer "device_id", null: false
+    t.integer "schedule_id", null: false
+    t.string "last_shown_plugin", default: ""
+    t.datetime "last_update"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["device_id"], name: "index_active_schedules_on_device_id"
+    t.index ["schedule_id"], name: "index_active_schedules_on_schedule_id"
+  end
 
   create_table "devices", force: :cascade do |t|
     t.string "name"
@@ -22,5 +30,29 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_12_172428) do
     t.integer "refresh_interval", default: 900, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "adopted", default: false, null: false
   end
+
+  create_table "schedule_events", force: :cascade do |t|
+    t.integer "schedule_id"
+    t.time "start_time", null: false
+    t.time "end_time", null: false
+    t.boolean "interruptible", default: false, null: false
+    t.string "plugins", default: "", null: false
+    t.integer "update_frequency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["schedule_id"], name: "index_schedule_events_on_schedule_id"
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "default_plugin", default: ""
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "active_schedules", "devices"
+  add_foreign_key "active_schedules", "schedules"
+  add_foreign_key "schedule_events", "schedules"
 end

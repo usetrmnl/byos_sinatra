@@ -2,7 +2,8 @@ require_relative 'spec_helper'
 
 RSpec.describe 'Display path tests' do
   it 'test_it_has_api_display_path' do
-    _, body = get_json '/api/display/'
+    doc, body = get_json '/api/display/'
+    expect(doc.status).to eq(404)
     expect(body['status']).to eq(404)
   end
 

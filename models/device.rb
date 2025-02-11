@@ -10,6 +10,10 @@ class Device < ActiveRecord::Base
     }
   ].freeze
 
+  def self.default_scope 
+    where(adopted: true)
+  end
+
   attribute :name, default: DEFAULT_DEVICE_NAME
   validates :name, :mac_address, presence: true
   before_create :generate_friendly_id, :generate_api_key
@@ -20,5 +24,11 @@ class Device < ActiveRecord::Base
 
   def generate_api_key
     self.api_key = SecureRandom.urlsafe_base64(nil, false)
+  end
+end
+
+class UnadoptedDevice < Device
+  def self.default_scope 
+    where(adopted: false)
   end
 end

@@ -1,1 +1,48 @@
-To set up your device ...
+<div class="my-4">
+    <div class="flex mb-4">
+        <div class="flex flex-grow">
+            <div>
+            To set up your device point your <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="https://github.com/usetrmnl/firmware">forked FW's</a> 
+            to <b>API_BASE_URL</b> (<a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56">source</a>) to same value 
+            as <br/>
+            <span id="baseurl" class="font-mono"> <%= settings.base_url %></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex mb-4 flex-col">
+        <div class="flex flex-grow">
+            And then for the device to show up to be adopted below:
+        </div>
+
+        <div class="flex flex-grow">
+            Adoptable devices:
+            <br/>
+            <ul class="list-disc">
+                <% @adoptable_devices.each do |ad| %>
+                <li class="adoptable">
+                    <%= ad.mac_address %> 
+                    <a href="<%= settings.base_url %>/setup/adopt/<%= ad.id %>"
+                        class="font-medium text-blue-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none"
+                    >Adopt</a>
+                    <a href="<%= settings.base_url %>/setup/forget/<%= ad.id %>"
+                        class="font-medium text-red-500 rounded-lg text-xs px-2 py-1 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-primary-500 bg-primary-100 dark:bg-primary-900 hover:bg-primary-200 dark:hover:bg-primary-800 focus:outline-none"
+                    >Forget permanently</a>
+                </li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+
+    <div class="flex mb-4 flex-col">
+        <div class="flex flex-grow">
+            Or, if the device is not showing up, add the device manually:
+        </div>
+
+        <div class="flex flex-grow">
+            <a href="<%= settings.base_url %>/devices/new" class="cursor-pointer font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center transition duration-150 justify-center shrink-0 gap-1.5 whitespace-nowrap text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+            Add new device
+            </a>
+        </div>
+    </div>
+</div>
