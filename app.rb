@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'dotenv/load'
 
 require 'sinatra'
@@ -17,12 +19,12 @@ set :port, 4567
 end
 
 helpers do
-  def create_forme(model, is_edit, attrs={}, options={})
+  def create_forme(model, _is_edit, attrs = {}, options = {})
     attrs[:method] = :post
     options = TailwindConfig.options.merge(options)
-    if model && model.persisted?
+    if model&.persisted?
       attrs[:action] += "/#{model.id}" if model.id
-      options[:before] = -> (form) {
+      options[:before] = lambda { |form|
         TailwindConfig.before.call(form)
         form.to_s << '<input name="_method" value="patch" type="hidden"/>'
       }
@@ -30,7 +32,7 @@ helpers do
     f = Forme::Form.new(model, options)
     f.extend(ExplicitFormePlugin)
     f.form_tag(attrs)
-    return f
+    f
   end
 end
 
@@ -45,8 +47,8 @@ end
 # DEVICE MANAGEMENT
 def devices_form(device)
   create_forme(device, device.persisted?,
-        {autocomplete:"off", action: "/devices"},
-        {namespace: "device"})
+               { autocomplete: 'off', action: '/devices' },
+               { namespace: 'device' })
 end
 
 get '/devices/?' do
@@ -84,7 +86,7 @@ post '/devices' do
 end
 
 get '/' do
-  erb :"index"
+  erb :index
 end
 
 # FIRMWARE SETUP
@@ -97,7 +99,7 @@ get '/api/setup/' do
     api_key = @device.api_key
     friendly_id = @device.friendly_id
     image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
-    message = "Welcome to TRMNL BYOS"
+    message = 'Welcome to TRMNL BYOS'
 
     { status:, api_key:, friendly_id:, image_url:, message: }.to_json
   else
@@ -109,9 +111,11 @@ end
 get '/api/display/' do
   content_type :json
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
-  screen = ScreenFetcher.call
 
   if @device
+    base64 = (env['HTTP_BASE64'] || params[:base64]) == 'true'
+    screen = ScreenFetcher.call(base64:)
+
     {
       status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
       image_url: screen[:image_url],
