@@ -44,6 +44,28 @@ RSpec.describe 'API setup path tests' do
     expect(unadopted_device.adopted).to be(false)
   end
 
+  it 'it_wont_list_the_same_mac_for_adoption_multiple_times' do
+    mac = 'a0:Ab:cc:00:00:01'
+    header("ID", mac)
+
+    get_json '/api/setup/'
+    get_json '/api/setup/'
+
+    unadopted_devices = UnadoptedDevice.all
+    expect(unadopted_devices.length).to be(1)
+  end
+
+  it 'it_wont_add_ignored_macs_for_adoption' do
+    mac = 'a0:Ab:cc:00:00:01'
+    IgnoredMac.create!({mac_address: mac})
+    header("ID", mac)
+
+    get_json '/api/setup/'
+
+    unadopted_devices = UnadoptedDevice.all
+    expect(unadopted_devices.length).to be(0)
+  end
+
   it 'test_it_is_still_not_setup_until_it_is_adopted' do
     mac = 'a0:bb:cc:00:00:01'
     Device.create!({

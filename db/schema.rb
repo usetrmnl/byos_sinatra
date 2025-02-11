@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_09_163618) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_09_163619) do
   create_table "active_schedules", force: :cascade do |t|
     t.integer "device_id", null: false
     t.integer "schedule_id", null: false
@@ -31,6 +31,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_09_163618) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "adopted", default: false, null: false
+  end
+
+  create_table "ignored_macs", force: :cascade do |t|
+    t.string "mac_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "schedule_events", force: :cascade do |t|
