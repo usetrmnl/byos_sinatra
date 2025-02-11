@@ -107,7 +107,7 @@ get '/setup/ignore/:id' do
 end
 
 get '/setup/adopt/:id' do
-  unadopted_device = UnadoptedDevice.find(id)
+  unadopted_device = UnadoptedDevice.find(params[:id])
 
   if unadopted_device
     unadopted_device.update(adopt: true)
