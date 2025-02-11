@@ -77,7 +77,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.18.2-x86_64-darwin)
       racc (~> 1.4)
-    pg (1.5.9)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -162,7 +161,6 @@ DEPENDENCIES
   json
   mini_magick (~> 4.12.0)
   nokogiri
-  pg
   pry
   puma
   puppeteer-ruby (~> 0.45.6)
