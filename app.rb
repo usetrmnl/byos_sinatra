@@ -58,6 +58,18 @@ def devices_form(device)
         {namespace: "device"})
 end
 
+get '/' do
+    content_type :text
+    routes_info = Sinatra::Application.routes.map do |method, routes|
+      if method == "HEAD" then
+        next
+      end
+      routes.map { |route| "#{method.ljust(5)} #{route[0]}" }
+    end
+    routes_info.delete(nil)
+    routes_info.flatten.join("\n")
+end
+
 get '/devices/?' do
   @devices = Device.all
   erb :"devices/index"
@@ -142,3 +154,18 @@ end
 post '/api/log' do
   puts "API/LOG: #{env}"
 end
+
+puts ""
+puts "Serving API at #{ENV['BASE_URL']}"
+puts ""
+Sinatra::Application.routes.each do |method, routes|
+  if method == "HEAD" then
+    next
+  end
+
+  routes.each do |route|
+    pathname = route[0]
+    puts "    #{method.ljust(5)} #{pathname}"
+  end
+end
+puts ""
