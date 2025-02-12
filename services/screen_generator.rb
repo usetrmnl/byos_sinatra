@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 require 'ferrum'
 require 'mini_magick'
 require 'puppeteer-ruby'
 require 'base64'
 
 class ScreenGenerator
-
   def initialize(html, image = false)
     self.input = html
     self.image = image
@@ -31,11 +32,11 @@ class ScreenGenerator
     begin
       # context = browser_instance.create_incognito_browser_context
       page = firefox_browser.new_page
-      page.viewport = Puppeteer::Viewport.new(width: width, height: height)
+      page.viewport = Puppeteer::Viewport.new(width:, height:)
       # NOTE: Use below for chromium
       # page.set_content(input, wait_until: ['networkidle0', 'domcontentloaded'])
       # Note: Use below for firefox
-      page.set_content(input, timeout: 10000)
+      page.set_content(input, timeout: 10_000)
       page.evaluate(<<~JAVASCRIPT)
         () => {
           document.getElementsByTagName('html')[0].style.overflow = "hidden";
@@ -61,12 +62,12 @@ class ScreenGenerator
   # This will increase the throughput of our image rendering process by 60-70%, saving about ~1.5 second per image generation.
   # On local it takes < 1 second now to generate the subsequent image.
   def firefox_browser
-    @browser ||= Puppeteer.launch(
+    @firefox_browser ||= Puppeteer.launch(
       product: 'firefox',
       headless: true,
       args: [
         "--window-size=#{width},#{height}",
-        "--disable-web-security"
+        '--disable-web-security'
         # "--hide-scrollbars" #works only on chrome, using page.evaluate for firefox
       ]
     )
