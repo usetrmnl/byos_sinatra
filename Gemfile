@@ -29,8 +29,10 @@ group :development, :test do
   gem 'nokogiri'
   gem 'rack-test'
   gem 'rspec'
+  gem 'rubocop'
 end
 
 group :test do
   gem 'sqlite3'
 end
+

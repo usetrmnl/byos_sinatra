@@ -11,7 +11,7 @@ class Device < ActiveRecord::Base
     }
   ].freeze
 
-  def self.default_scope 
+  def self.default_scope
     where(adopted: true)
   end
 
@@ -29,7 +29,7 @@ class Device < ActiveRecord::Base
 end
 
 class UnadoptedDevice < Device
-  def self.default_scope 
+  def self.default_scope
     where(adopted: false)
   end
 end
