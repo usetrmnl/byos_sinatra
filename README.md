@@ -16,13 +16,11 @@ https://www.youtube.com/watch?v=3xehPW-PCOM
 ```
 cp dotenv-sample .env # (edit to set desired values)
 bundle # installs dependencies
-bundle exec rake db:setup # creates database
+bundle exec rake db:prepare # creates db + runs migrations
 bundle exec ruby app.rb # runs server, visit http://localhost:4567/devices/new
 ```
 
 **docker-based setup**
-You may optionally edit the Dockerfile to enable sqlite.
-
 ```
 cp dotenv-sample .env # (and edit to set the appropriate variables)
 docker build -t trmnl_byos -f Dockerfile .

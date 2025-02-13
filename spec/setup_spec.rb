@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'spec_helper'
 
 RSpec.describe 'API setup path tests' do
@@ -92,7 +94,7 @@ RSpec.describe 'API setup path tests' do
     _, body = get_json '/api/setup/'
     expect(body['api_key']).to eq(dev.api_key)
     expect(body['friendly_id']).to eq(dev.friendly_id)
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/setup/setup-logo.bmp')
-    expect(body['message']).to eq("Welcome to TRMNL BYOS")
+    expect(body['image_url']).to eq("#{ENV['BASE_URL']}/images/setup/setup-logo.bmp")
+    expect(body['message']).to eq('Welcome to TRMNL BYOS')
   end
 end

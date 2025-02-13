@@ -1,31 +1,25 @@
-<% byos_database = ENV.fetch('BYOS_DATABASE', 'pg') %>
-<% if byos_database == "sqlite" %>
 development:
   adapter: sqlite3
   encoding: unicode
-  database: db/trmnl_byos_sinatra.sqlite3
+  database: db/sqlite/trmnl_byos_sinatra.sqlite3
 
 production:
   adapter: sqlite3
   encoding: unicode
-  database: db/trmnl_byos_sinatra.sqlite3
-<% else %>
-development:
-  adapter: postgresql
-  encoding: unicode
-  database: trmnl_byos_sinatra
-  pool: 2
-  # username: your_username
-  # password: your_password
+  database: db/sqlite/trmnl_byos_sinatra.sqlite3
 
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: trmnl_byos_sinatra
-  pool: 2
-  # username: your_username
-  # password: your_password
-<% end %>
 test:
   adapter: sqlite3
   database: ":memory:"
+
+#if you want to use a database you already have
+# install the relevant gem, and then you  
+# can replace the production block above
+#eg postgres
+#production:
+#  adapter: postgresql
+#  encoding: unicode
+#  database: trmnl_byos_sinatra
+#  pool: 2
+#  username: your_username
+#  password: your_password
