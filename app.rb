@@ -93,25 +93,71 @@ post '/devices' do
 end
 
 get '/' do
+  @adoptable_devices = UnadoptedDevice.all 
+
   erb :index
+end
+
+def is_valid_mac(mac_address)
+  return mac_address && mac_address.match(/^[A-Fa-f0-9][048Cc26AaEe][-:]([A-Fa-f0-9]{2}[-:]){4}[A-Fa-f0-9]{2}$/)
+end
+ 
+def is_ignored_mac(mac_address)
+  ignored_macs = IgnoredMac.find_by_mac_address(mac_address)
+  return ignored_macs != nil
+end
+
+get '/setup/ignore/:id' do
+  unadopted_device = UnadoptedDevice.find(params[:id])
+
+  if unadopted_device
+    IgnoredMac.create!({mac_address: unadopted_device.mac_address})
+    unadopted_device.destroy
+  end
+
+  redirect to('/')
+end
+
+get '/setup/adopt/:id' do
+  unadopted_device = UnadoptedDevice.find(params[:id])
+
+  if unadopted_device
+    unadopted_device.update(adopted: true)
+  end
+
+  redirect to('/')
 end
 
 # FIRMWARE SETUP
 get '/api/setup/' do
   content_type :json
   @device = Device.find_by_mac_address(env['HTTP_ID']) # => ie "41:B4:10:39:A1:24"
+  @unadopted_device = UnadoptedDevice.find_by_mac_address(env['HTTP_ID']) # => ie "41:B4:10:39:A1:24"
 
-  if @device
+  status = 404
+  api_key = nil
+  friendly_id = nil
+  image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
+  message = "Please adopt this device"
+
+  if @device && @device.adopted
     status = 200
     api_key = @device.api_key
     friendly_id = @device.friendly_id
     image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
-    message = 'Welcome to TRMNL BYOS'
-
-    { status:, api_key:, friendly_id:, image_url:, message: }.to_json
-  else
-    { status: 404, api_key: nil, friendly_id: nil, image_url: nil, message: 'MAC Address not registered' }.to_json
+    message = "Welcome to TRMNL BYOS"
+  elsif @unadopted_device == nil && is_valid_mac(env['HTTP_ID']) && !is_ignored_mac(env['HTTP_ID'])
+    Device.create!({
+      name: "Device #{env['HTTP_ID']}",
+      mac_address: env['HTTP_ID'],
+      api_key: '',
+      friendly_id: nil,
+      adopted: false,
+    })
+  elsif !env['HTTP_ID']
+    message = "MAC Address not registered"
   end
+  return status, { status:, api_key:, friendly_id:, image_url:, message: }.to_json
 end
 
 # DISPLAY CONTENT
@@ -134,7 +180,7 @@ get '/api/display/' do
       special_function: 'sleep'
     }.to_json
   else
-    { status: 404 }.to_json
+    return 404, { status: 404 }.to_json
   end
 end
 
