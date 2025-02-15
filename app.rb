@@ -197,6 +197,7 @@ get '/api/display/' do
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
   @active_schedule = ActiveSchedule.find_by_device_id(@device.id) if @device
 
+  result = { status: 404 }
   if @device && @active_schedule
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     active_plugins = @active_schedule.schedule.get_active_plugins
@@ -212,20 +213,22 @@ get '/api/display/' do
     @active_schedule.last_update = Time.now
     @active_schedule.save!
     screen = ScreenFetcher.generate_image_for_plugin(plugin_name)
-    {
-      status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
-      image_url: screen[:image_url],
-      filename: screen[:filename],
-      refresh_rate: @device.refresh_interval,
-      reset_firmware: false,
-      update_firmware: false,
-      firmware_url: nil,
-      special_function: 'sleep'
-    }.to_json
+    if screen
+      result = {
+        status: 200, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
+        image_url: screen[:image_url],
+        filename: screen[:filename],
+        refresh_rate: @device.refresh_interval,
+        reset_firmware: false,
+        update_firmware: false,
+        firmware_url: nil,
+        special_function: 'sleep'
+      }
+    end
   elsif @device
     screen = ScreenFetcher.empty_state_image
-    {
-      status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
+    result = {
+      status: 200, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
       image_url: screen[:image_url],
       filename: screen[:filename],
       refresh_rate: @device.refresh_interval,
@@ -233,10 +236,10 @@ get '/api/display/' do
       update_firmware: false,
       firmware_url: nil,
       special_function: 'sleep'
-    }.to_json
-  else
-    { status: 404 }.to_json
+    }
   end
+
+  return result[:status], result.to_json
 end
 
 # ERROR MESSAGES

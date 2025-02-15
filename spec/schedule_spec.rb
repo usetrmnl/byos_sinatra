@@ -1,36 +1,7 @@
 require 'timecop'
 
 require_relative 'spec_helper'
-
-def create_basic_schedule()
-  device = Device.create!({
-    name: "Test Trmnl", 
-    mac_address: 'aa:bb:cc:00:00:01',
-  }) 
-  schedule = Schedule.create!({
-    name: "Test Basic Schedule",
-    default_plugin: "plugin_a",
-    schedule_events: [
-      ScheduleEvent.create!({
-        start_time: "00:00",
-        end_time: "01:00",
-        plugins: "plugin_se1_a,plugin_se1_b",
-        update_frequency: 500,
-      }),
-      ScheduleEvent.create!({
-        start_time: "01:00",
-        end_time: "02:00",
-        plugins: "plugin_se2_c,plugin_se2_d",
-        update_frequency: 500,
-      })
-    ]
-  })
-  ActiveSchedule.create!({
-    device: device,
-    schedule: schedule,
-  })
-  return [device, schedule]
-end
+require_relative '../services/screen_fetcher'
 
 RSpec.describe 'schedule path tests' do
   it 'test_it_has_a_schedule_when_it_is_created' do

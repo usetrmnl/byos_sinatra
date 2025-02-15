@@ -1,4 +1,5 @@
 # Ignore locally generated content
 public/images/generated/*.bmp
 db/*.sqlite3
+plugins
 .env

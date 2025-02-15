@@ -171,7 +171,7 @@ DEPENDENCIES
   rspec
   sinatra-activerecord
   sqlite3
-  timecop (~> 0.9.10)
+  timecop
 
 BUNDLED WITH
    2.5.6

@@ -15,3 +15,24 @@ task :console do
 
   Pry.start
 end
+
+require 'fileutils'
+
+namespace :plugins do
+  desc "Download the last tagged set of OSS plugins"
+  task :download do
+    # Define paths
+    plugin_dir = "plugins"
+    
+    # Ensure clean state
+    FileUtils.rm_rf(plugin_dir) if File.exist?(plugin_dir)
+
+    # having a specific release tag would be better once we get to that level of stability
+    tag = "master"
+    
+    # Clone plugins - 
+    sh "git clone --branch #{tag} --depth 1 https://github.com/usetrmnl/plugins/ #{plugin_dir}"
+    
+    puts "Plugins updated to #{tag}"
+  end
+end
