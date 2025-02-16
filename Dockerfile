@@ -2,14 +2,17 @@
 FROM ruby:slim
 
 # Install necessary packages
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get update
+RUN apt-get install -y --no-install-recommends \
     build-essential \
     ruby-bundler \
     git \
     sqlite3 \
     pkg-config \
-    libpq-dev && \
+    firefox-esr \
+    imagemagick \
+    libyaml-dev \
+    && \
     rm -rf /var/lib/apt/lists/*
 
 # Set the working directory

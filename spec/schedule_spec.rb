@@ -15,12 +15,27 @@ RSpec.describe 'schedule path tests' do
 end
 
 RSpec.describe 'image generation respects schedules' do
+  tmpdir = nil
+
   before do
     @device, @schedule = create_basic_schedule
+
+    allow(ScreenFetcher)
+      .to receive(:load_plugin)
+      .and_return(true)
+
+    tmpdir = Dir.mktmpdir
+
+    allow(ScreenGenerator).to receive(:new)
+      .and_return(instance_double("ScreenGenerator", 
+        process: true,
+        img_filename: "testfile.bmp",
+      ))
   end
 
   after do
     Timecop.return
+    FileUtils.remove_entry tmpdir
   end
 
   it 'test_uses_default_plugin' do
@@ -30,7 +45,7 @@ RSpec.describe 'image generation respects schedules' do
 
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/plugins/plugin_a/filename.bmp')
+    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_a/testfile.bmp')
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_a')
@@ -44,7 +59,7 @@ RSpec.describe 'image generation respects schedules' do
     Timecop.freeze(twelve_thirty_three)
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/plugins/plugin_se1_a/filename.bmp')
+    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se1_a/testfile.bmp')
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se1_a')
@@ -61,7 +76,7 @@ RSpec.describe 'image generation respects schedules' do
     Timecop.freeze(twelve_thirty_three + 100)
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/plugins/plugin_se1_b/filename.bmp')
+    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se1_b/testfile.bmp')
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se1_b')
@@ -81,7 +96,7 @@ RSpec.describe 'image generation respects schedules' do
 
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/plugins/plugin_se1_a/filename.bmp')
+    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se1_a/testfile.bmp')
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se1_a')
@@ -95,7 +110,7 @@ RSpec.describe 'image generation respects schedules' do
     Timecop.freeze(one_thirty_three)
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/plugins/plugin_se2_c/filename.bmp')
+    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se2_c/testfile.bmp')
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se2_c')

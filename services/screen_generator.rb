@@ -4,32 +4,33 @@ require 'puppeteer-ruby'
 require 'base64'
 
 class ScreenGenerator
-
-  def initialize(html, image = false)
+  def initialize(html, output_image_path)
     self.input = html
-    self.image = image
+    if !File.exist?(output_image_path)
+      FileUtils.mkdir_p(output_image_path)
+    end
+    self.img_filename = "#{SecureRandom.hex(3)}.bmp"
+    self.img_path = File.join(output_image_path, self.img_filename)
   end
 
-  attr_accessor :input, :output, :image, :processor
+  attr_accessor :input, :img_path, :img_filename, :output, :processor
 
   def process
     convert_to_image
-    image ? mono_image(output) : mono(output)
-    IO.copy_stream(output, img_path)
+    if output
+      mono_image(output)
+      return IO.copy_stream(output, img_path)
+    end
   end
 
   private
-
-  def img_path
-    "#{Dir.pwd}/public/images/generated/#{SecureRandom.hex(3)}.bmp"
-  end
 
   # Constructs the command and passes the input to the vendor/puppeteer.js
   # script for processing. Returns a base64 encoded string
   def convert_to_image
     retry_count = 0
     begin
-      # context = browser_instance.create_incognito_browser_context
+      #context = browser_instance.create_incognito_browser_context
       page = firefox_browser.new_page
       page.viewport = Puppeteer::Viewport.new(width: width, height: height)
       # NOTE: Use below for chromium
