@@ -9,6 +9,7 @@ RUN apt-get update && \
     git \
     sqlite3 \
     pkg-config \
+    libyaml-dev \
     libpq-dev && \
     rm -rf /var/lib/apt/lists/*
 
