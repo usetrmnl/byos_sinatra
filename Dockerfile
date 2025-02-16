@@ -9,6 +9,7 @@ RUN apt-get update && \
     git \
     sqlite3 \
     pkg-config \
+    libev-dev \
     libyaml-dev \
     libpq-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -19,12 +20,12 @@ WORKDIR /app
 # Copy Gemfile and Gemfile.lock
 COPY Gemfile Gemfile.lock .ruby-version ./
 
-RUN bundle install 
+RUN bundle install
 
 # Copy the rest of the application code
 COPY . .
 
-VOLUME /app/db/sqlite 
+VOLUME /app/db/sqlite
 
 # Expose the port that the application will run on
 EXPOSE 4567
