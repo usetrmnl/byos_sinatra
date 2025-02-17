@@ -10,26 +10,37 @@ require 'nokogiri'
 require 'database_cleaner/active_record'
 require_relative '../app'
 
-# See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+SPEC_ROOT = Pathname(__dir__).realpath.freeze
+
+ActiveRecord::Base.establish_connection(:test)
+ActiveRecord::Schema.verbose = false
+load 'db/schema.rb'
+
 RSpec.configure do |config|
   config.include Rack::Test::Methods
 
-  ActiveRecord::Base.establish_connection(:test)
-  ActiveRecord::Schema.verbose = false
-  load 'db/schema.rb'
+  config.color = true
+  config.disable_monkey_patching!
+  config.example_status_persistence_file_path = "./tmp/rspec-examples.txt"
+  config.filter_run_when_matching :focus
+  config.formatter = ENV.fetch("CI", false) == "true" ? :progress : :documentation
+  config.order = :random
+  config.pending_failure_output = :no_backtrace
+  config.shared_context_metadata_behavior = :apply_to_host_groups
+  config.warnings = true
 
   config.expect_with :rspec do |expectations|
+    expectations.syntax = :expect
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
   config.mock_with :rspec do |mocks|
+    mocks.verify_doubled_constant_names = true
     mocks.verify_partial_doubles = true
   end
 
-  config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  DatabaseCleaner.strategy = :truncation
   config.after do
+    DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.clean
   end
 
