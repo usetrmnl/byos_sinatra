@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'ferrum'
 require 'mini_magick'
 require 'puppeteer-ruby'
@@ -115,7 +113,7 @@ class ScreenGenerator
       m.remap << 'pattern:gray50'
       m.depth(color_depth) # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
-      m << ('bmp3:' << img.path) # Converts to Bitmap.
+      m << format('bmp3:' << img.path) # Converts to Bitmap.
     end
     MiniMagick::Tool::Convert.new do |m|
       m << img.path

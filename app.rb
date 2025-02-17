@@ -196,6 +196,7 @@ end
 # DISPLAY CONTENT
 get '/api/display/' do
   content_type :json
+  base64 = (env['HTTP_BASE64'] || params[:base64]) == 'true'
   @device = Device.find_by_api_key(env['HTTP_ACCESS_TOKEN'])
   @active_schedule = ActiveSchedule.find_by_device_id(@device.id) if @device
 
@@ -215,9 +216,7 @@ get '/api/display/' do
     @active_schedule.last_update = Time.now
     @active_schedule.save!
 
-    base64 = (env['HTTP_BASE64'] || params[:base64]) == 'true'
-    screen = ScreenFetcher.call(base64:)
-    screen = ScreenFetcher.generate_image_for_plugin(plugin_name)
+    screen = ScreenFetcher.call(plugin_name, base64)
 
     if screen
       result = {
@@ -232,7 +231,7 @@ get '/api/display/' do
       }
     end
   elsif @device
-    screen = ScreenFetcher.empty_state_image
+    screen = ScreenFetcher.empty_state_image(base64)
     result = {
       status: 200, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
       image_url: screen[:image_url],

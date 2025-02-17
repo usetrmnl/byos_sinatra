@@ -22,7 +22,6 @@ namespace :test do
   desc "Run tests"
   begin
     require 'rspec/core/rake_task'
-    puts "Running rspec"
     RSpec::Core::RakeTask.new(:spec)
   rescue LoadError
     puts "RSpec not available"
