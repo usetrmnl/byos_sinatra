@@ -6,7 +6,7 @@ task :rubocop do
   sh 'rubocop --format simple || true'
 end
 
-task default: %i[rubocop spec]
+task default: %i[rubocop test:spec]
 
 desc 'Open an irb session preloaded with the environment'
 task :console do
@@ -14,6 +14,17 @@ task :console do
   require 'pry'
 
   Pry.start
+end
+
+namespace :test do
+  desc "Run tests"
+  begin
+    require 'rspec/core/rake_task'
+    puts "Running rspec"
+    RSpec::Core::RakeTask.new(:spec)
+  rescue LoadError
+    puts "RSpec not available"
+  end
 end
 
 require 'fileutils'
