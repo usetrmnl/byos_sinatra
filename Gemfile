@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # database, ORM, server
 gem 'activerecord'
+gem 'dotenv', groups: %i[development test]
+gem 'forme'
 gem 'json'
-gem 'rake'
-gem 'sinatra-activerecord'
+gem 'pry'
 gem 'puma'
 gem 'rackup'
-gem 'forme'
-gem 'pry'
-gem 'dotenv', groups: [:development, :test]
+gem 'rake'
+gem 'sinatra-activerecord'
 
 # browser automation
 gem 'ferrum', git: 'https://github.com/rubycdp/ferrum.git', ref: '7cc1a63351232b10f9ce191104efe6e9c72acca2'
@@ -18,19 +20,19 @@ gem 'puppeteer-ruby', '~> 0.45.6'
 # image processing
 gem 'mini_magick', '~> 4.12.0'
 
-#db
+# db
 gem 'sqlite3'
 
 group :development, :test do
+  gem 'database_cleaner-active_record'
   gem 'debug'
 end
 
 group :test do
   gem 'sqlite3'
   gem 'nokogiri'
-  gem "rspec"
-  gem "rack-test"
-  gem "database_cleaner-active_record"
+  gem 'rack-test'
+  gem 'rspec'
   gem "timecop"
 end
 

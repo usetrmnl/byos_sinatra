@@ -26,10 +26,12 @@ RUN bundle install
 # Copy the rest of the application code
 COPY . .
 
-RUN bundle exec rake db:setup 
+VOLUME /app/db/sqlite 
 
 # Expose the port that the application will run on
 EXPOSE 4567
+
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Command to run the application
 CMD ["bundle", "exec", "ruby", "app.rb", "-o", "0.0.0.0"]

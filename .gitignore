@@ -2,4 +2,6 @@
 public/images/generated/*.bmp
 db/*.sqlite3
 plugins
+db/*.sqlite3-*
+db/sqlite/*.sqlite3
 .env

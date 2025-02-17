@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 require 'forme'
-require 'pp'
 
 module TailwindConfig
-  def self.label_attr 
-    { 
-      class: 'block text-gray-700 text-md leading-4 font-medium mb-2' 
+  def self.label_attr
+    {
+      class: 'block text-gray-700 text-md leading-4 font-medium mb-2'
     }
   end
 
-  def self.before 
-    -> (form) {
+  def self.before
+    lambda { |form|
       form.to_s << '<div class="rounded-xl bg-gray-50 shadow-sm border mb-6 divide-y divide-gray-200">'
     }
   end
 
-  def self.after 
-    -> (form) {
+  def self.after
+    lambda { |form|
       form.to_s << '</div>'
     }
   end
@@ -24,32 +25,32 @@ module TailwindConfig
     {
       labeler: :explicit,
       wrapper: :div,
-      before: self.before,
-      after: self.after,
+      before:,
+      after:,
       input_defaults: {
         text: {
-          label_attr: self.label_attr,
+          label_attr:,
           wrapper_attr: { class: 'p-6' },
-          class: 'block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150' ,
+          class: 'block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150'
         },
 
         number: {
-          label_attr: self.label_attr,
+          label_attr:,
           wrapper_attr: { class: 'p-6' },
-          class: 'block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150' ,
+          class: 'block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150'
         },
 
         time: {
-          label_attr: self.label_attr,
+          label_attr:,
           wrapper_attr: { class: 'p-6' },
-          class: 'block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150' ,
+          class: 'block mt-2 min-h-12 px-4 rounded-xl text-black bg-white block w-full p-0 outline-none text-sm border border-gray-300 focus:outline-none ring-2 ring-transparent focus:ring-2 ring-offset-gray-200 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-blue-500 focus:border-transparent transition duration-150'
         },
 
         checkbox: {
           label_position: :before,
-          label_attr: self.label_attr,
+          label_attr:,
           wrapper_attr: { class: 'p-6' },
-          class: 'h-8 w-8 rounded-full shadow',
+          class: 'h-8 w-8 rounded-full shadow'
         },
 
         button: {

@@ -1,6 +1,7 @@
-class Device < ActiveRecord::Base
+# frozen_string_literal: true
 
-  DEFAULT_DEVICE_NAME = 'My TRMNL'.freeze
+class Device < ActiveRecord::Base
+  DEFAULT_DEVICE_NAME = 'My TRMNL'
   MODEL = [
     {
       name: 'og',
