@@ -17,6 +17,7 @@ https://www.youtube.com/watch?v=3xehPW-PCOM
 cp dotenv-sample .env # (edit to set desired values)
 bundle # installs dependencies
 bundle exec rake db:prepare # creates db + runs migrations
+bundle exec rake plugins:download # Experimental and optional - downloads https://github.com/usetrmnl/plugins/tree/master for use
 bundle exec ruby app.rb # runs server, visit http://localhost:4567/devices/new
 ```
 
