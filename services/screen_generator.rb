@@ -8,21 +8,19 @@ require 'base64'
 class ScreenGenerator
   def initialize(html, output_image_path)
     self.input = html
-    if !File.exist?(output_image_path)
-      FileUtils.mkdir_p(output_image_path)
-    end
+    FileUtils.mkdir_p(output_image_path) unless File.exist?(output_image_path)
     self.img_filename = "#{SecureRandom.hex(3)}.bmp"
-    self.img_path = File.join(output_image_path, self.img_filename)
+    self.img_path = File.join(output_image_path, img_filename)
   end
 
   attr_accessor :input, :img_path, :img_filename, :output, :processor
 
   def process
     convert_to_image
-    if output
-      mono_image(output)
-      return IO.copy_stream(output, img_path)
-    end
+    return unless output
+
+    mono_image(output)
+    IO.copy_stream(output, img_path)
   end
 
   private
@@ -32,9 +30,9 @@ class ScreenGenerator
   def convert_to_image
     retry_count = 0
     begin
-      #context = browser_instance.create_incognito_browser_context
+      # context = browser_instance.create_incognito_browser_context
       page = firefox_browser.new_page
-      page.viewport = Puppeteer::Viewport.new(width:, height:)
+      page.viewport = Puppeteer::Viewport.new(width: width, height: height)
       # NOTE: Use below for chromium
       # page.set_content(input, wait_until: ['networkidle0', 'domcontentloaded'])
       # Note: Use below for firefox
@@ -129,11 +127,19 @@ class ScreenGenerator
     end
   end
 
-  def width = device[:width]
+  def width
+    device[:width]
+  end
 
-  def height = device[:height]
+  def height
+    device[:height]
+  end
 
-  def color_depth = device[:color_depth]
+  def color_depth
+    device[:color_depth]
+  end
 
-  def device = @device ||= Device::MODEL.first
+  def device
+    @device ||= Device::MODEL.first
+  end
 end

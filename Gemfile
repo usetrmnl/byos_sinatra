@@ -25,6 +25,7 @@ gem 'sqlite3'
 
 group :development, :test do
   gem 'database_cleaner-active_record'
+  gem 'rubocop'
   gem 'debug'
 end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'timecop'
 
 require_relative 'spec_helper'
@@ -8,13 +10,13 @@ RSpec.describe 'schedule path tests' do
     _, sched = create_basic_schedule
 
     doc = get_and_parse '/schedules/'
-    edit_anchor = doc.at(sprintf('a[href="http://baseurl/schedules/%d/edit"]', sched.id))
+    edit_anchor = doc.at(format('a[href="http://baseurl/schedules/%d/edit"]', sched.id))
 
-    expect(edit_anchor.text.strip).to eq("Edit")
+    expect(edit_anchor.text.strip).to eq('Edit')
   end
 end
 
-RSpec.describe 'image generation respects schedules' do
+RSpec.describe 'image generation respects schedules' do # rubocop:disable Metrics/BlockLength
   tmpdir = nil
 
   before do
@@ -27,10 +29,9 @@ RSpec.describe 'image generation respects schedules' do
     tmpdir = Dir.mktmpdir
 
     allow(ScreenGenerator).to receive(:new)
-      .and_return(instance_double("ScreenGenerator", 
-        process: true,
-        img_filename: "testfile.bmp",
-      ))
+      .and_return(instance_double('ScreenGenerator',
+                                  process: true,
+                                  img_filename: 'testfile.bmp'))
   end
 
   after do
@@ -39,13 +40,13 @@ RSpec.describe 'image generation respects schedules' do
   end
 
   it 'test_uses_default_plugin' do
-    header("ACCESS_TOKEN", @device.api_key)
+    header('ACCESS_TOKEN', @device.api_key)
     twenty_two_thirty = Time.local(2013, 4, 5, 22, 30, 42)
     Timecop.freeze(twenty_two_thirty)
 
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_a/testfile.bmp')
+    expect(body['image_url']).to eq("#{ENV['BASE_URL']}/images/generated/plugin_a/testfile.bmp")
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_a')
@@ -53,13 +54,13 @@ RSpec.describe 'image generation respects schedules' do
   end
 
   it 'test_uses_the_first_plugin_first' do
-    header("ACCESS_TOKEN", @device.api_key)
+    header('ACCESS_TOKEN', @device.api_key)
 
     twelve_thirty_three = Time.local(2013, 4, 5, 0, 33, 42)
     Timecop.freeze(twelve_thirty_three)
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se1_a/testfile.bmp')
+    expect(body['image_url']).to eq("#{ENV['BASE_URL']}/images/generated/plugin_se1_a/testfile.bmp")
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se1_a')
@@ -67,16 +68,16 @@ RSpec.describe 'image generation respects schedules' do
   end
 
   it 'test_uses_the_second_plugin_second' do
-    header("ACCESS_TOKEN", @device.api_key)
+    header('ACCESS_TOKEN', @device.api_key)
 
     twelve_thirty_three = Time.local(2013, 4, 5, 0, 33, 42)
     Timecop.freeze(twelve_thirty_three)
-    _, body = get_json '/api/display/'
+    get_json '/api/display/'
 
     Timecop.freeze(twelve_thirty_three + 100)
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se1_b/testfile.bmp')
+    expect(body['image_url']).to eq("#{ENV['BASE_URL']}/images/generated/plugin_se1_b/testfile.bmp")
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se1_b')
@@ -84,19 +85,19 @@ RSpec.describe 'image generation respects schedules' do
   end
 
   it 'test_wraps_around_to_the_first_plugin' do
-    header("ACCESS_TOKEN", @device.api_key)
+    header('ACCESS_TOKEN', @device.api_key)
     twelve_thirty_three = Time.local(2013, 4, 5, 0, 33, 42)
     Timecop.freeze(twelve_thirty_three)
 
-    _, body = get_json '/api/display/'
+    _doc, _body = get_json '/api/display/'
     Timecop.freeze(twelve_thirty_three + 100)
 
-    _, body = get_json '/api/display/'
+    _doc, _body = get_json '/api/display/'
     Timecop.freeze(twelve_thirty_three + 100 * 2)
 
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se1_a/testfile.bmp')
+    expect(body['image_url']).to eq("#{ENV['BASE_URL']}/images/generated/plugin_se1_a/testfile.bmp")
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se1_a')
@@ -104,13 +105,13 @@ RSpec.describe 'image generation respects schedules' do
   end
 
   it 'test_can_find_the_correct_active_schedule_segment' do
-    header("ACCESS_TOKEN", @device.api_key)
+    header('ACCESS_TOKEN', @device.api_key)
 
     one_thirty_three = Time.local(2013, 4, 5, 1, 33, 42)
     Timecop.freeze(one_thirty_three)
     _, body = get_json '/api/display/'
 
-    expect(body['image_url']).to eq(ENV['BASE_URL'] + '/images/generated/plugin_se2_c/testfile.bmp')
+    expect(body['image_url']).to eq("#{ENV['BASE_URL']}/images/generated/plugin_se2_c/testfile.bmp")
 
     @active_schedule = ActiveSchedule.find_by_device_id(@device.id)
     expect(@active_schedule.last_shown_plugin).to eq('plugin_se2_c')
