@@ -1,5 +1,5 @@
 # Use the official lightweight Ruby image
-FROM ruby:slim
+FROM ruby:3.4.2-slim
 
 # Install necessary packages
 RUN apt-get update && \
@@ -17,7 +17,7 @@ RUN apt-get update && \
 WORKDIR /app
 
 # Copy Gemfile and Gemfile.lock
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile Gemfile.lock .ruby-version ./
 
 RUN bundle install 
 
