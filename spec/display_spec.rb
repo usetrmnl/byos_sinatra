@@ -14,6 +14,7 @@ RSpec.describe 'Display path tests' do
                          })
     header('ACCESS_TOKEN', dev.api_key)
     _, body = get_json '/api/display/'
+    expect(body['image_url']).to eq('http://baseurl/images/setup/setup-logo.bmp')
     expect(body['reset_firmware']).to eq(false)
   end
 

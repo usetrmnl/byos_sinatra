@@ -1,5 +1,5 @@
 # Ignore locally generated content
-public/images/generated/*.bmp
+public/images/generated/**
 db/*.sqlite3
 plugins
 db/*.sqlite3-*

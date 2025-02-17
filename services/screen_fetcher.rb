@@ -13,15 +13,15 @@ end
 # Generates images with ScreenGenerator for a given plugin and returns
 # where the newly generated image is
 class ScreenFetcher
-  ImagePath = Data.define(:filename, :relative_img_path)
+  ImagePath = Data.define(:filename, :relative_img_path, :image_file)
 
   class << self
     def generated_image(base64, image_path)
       image_url = if base64
-                    img = File.open(File.join(public_dir, image_path.relative_img_path))
+                    img = File.open(File.join(public_dir, image_path.relative_img_path, image_path.image_file))
                     "data:image/png;base64,#{Base64.strict_encode64(img.read)}"
                   else
-                    "#{base_domain}/#{image_path.relative_img_path}/#{image_path.filename}"
+                    "#{base_domain}/#{image_path.relative_img_path}/#{image_path.image_file}"
                   end
 
       { filename: image_path.filename, image_url: image_url }
@@ -36,7 +36,7 @@ class ScreenFetcher
     end
 
     def empty_state
-      ImagePath.new('empty_state', 'images/setup/setup-logo.bmp')
+      ImagePath.new('empty_state', 'images/setup', 'setup-logo.bmp')
     end
 
     def generate_image_for_plugin(plugin_name)
@@ -46,10 +46,10 @@ class ScreenFetcher
       return unless plugin
 
       plugin_html = ERB.new(determine_plugin_template(plugin_name))
-      gen = ScreenGenerator.new(plugin_html, File.join(Dir.pwd, relative_generated_path, plugin_name))
+      gen = ScreenGenerator.new(plugin_html, File.join(Dir.pwd, public_dir, relative_generated_path, plugin_name))
       gen.process
 
-      ImagePath.new(gen.img_filename, File.join(relative_generated_path, plugin_name))
+      ImagePath.new(gen.img_filename, File.join(relative_generated_path, plugin_name), gen.img_filename)
     end
 
     def last_generated_image
@@ -61,7 +61,7 @@ class ScreenFetcher
       filename = File.basename(full_img_path) # => 1as4ff.bmp
       relative_img_path = "images/generated/#{filename}"
 
-      ImagePath.new(filename, relative_img_path)
+      ImagePath.new(filename, relative_img_path, filename)
     end
 
     def determine_plugin_template(plugin_name)
