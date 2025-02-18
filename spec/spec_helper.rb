@@ -1,12 +1,27 @@
 # frozen_string_literal: true
 
+require "simplecov"
+
+unless ENV["NO_COVERAGE"]
+  SimpleCov.start do
+    add_filter %r(^/spec/)
+    enable_coverage :branch
+    enable_coverage_for_eval
+    minimum_coverage_by_file line: 95, branch: 95
+  end
+end
+
 ENV['APP_ENV'] = 'test'
 ENV['RACK_ENV'] = 'test'
 
+Bundler.require :tools
+
 require 'active_record'
 require 'rack/test'
+require "refinements"
 require 'nokogiri'
 require 'database_cleaner/active_record'
+
 require_relative '../app'
 
 SPEC_ROOT = Pathname(__dir__).realpath.freeze
@@ -14,6 +29,10 @@ SPEC_ROOT = Pathname(__dir__).realpath.freeze
 ActiveRecord::Base.establish_connection(:test)
 ActiveRecord::Schema.verbose = false
 load 'db/schema.rb'
+
+using Refinements::Pathname
+
+Pathname.require_tree SPEC_ROOT.join("support/shared_contexts")
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

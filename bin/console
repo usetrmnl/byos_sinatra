@@ -1,0 +1,10 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+Bundler.require :tools
+
+require Bundler.root.join("lib/byos_sinatra").to_s
+require "irb"
+
+IRB.start __FILE__

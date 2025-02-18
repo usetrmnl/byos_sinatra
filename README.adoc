@@ -1,0 +1,60 @@
+:toc: macro
+:toclevels: 5
+:figure-caption!:
+
+= Byos Sinatra
+
+toc::[]
+
+== Features
+
+== Requirements
+
+. link:https://www.ruby-lang.org[Ruby].
+
+== Setup
+
+To set up project, run:
+
+[source,bash]
+----
+git clone https://github.com/bkuhlmann/byos_sinatra
+cd byos_sinatra
+bin/setup
+----
+
+== Usage
+
+== Development
+
+To contribute, run:
+
+[source,bash]
+----
+git clone https://github.com/bkuhlmann/byos_sinatra
+cd byos_sinatra
+bin/setup
+----
+
+You can also use the IRB console for direct access to all objects:
+
+[source,bash]
+----
+bin/console
+----
+
+== Tests
+
+To test, run:
+
+[source,bash]
+----
+bin/rake
+----
+
+== link:https://alchemists.io/policies/security[Security]
+
+== Credits
+
+* Built with link:https://alchemists.io/projects/rubysmith[Rubysmith].
+* Engineered by link:https://alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].

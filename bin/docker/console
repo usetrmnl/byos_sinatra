@@ -1,0 +1,15 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+require "bundler/setup"
+Bundler.require :tools
+
+system <<~COMMAND
+  docker run \
+         --disable-content-trust \
+         --pull never \
+         --interactive \
+         --tty \
+         --rm byos_sinatra:latest \
+         bash
+COMMAND
