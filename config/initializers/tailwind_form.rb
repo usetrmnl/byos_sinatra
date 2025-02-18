@@ -16,9 +16,7 @@ module TailwindConfig
   end
 
   def self.after
-    lambda { |form|
-      form.to_s << "</div>"
-    }
+    lambda { |form| form.to_s << "</div>" }
   end
 
   def self.options
