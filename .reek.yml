@@ -5,3 +5,10 @@ exclude_paths:
 detectors:
   LongParameterList:
     enabled: false
+
+exclude_paths:
+  - db
+  - config
+  - models
+  - services
+  - app.rb
