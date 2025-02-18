@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
+require "base64"
 require "ferrum"
 require "mini_magick"
 require "puppeteer-ruby"
-require "base64"
 
 class ScreenGenerator
   def initialize(html, image = false)
