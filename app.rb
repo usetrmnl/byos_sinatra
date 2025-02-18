@@ -51,9 +51,10 @@ end
 
 # DEVICE MANAGEMENT
 def devices_form device
-  create_forme(device, device.persisted?,
-        {autocomplete:"off", action: "#{ENV["BASE_URL"]}/devices"},
-        {namespace: "device"})
+  create_forme device,
+               device.persisted?,
+               {autocomplete: "off", action: "#{ENV["BASE_URL"]}/devices"},
+               {namespace: "device"}
 end
 
 get "/devices/?" do
