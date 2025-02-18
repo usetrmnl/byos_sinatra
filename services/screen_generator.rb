@@ -6,7 +6,7 @@ require "mini_magick"
 require "puppeteer-ruby"
 
 class ScreenGenerator
-  def initialize(html, image = false)
+  def initialize html, image = false
     self.input = html
     self.image = image
   end
@@ -79,12 +79,12 @@ class ScreenGenerator
     $cached_browser
   end
 
-  def Ferrum.cached_browser=(value)
+  def Ferrum.cached_browser= value
     $cached_browser = value
   end
 
   # Overall at max wait for 2.5 seconds
-  def wait_for_stop_loading(page)
+  def wait_for_stop_loading page
     count = 0
     while page.frames.first.state != :stopped_loading && count < 20
       count += 1
@@ -93,7 +93,7 @@ class ScreenGenerator
     sleep 0.5 # wait_until: DomContentLoaded event is not available in ferrum
   end
 
-  def mono(img)
+  def mono img
     MiniMagick::Tool::Convert.new do |m|
       m << img.path
       m.monochrome # Use built-in smart monochrome dithering (but it's not working as expected)
@@ -103,7 +103,7 @@ class ScreenGenerator
     end
   end
 
-  def mono_image(img)
+  def mono_image img
     # Changelog:
     # ImageMagick 6.XX used to convert the png to bitmap with dithering while maintaining the channel to 1
     # The same seems to be broken with imagemagick 7.XX

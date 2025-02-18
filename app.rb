@@ -23,7 +23,7 @@ end
 end
 
 helpers do
-  def create_forme(model, _is_edit, attrs = {}, options = {})
+  def create_forme model, _is_edit, attrs = {}, options = {}
     attrs[:method] = :post
     options = TailwindConfig.options.merge(options)
     if model&.persisted?
@@ -50,7 +50,7 @@ configure :development, :test, :production do
 end
 
 # DEVICE MANAGEMENT
-def devices_form(device)
+def devices_form device
   create_forme(device, device.persisted?,
         {autocomplete:"off", action: "#{ENV["BASE_URL"]}/devices"},
         {namespace: "device"})

@@ -3,7 +3,7 @@
 module ExplicitFormePlugin
   attr_reader :_form_tag
 
-  def form_tag(attrs)
+  def form_tag attrs
     @_form_tag = ::Forme::Tag.new(self, :form, attrs)
   end
 
@@ -20,7 +20,7 @@ module ExplicitFormePlugin
     @to_s[form_len..]
   end
 
-  def form_output(&block)
+  def form_output &block
     form_str = String.new
     form_str << explicit_open
     form_str << block.call if block_given?
