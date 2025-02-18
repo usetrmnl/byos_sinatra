@@ -1,36 +1,51 @@
-# Use the official lightweight Ruby image
-FROM ruby:3.4.2-slim
+# syntax = docker/dockerfile:1.4
 
-# Install necessary packages
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    ruby-bundler \
-    git \
-    sqlite3 \
-    pkg-config \
-    libev-dev \
-    libyaml-dev \
-    libpq-dev && \
-    rm -rf /var/lib/apt/lists/*
+ARG RUBY_VERSION=3.4.2
 
-# Set the working directory
+FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
+
 WORKDIR /app
 
-# Copy Gemfile and Gemfile.lock
-COPY Gemfile Gemfile.lock .ruby-version ./
+RUN <<STEPS
+  apt-get update -qq \
+  && apt-get install --no-install-recommends -y curl libjemalloc2 \
+  && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+STEPS
 
-RUN bundle install
+ENV RACK_ENV=production
+ENV BUNDLE_DEPLOYMENT=1
+ENV BUNDLE_PATH=/usr/local/bundle
+ENV BUNDLE_WITHOUT="development:quality:test:tools"
 
-# Copy the rest of the application code
+FROM base AS build
+
+RUN <<STEPS
+  apt-get update -qq \
+  && apt-get install --no-install-recommends -y build-essential git pkg-config \
+  && rm -rf /var/lib/apt/lists /var/cache/apt/archives
+STEPS
+
+COPY .ruby-version Gemfile Gemfile.lock ./
+
+RUN <<STEPS
+  bundle install
+  rm -rf "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+STEPS
+
 COPY . .
+FROM base
+COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
+COPY --from=build /app /app
 
-VOLUME /app/db/sqlite
+RUN <<STEPS
+  mkdir -p /app/log
+  mkdir -p /app/tmp
+STEPS
 
-# Expose the port that the application will run on
-EXPOSE 4567
+RUN groupadd --system --gid 1000 app && \
+    useradd app --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+    chown -R app:app log tmp
 
-ENTRYPOINT ["/app/entrypoint.sh"]
+USER 1000:1000
 
-# Command to run the application
-CMD ["bundle", "exec", "ruby", "app.rb", "-o", "0.0.0.0"]
+ENTRYPOINT ["/app/bin/docker/entrypoint"]

@@ -1,6 +1,7 @@
-# Ignore locally generated content
-public/images/generated/*.bmp
+.bundle
+.env
 db/*.sqlite3
 db/*.sqlite3-*
 db/sqlite/*.sqlite3
-.env
+public/images/generated/*.bmp
+tmp

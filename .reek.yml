@@ -1,0 +1,7 @@
+exclude_paths:
+  - tmp
+  - vendor
+
+detectors:
+  LongParameterList:
+    enabled: false

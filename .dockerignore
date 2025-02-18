@@ -1,0 +1,36 @@
+# Assets
+/node_modules/
+
+# Bin
+/bin
+!/bin/console
+!/bin/docker/entrypoint
+
+# Bundler
+/.bundle
+
+# Development
+/.devcontainer
+
+# Docker
+/.dockerignore
+/Dockerfile*
+
+# Environment
+/.env*
+
+# Git
+/.git/
+/.gitignore
+
+# GitHub
+/.github
+
+# Log
+/log/
+
+# Temp
+/tmp/
+
+# XDG
+/.config
