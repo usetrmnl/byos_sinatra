@@ -23,7 +23,7 @@ class ScreenFetcher
                     "#{base_domain}/#{relative_img_path}"
                   end
 
-      { filename:, image_url: }
+      {filename:, image_url:}
     end
 
     def base_domain
@@ -31,7 +31,7 @@ class ScreenFetcher
     end
 
     def empty_state_image
-      { filename: "empty_state", image_url: "#{base_domain}/images/setup/setup-logo.bmp" }
+      {filename: "empty_state", image_url: "#{base_domain}/images/setup/setup-logo.bmp"}
     end
 
     def base_path

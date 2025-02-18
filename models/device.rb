@@ -2,7 +2,7 @@
 
 class Device < ActiveRecord::Base
   DEFAULT_DEVICE_NAME = "My TRMNL"
-  MODEL = [ { name: "og", width: 800, height: 480, color_depth: 1 } ].freeze
+  MODEL = [ {name: "og", width: 800, height: 480, color_depth: 1} ].freeze
 
   attribute :name, default: DEFAULT_DEVICE_NAME
   validates :name, :mac_address, presence: true
