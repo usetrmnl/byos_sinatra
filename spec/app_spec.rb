@@ -24,7 +24,7 @@ RSpec.describe "API path tests" do
   it "test_it_has_api_setup_path_with_a_device" do
     mac = "aa:bb:cc:00:00:01"
     dev = Device.create!({name: "Test Trmnl", mac_address: mac})
-    header("ID", mac)
+    header "ID", mac
     _, body = get_json "/api/setup/"
     expect(body["api_key"]).to eq(dev.api_key)
     expect(body["friendly_id"]).to eq(dev.friendly_id)
@@ -42,7 +42,7 @@ RSpec.describe "Display path tests" do
   it "test_it_has_api_setup_path_with_a_device" do
     mac = "aa:bb:cc:00:00:01"
     dev = Device.create!({name: "Test Trmnl", mac_address: mac})
-    header("ID", mac)
+    header "ID", mac
     _, body = get_json "/api/setup/"
     expect(body["api_key"]).to eq(dev.api_key)
     expect(body["friendly_id"]).to eq(dev.friendly_id)

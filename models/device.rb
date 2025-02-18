@@ -13,6 +13,6 @@ class Device < ActiveRecord::Base
   end
 
   def generate_api_key
-    self.api_key = SecureRandom.urlsafe_base64(nil, false)
+    self.api_key = SecureRandom.urlsafe_base64 nil, false
   end
 end

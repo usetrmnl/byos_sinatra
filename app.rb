@@ -13,7 +13,7 @@ set :bind, "0.0.0.0"
 set :port, 4567
 
 configure :production do
-  base_url = URI.parse(ENV["BASE_URL"])
+  base_url = URI.parse ENV["BASE_URL"]
   use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.host]
 end
 
@@ -25,17 +25,17 @@ end
 helpers do
   def create_forme model, _is_edit, attrs = {}, options = {}
     attrs[:method] = :post
-    options = TailwindConfig.options.merge(options)
+    options = TailwindConfig.options.merge options
     if model&.persisted?
       attrs[:action] += "/#{model.id}" if model.id
       options[:before] = lambda { |form|
-        TailwindConfig.before.call(form)
+        TailwindConfig.before.call form
         form.to_s << '<input name="_method" value="patch" type="hidden"/>'
       }
     end
-    f = Forme::Form.new(model, options)
-    f.extend(ExplicitFormePlugin)
-    f.form_tag(attrs)
+    f = Forme::Form.new model, options
+    f.extend ExplicitFormePlugin
+    f.form_tag attrs
     f
   end
 end
@@ -63,30 +63,30 @@ end
 
 get "/devices/new" do
   @device = Device.new
-  @form = devices_form(@device)
+  @form = devices_form @device
   erb :"devices/new"
 end
 
 get "/devices/:id/delete" do
-  @device = Device.find(params[:id])
+  @device = Device.find params[:id]
   @device.destroy
   redirect to("#{ENV["BASE_URL"]}/devices")
 end
 
 get "/devices/:id/edit" do
-  @device = Device.find(params[:id])
-  @form = devices_form(@device)
+  @device = Device.find params[:id]
+  @form = devices_form @device
   erb :"devices/edit"
 end
 
 patch "/devices/:id" do
-  device = Device.find(params[:id])
-  device.update(params[:device])
+  device = Device.find params[:id]
+  device.update params[:device]
   redirect to("#{ENV["BASE_URL"]}/devices")
 end
 
 post "/devices" do
-  Device.create!(params[:device])
+  Device.create! params[:device]
   redirect to("#{ENV["BASE_URL"]}/devices")
 end
 
@@ -97,7 +97,7 @@ end
 # FIRMWARE SETUP
 get "/api/setup/" do
   content_type :json
-  @device = Device.find_by_mac_address(env["HTTP_ID"]) # => ie "41:B4:10:39:A1:24"
+  @device = Device.find_by_mac_address env["HTTP_ID"] # => ie "41:B4:10:39:A1:24"
 
   if @device
     status = 200
@@ -115,7 +115,7 @@ end
 # DISPLAY CONTENT
 get "/api/display/" do
   content_type :json
-  @device = Device.find_by_api_key(env["HTTP_ACCESS_TOKEN"])
+  @device = Device.find_by_api_key env["HTTP_ACCESS_TOKEN"]
 
   if @device
     base64 = (env["HTTP_BASE64"] || params[:base64]) == "true"
