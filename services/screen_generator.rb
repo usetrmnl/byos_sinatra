@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'ferrum'
-require 'mini_magick'
-require 'puppeteer-ruby'
-require 'base64'
+require "ferrum"
+require "mini_magick"
+require "puppeteer-ruby"
+require "base64"
 
 class ScreenGenerator
   def initialize(html, image = false)
@@ -44,7 +44,7 @@ class ScreenGenerator
         }
       JAVASCRIPT
       self.output = Tempfile.new
-      page.screenshot(path: output.path, type: 'png')
+      page.screenshot(path: output.path, type: "png")
       firefox_browser.close
     end
   rescue Puppeteer::TimeoutError, Puppeteer::FrameManager::NavigationError => e
@@ -63,11 +63,11 @@ class ScreenGenerator
   # On local it takes < 1 second now to generate the subsequent image.
   def firefox_browser
     @firefox_browser ||= Puppeteer.launch(
-      product: 'firefox',
+      product: "firefox",
       headless: true,
       args: [
         "--window-size=#{width},#{height}",
-        '--disable-web-security'
+        "--disable-web-security"
         # "--hide-scrollbars" #works only on chrome, using page.evaluate for firefox
       ]
     )
@@ -99,7 +99,7 @@ class ScreenGenerator
       m.monochrome # Use built-in smart monochrome dithering (but it's not working as expected)
       m.depth(color_depth) # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
-      m << ('bmp3:' << img.path)
+      m << ("bmp3:" << img.path)
     end
   end
 
@@ -111,19 +111,19 @@ class ScreenGenerator
     # TODO for future, find a better way to generate image screens.
     MiniMagick::Tool::Convert.new do |m|
       m << img.path
-      m.dither << 'FloydSteinberg'
-      m.remap << 'pattern:gray50'
+      m.dither << "FloydSteinberg"
+      m.remap << "pattern:gray50"
       m.depth(color_depth) # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
-      m << ('bmp3:' << img.path) # Converts to Bitmap.
+      m << ("bmp3:" << img.path) # Converts to Bitmap.
     end
     MiniMagick::Tool::Convert.new do |m|
       m << img.path
-      m.dither << 'FloydSteinberg'
-      m.remap << 'pattern:gray50'
+      m.dither << "FloydSteinberg"
+      m.remap << "pattern:gray50"
       m.depth(color_depth) # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
-      m << ('bmp3:' << img.path) # Converts to Bitmap.
+      m << ("bmp3:" << img.path) # Converts to Bitmap.
     end
   end
 

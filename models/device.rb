@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Device < ActiveRecord::Base
-  DEFAULT_DEVICE_NAME = 'My TRMNL'
+  DEFAULT_DEVICE_NAME = "My TRMNL"
   MODEL = [
     {
-      name: 'og',
+      name: "og",
       width: 800,
       height: 480,
       color_depth: 1
