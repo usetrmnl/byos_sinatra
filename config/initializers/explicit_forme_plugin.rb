@@ -4,7 +4,7 @@ module ExplicitFormePlugin
   attr_reader :_form_tag
 
   def form_tag attrs
-    @_form_tag = ::Forme::Tag.new(self, :form, attrs)
+    @_form_tag = ::Forme::Tag.new self, :form, attrs
   end
 
   def explicit_open

@@ -16,13 +16,13 @@ class ScreenGenerator
   def process
     convert_to_image
     image ? mono_image(output) : mono(output)
-    IO.copy_stream(output, img_path)
+    IO.copy_stream output, img_path
   end
 
   private
 
   def img_path
-    "#{Dir.pwd}/public/images/generated/#{SecureRandom.hex(3)}.bmp"
+    "#{Dir.pwd}/public/images/generated/#{SecureRandom.hex 3}.bmp"
   end
 
   # Constructs the command and passes the input to the vendor/puppeteer.js
@@ -36,15 +36,15 @@ class ScreenGenerator
       # NOTE: Use below for chromium
       # page.set_content(input, wait_until: ['networkidle0', 'domcontentloaded'])
       # Note: Use below for firefox
-      page.set_content(input, timeout: 10_000)
-      page.evaluate(<<~JAVASCRIPT)
+      page.set_content input, timeout: 10_000
+      page.evaluate <<~JAVASCRIPT
         () => {
           document.getElementsByTagName('html')[0].style.overflow = "hidden";
           document.getElementsByTagName('body')[0].style.overflow = "hidden";
         }
       JAVASCRIPT
       self.output = Tempfile.new
-      page.screenshot(path: output.path, type: "png")
+      page.screenshot path: output.path, type: "png"
       firefox_browser.close
     end
   rescue Puppeteer::TimeoutError, Puppeteer::FrameManager::NavigationError => e
@@ -97,7 +97,7 @@ class ScreenGenerator
     MiniMagick::Tool::Convert.new do |m|
       m << img.path
       m.monochrome # Use built-in smart monochrome dithering (but it's not working as expected)
-      m.depth(color_depth) # Should be set to 1 for 1-bit output
+      m.depth color_depth # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
       m << ("bmp3:" << img.path)
     end
@@ -113,7 +113,7 @@ class ScreenGenerator
       m << img.path
       m.dither << "FloydSteinberg"
       m.remap << "pattern:gray50"
-      m.depth(color_depth) # Should be set to 1 for 1-bit output
+      m.depth color_depth # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
       m << ("bmp3:" << img.path) # Converts to Bitmap.
     end
@@ -121,7 +121,7 @@ class ScreenGenerator
       m << img.path
       m.dither << "FloydSteinberg"
       m.remap << "pattern:gray50"
-      m.depth(color_depth) # Should be set to 1 for 1-bit output
+      m.depth color_depth # Should be set to 1 for 1-bit output
       m.strip # Remove any additional metadata
       m << ("bmp3:" << img.path) # Converts to Bitmap.
     end
