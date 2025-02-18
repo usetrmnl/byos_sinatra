@@ -2,7 +2,7 @@
 
 require_relative "spec_helper"
 
-RSpec.describe "App base path tests" do
+RSpec.describe "App base path tests", type: :feature do
   it "test_it_has_root_path" do
     browser = get "/"
     expect(browser.status).to be(200)
@@ -15,7 +15,7 @@ RSpec.describe "App base path tests" do
   end
 end
 
-RSpec.describe "API path tests" do
+RSpec.describe "API path tests", type: :feature do
   it "test_it_has_api_setup_path" do
     _, body = get_json "/api/setup/"
     expect(body["message"]).to eq("MAC Address not registered")
@@ -33,7 +33,7 @@ RSpec.describe "API path tests" do
   end
 end
 
-RSpec.describe "Display path tests" do
+RSpec.describe "Display path tests", type: :feature do
   it "test_it_has_api_setup_path" do
     _, body = get_json "/api/setup/"
     expect(body["message"]).to eq("MAC Address not registered")

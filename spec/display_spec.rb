@@ -2,7 +2,7 @@
 
 require_relative "spec_helper"
 
-RSpec.describe "Display path tests" do
+RSpec.describe "Display path tests", type: :feature do
   it "test_it_has_api_display_path" do
     _, body = get_json "/api/display/"
     expect(body["status"]).to eq(404)
