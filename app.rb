@@ -52,7 +52,7 @@ end
 # DEVICE MANAGEMENT
 def devices_form(device)
   create_forme(device, device.persisted?,
-        {autocomplete:"off", action: "#{ENV['BASE_URL']}/devices"},
+        {autocomplete:"off", action: "#{ENV["BASE_URL"]}/devices"},
         {namespace: "device"})
 end
 
@@ -70,7 +70,7 @@ end
 get "/devices/:id/delete" do
   @device = Device.find(params[:id])
   @device.destroy
-  redirect to("#{ENV['BASE_URL']}/devices")
+  redirect to("#{ENV["BASE_URL"]}/devices")
 end
 
 get "/devices/:id/edit" do
@@ -82,12 +82,12 @@ end
 patch "/devices/:id" do
   device = Device.find(params[:id])
   device.update(params[:device])
-  redirect to("#{ENV['BASE_URL']}/devices")
+  redirect to("#{ENV["BASE_URL"]}/devices")
 end
 
 post "/devices" do
   Device.create!(params[:device])
-  redirect to("#{ENV['BASE_URL']}/devices")
+  redirect to("#{ENV["BASE_URL"]}/devices")
 end
 
 get "/" do
@@ -103,7 +103,7 @@ get "/api/setup/" do
     status = 200
     api_key = @device.api_key
     friendly_id = @device.friendly_id
-    image_url = "#{ENV['BASE_URL']}/images/setup/setup-logo.bmp"
+    image_url = "#{ENV["BASE_URL"]}/images/setup/setup-logo.bmp"
     message = "Welcome to TRMNL BYOS"
 
     { status:, api_key:, friendly_id:, image_url:, message: }.to_json
