@@ -6,12 +6,22 @@ require "mini_magick"
 require "puppeteer-ruby"
 
 class ScreenGenerator
+  def Ferrum.cached_browser
+    return nil unless $cached_browser
+
+    $cached_browser
+  end
+
+  def Ferrum.cached_browser= value
+    $cached_browser = value
+  end
+
+  attr_accessor :input, :output, :image, :processor
+
   def initialize html, image = false
     self.input = html
     self.image = image
   end
-
-  attr_accessor :input, :output, :image, :processor
 
   def process
     convert_to_image
@@ -71,16 +81,6 @@ class ScreenGenerator
         # "--hide-scrollbars" #works only on chrome, using page.evaluate for firefox
       ]
     )
-  end
-
-  def Ferrum.cached_browser
-    return nil unless $cached_browser
-
-    $cached_browser
-  end
-
-  def Ferrum.cached_browser= value
-    $cached_browser = value
   end
 
   # Overall at max wait for 2.5 seconds
