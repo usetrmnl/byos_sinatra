@@ -5,7 +5,6 @@ ruby file: ".ruby-version"
 source "https://rubygems.org"
 
 # database, ORM, server
-gem "refinements", "~> 13.0"
 gem "activerecord", "~> 8.0"
 gem "dotenv", "~> 3.1", groups: %i[development test]
 gem "forme", "~> 2.6"
@@ -14,7 +13,7 @@ gem "mini_magick", "~> 5.1"
 gem "pry", "~> 0.15"
 gem "puma", "~> 6.6"
 gem "rackup", "~> 2.2"
-gem "rake", "~> 13.2"
+gem "refinements", "~> 13.0"
 gem "sinatra-activerecord", "~> 2.0"
 gem "sqlite3", "~> 2.5"
 
