@@ -57,14 +57,14 @@ class ScreenGenerator
       page.screenshot path: output.path, type: "png"
       firefox_browser.close
     end
-  rescue Puppeteer::TimeoutError, Puppeteer::FrameManager::NavigationError => e
+  rescue Puppeteer::TimeoutError, Puppeteer::FrameManager::NavigationError => error
     retry_count += 1
     firefox_browser.close
     if retry_count <= 1
       @browser = nil
       retry
     else
-      puts "ERROR -> Converter::Html#convert_to_image_by_firefox -> #{e.message}"
+      puts "ERROR -> Converter::Html#convert_to_image_by_firefox -> #{error.message}"
     end
   end
 
