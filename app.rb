@@ -106,9 +106,9 @@ get "/api/setup/" do
     image_url = "#{ENV["BASE_URL"]}/images/setup/setup-logo.bmp"
     message = "Welcome to TRMNL BYOS"
 
-    { status:, api_key:, friendly_id:, image_url:, message: }.to_json
+    {status:, api_key:, friendly_id:, image_url:, message:}.to_json
   else
-    { status: 404, api_key: nil, friendly_id: nil, image_url: nil, message: "MAC Address not registered" }.to_json
+    {status: 404, api_key: nil, friendly_id: nil, image_url: nil, message: "MAC Address not registered"}.to_json
   end
 end
 
@@ -132,7 +132,7 @@ get "/api/display/" do
       special_function: "sleep"
     }.to_json
   else
-    { status: 404 }.to_json
+    {status: 404}.to_json
   end
 end
 
