@@ -2,6 +2,10 @@
 
 require "simplecov"
 
+ENV['APP_ENV'] = 'test'
+ENV['RACK_ENV'] = 'test'
+ENV['BASE_URL'] = 'http://baseurl'
+
 unless ENV["NO_COVERAGE"]
   SimpleCov.start do
     add_filter %r(^/spec/)
@@ -39,9 +43,9 @@ RSpec.configure do |config|
 
   config.color = true
   config.disable_monkey_patching!
-  config.example_status_persistence_file_path = "./tmp/rspec-examples.txt"
+  config.example_status_persistence_file_path = './tmp/rspec-examples.txt'
   config.filter_run_when_matching :focus
-  config.formatter = ENV.fetch("CI", false) == "true" ? :progress : :documentation
+  config.formatter = ENV.fetch('CI', false) == 'true' ? :progress : :documentation
   config.order = :random
   config.pending_failure_output = :no_backtrace
   config.shared_context_metadata_behavior = :apply_to_host_groups

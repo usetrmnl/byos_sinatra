@@ -3,7 +3,6 @@
 require "dotenv/load"
 require "sinatra"
 require "sinatra/activerecord"
-require "uri"
 
 require_relative "config/initializers/explicit_forme_plugin"
 require_relative "config/initializers/tailwind_form"
@@ -92,25 +91,37 @@ post "/devices" do
 end
 
 get "/" do
+  @adoptable_devices = UnadoptedDevice.all
+
   erb :index
+end
+
+get "/setup/ignore/:id" do
+  unadopted_device = UnadoptedDevice.find(params[:id])
+
+  if unadopted_device
+    IgnoredMac.create!({ mac_address: unadopted_device.mac_address })
+    unadopted_device.destroy
+  end
+
+  redirect to("/")
+end
+
+get "/setup/adopt/:id" do
+  unadopted_device = UnadoptedDevice.find(params[:id])
+
+  unadopted_device&.update(adopted: true)
+
+  redirect to("/")
 end
 
 # FIRMWARE SETUP
 get "/api/setup/" do
+  setup_status = DeviceRegistration.call(env["HTTP_ID"])
+
   content_type :json
-  @device = Device.find_by_mac_address env["HTTP_ID"] # => ie "41:B4:10:39:A1:24"
-
-  if @device
-    status = 200
-    api_key = @device.api_key
-    friendly_id = @device.friendly_id
-    image_url = "#{ENV["BASE_URL"]}/images/setup/setup-logo.bmp"
-    message = "Welcome to TRMNL BYOS"
-
-    {status:, api_key:, friendly_id:, image_url:, message:}.to_json
-  else
-    {status: 404, api_key: nil, friendly_id: nil, image_url: nil, message: "MAC Address not registered"}.to_json
-  end
+  status setup_status[:api_status]
+  setup_status.to_json
 end
 
 # DISPLAY CONTENT
@@ -133,7 +144,8 @@ get "/api/display/" do
       special_function: "sleep"
     }.to_json
   else
-    {status: 404}.to_json
+    status 404
+    { status: 404 }.to_json
   end
 end
 
