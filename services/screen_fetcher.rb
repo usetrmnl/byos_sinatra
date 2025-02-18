@@ -4,7 +4,7 @@ class ScreenFetcher
   class << self
     attr_reader :base64
 
-    def call(base64: false)
+    def call base64: false
       @base64 = base64
       last_generated_image || empty_state_image
     end
