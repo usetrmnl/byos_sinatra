@@ -17,10 +17,10 @@ ENV["RACK_ENV"] = "test"
 Bundler.require :tools
 
 require "active_record"
+require "database_cleaner/active_record"
+require "nokogiri"
 require "rack/test"
 require "refinements"
-require "nokogiri"
-require "database_cleaner/active_record"
 
 require_relative "../app"
 
