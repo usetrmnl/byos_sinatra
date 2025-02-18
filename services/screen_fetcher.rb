@@ -10,7 +10,7 @@ class ScreenFetcher
     end
 
     def last_generated_image
-      full_img_path = Dir.glob(File.join(base_path, '*.*')).max { |a, b| File.ctime(a) <=> File.ctime(b) }
+      full_img_path = Dir.glob(File.join(base_path, "*.*")).max { |a, b| File.ctime(a) <=> File.ctime(b) }
       return nil unless full_img_path
 
       filename = File.basename(full_img_path) # => 1as4ff.bmp
@@ -27,11 +27,11 @@ class ScreenFetcher
     end
 
     def base_domain
-      ENV['BASE_URL']
+      ENV["BASE_URL"]
     end
 
     def empty_state_image
-      { filename: 'empty_state', image_url: "#{base_domain}/images/setup/setup-logo.bmp" }
+      { filename: "empty_state", image_url: "#{base_domain}/images/setup/setup-logo.bmp" }
     end
 
     def base_path

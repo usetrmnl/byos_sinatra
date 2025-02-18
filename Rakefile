@@ -6,8 +6,8 @@ require "reek/rake/task"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
 
-require './app'
-require 'sinatra/activerecord/rake'
+require "./app"
+require "sinatra/activerecord/rake"
 
 Git::Lint::Rake::Register.call
 Reek::Rake::Task.new

@@ -11,24 +11,24 @@ unless ENV["NO_COVERAGE"]
   end
 end
 
-ENV['APP_ENV'] = 'test'
-ENV['RACK_ENV'] = 'test'
+ENV["APP_ENV"] = "test"
+ENV["RACK_ENV"] = "test"
 
 Bundler.require :tools
 
-require 'active_record'
-require 'rack/test'
+require "active_record"
+require "rack/test"
 require "refinements"
-require 'nokogiri'
-require 'database_cleaner/active_record'
+require "nokogiri"
+require "database_cleaner/active_record"
 
-require_relative '../app'
+require_relative "../app"
 
 SPEC_ROOT = Pathname(__dir__).realpath.freeze
 
 ActiveRecord::Base.establish_connection(:test)
 ActiveRecord::Schema.verbose = false
-load 'db/schema.rb'
+load "db/schema.rb"
 
 using Refinements::Pathname
 
@@ -75,14 +75,14 @@ RSpec.configure do |config|
   def get_json(page, query_params = {}, env = {})
     get(page, query_params, env)
     @doc = last_response
-    expect(@doc.headers['content-type']).to eq('application/json')
+    expect(@doc.headers["content-type"]).to eq("application/json")
     [@doc, JSON.parse(@doc.body)]
   end
 
   def post_json(page, data, params = {}, env = {})
     post(page, JSON.generate(data), params, env)
     @doc = last_response
-    expect(@doc.headers['content-type']).to eq('application/json')
+    expect(@doc.headers["content-type"]).to eq("application/json")
     [@doc, JSON.parse(@doc.body)]
   end
 end
