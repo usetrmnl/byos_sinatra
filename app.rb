@@ -23,6 +23,7 @@ end
 end
 
 # rubocop:todo Metrics/AbcSize
+# rubocop:todo Metrics/MethodLength
 helpers do
   def create_forme model, _is_edit, attrs = {}, options = {}
     attrs[:method] = :post
@@ -43,6 +44,7 @@ helpers do
   end
 end
 # rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/MethodLength
 
 configure do
   set :json_encoder, :to_json

@@ -38,6 +38,7 @@ class ScreenGenerator
   # Constructs the command and passes the input to the vendor/puppeteer.js
   # script for processing. Returns a base64 encoded string
   # rubocop:todo Metrics/AbcSize
+  # rubocop:todo Metrics/MethodLength
   def convert_to_image
     retry_count = 0
     begin
@@ -69,6 +70,7 @@ class ScreenGenerator
     end
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   # See where the author reused the browser instance:
   # https://github.com/YusukeIwaki/puppeteer-ruby/pull/100/files
@@ -108,6 +110,7 @@ class ScreenGenerator
   end
 
   # rubocop:todo Metrics/AbcSize
+  # rubocop:todo Metrics/MethodLength
   def mono_image img
     # ImageMagick 6.XX used to convert the png to bitmap with dithering while maintaining the
     # channel to 1. The same seems to be broken with imagemagick 7.XX. In order to reduce the
@@ -131,6 +134,7 @@ class ScreenGenerator
     end
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def width = device[:width]
 

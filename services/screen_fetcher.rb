@@ -8,6 +8,7 @@ class ScreenFetcher
     last_generated_image || empty_state_image
   end
 
+  # rubocop:todo Metrics/MethodLength
   def self.last_generated_image
     full_img_path = Dir.glob(File.join(base_path, "*.*"))
                        .max { |a, b| File.ctime(a) <=> File.ctime(b) }
@@ -26,6 +27,7 @@ class ScreenFetcher
 
     {filename:, image_url:}
   end
+  # rubocop:enable Metrics/MethodLength
 
   def self.base_domain = ENV.fetch "BASE_URL"
 
