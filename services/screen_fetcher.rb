@@ -3,10 +3,12 @@
 class ScreenFetcher
   attr_reader :base64
 
+  # rubocop:todo Naming/MethodParameterName
   def self.call base64: false
     @base64 = base64
     last_generated_image || empty_state_image
   end
+  # rubocop:enable Naming/MethodParameterName
 
   # rubocop:todo Metrics/MethodLength
   def self.last_generated_image
