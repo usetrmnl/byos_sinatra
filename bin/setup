@@ -21,6 +21,7 @@ FileUtils.chdir APP_ROOT do
 
     path.write <<~BODY
       APP_ENV=production
+      APP_HOST=0.0.0.0
       BASE_URL=http://localhost:4567
     BODY
   end

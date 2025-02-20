@@ -16,17 +16,6 @@ Naming/VariableNumber:
     - 'services/screen_fetcher.rb'
 
 # Offense count: 1
-# Configuration parameters: AllowedAddresses.
-# AllowedAddresses: ::
-Style/IpAddresses:
-  Exclude:
-    - '**/*.gemfile'
-    - '**/Gemfile'
-    - '**/gems.rb'
-    - '**/*.gemspec'
-    - 'app.rb'
-
-# Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: line_count_dependent, lambda, literal
