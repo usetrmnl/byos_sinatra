@@ -17,6 +17,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y curl libjemalloc2
 
+      - name: Chromium Setup
+        uses: nanasess/setup-chromedriver@v2
+
+      - name: Chromium Start
+        run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+
       - name: Checkout
         uses: actions/checkout@v4
 
