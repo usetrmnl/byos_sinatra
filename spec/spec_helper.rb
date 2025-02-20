@@ -79,10 +79,12 @@ RSpec.configure do |config|
     [@doc, JSON.parse(@doc.body)]
   end
 
+  # rubocop:todo Metrics/ParameterLists
   def post_json page, data, params = {}, env = {}
     post page, JSON.generate(data), params, env
     @doc = last_response
     expect(@doc.headers["content-type"]).to eq("application/json")
     [@doc, JSON.parse(@doc.body)]
   end
+  # rubocop:enable Metrics/ParameterLists
 end
