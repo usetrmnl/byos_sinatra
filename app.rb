@@ -61,13 +61,14 @@ configure :development, :test, :production do
   set :force_ssl, false
 end
 
-# DEVICE MANAGEMENT
+# rubocop:todo Style/TopLevelMethodDefinition
 def devices_form device
   create_forme device,
                device.persisted?,
                {autocomplete: "off", action: "#{ENV.fetch "BASE_URL"}/devices"},
                {namespace: "device"}
 end
+# rubocop:enable Style/TopLevelMethodDefinition
 
 get "/devices/?" do
   @devices = Device.all
