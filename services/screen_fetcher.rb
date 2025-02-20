@@ -27,7 +27,7 @@ class ScreenFetcher
     {filename:, image_url:}
   end
 
-  def self.base_domain = ENV["BASE_URL"]
+  def self.base_domain = ENV.fetch "BASE_URL"
 
   def self.empty_state_image
     {filename: "empty_state", image_url: "#{base_domain}/images/setup/setup-logo.bmp"}
