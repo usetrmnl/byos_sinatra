@@ -16,29 +16,6 @@ Naming/VariableNumber:
     - 'services/screen_fetcher.rb'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: line_count_dependent, lambda, literal
-Style/Lambda:
-  Exclude:
-    - 'config/initializers/tailwind_form.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: if, case, both
-Style/MissingElse:
-  Exclude:
-    - 'app.rb'
-
-# Offense count: 1
-# Configuration parameters: SuspiciousParamNames, Allowlist.
-# SuspiciousParamNames: options, opts, args, params, parameters
-Style/OptionHash:
-  Exclude:
-    - 'app.rb'
-
-# Offense count: 1
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: respond_to_missing?
 Style/OptionalBooleanParameter:

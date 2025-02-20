@@ -25,18 +25,22 @@ end
 # rubocop:todo Metrics/MethodLength
 helpers do
   # rubocop:todo Metrics/ParameterLists
+  # rubocop:todo Style/OptionHash
   def create_forme model, _is_edit, attrs = {}, options = {}
     attrs[:method] = :post
     options = TailwindConfig.options.merge options
 
+    # rubocop:todo Style/MissingElse
     if model && model.persisted?
       attrs[:action] += "/#{model.id}" if model.id
 
-      options[:before] = lambda { |form|
+      options[:before] = lambda do |form|
         TailwindConfig.before.call form
         form.to_s << '<input name="_method" value="patch" type="hidden"/>'
-      }
+      end
     end
+    # rubocop:enable Style/MissingElse
+    # rubocop:enable Style/OptionHash
 
     f = Forme::Form.new model, options
     f.extend ExplicitFormePlugin
