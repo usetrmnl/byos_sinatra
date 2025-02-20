@@ -109,7 +109,13 @@ get "/api/setup/" do
 
     {status:, api_key:, friendly_id:, image_url:, message:}.to_json
   else
-    {status: 404, api_key: nil, friendly_id: nil, image_url: nil, message: "MAC Address not registered"}.to_json
+    {
+      status: 404,
+      api_key: nil,
+      friendly_id: nil,
+      image_url: nil,
+      message: "MAC Address not registered"
+    }.to_json
   end
 end
 
@@ -123,7 +129,8 @@ get "/api/display/" do
     screen = ScreenFetcher.call(base64:)
 
     {
-      status: 0, # on core TRMNL server, status 202 loops device back to /api/setup unless User is connected, which doesn't apply here
+      # FIX: On Core, a 202 status loops device back to /api/setup unless User is connected.
+      status: 0,
       image_url: screen[:image_url],
       filename: screen[:filename],
       refresh_rate: @device.refresh_interval,

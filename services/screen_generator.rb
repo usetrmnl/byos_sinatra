@@ -68,9 +68,11 @@ class ScreenGenerator
     end
   end
 
-  # Refer this PR where the author reused the browser instance https://github.com/YusukeIwaki/puppeteer-ruby/pull/100/files
-  # This will increase the throughput of our image rendering process by 60-70%, saving about ~1.5 second per image generation.
-  # On local it takes < 1 second now to generate the subsequent image.
+  # See where the author reused the browser instance:
+  # https://github.com/YusukeIwaki/puppeteer-ruby/pull/100/files
+  # This will increase the throughput of our image rendering process by 60-70%,
+  # saving about ~1.5 second per image generation. On local it takes < 1 second now to
+  # generate the subsequent image.
   def firefox_browser
     @firefox_browser ||= Puppeteer.launch(
       product: "firefox",
@@ -104,10 +106,9 @@ class ScreenGenerator
   end
 
   def mono_image img
-    # Changelog:
-    # ImageMagick 6.XX used to convert the png to bitmap with dithering while maintaining the channel to 1
-    # The same seems to be broken with imagemagick 7.XX
-    # So in order to reduce the channel from 8 to 1, I just rerun the command, and it's working
+    # ImageMagick 6.XX used to convert the png to bitmap with dithering while maintaining the
+    # channel to 1. The same seems to be broken with imagemagick 7.XX. In order to reduce the
+    # channel from 8 to 1, I just rerun the command, and it's working.
     # TODO for future, find a better way to generate image screens.
     MiniMagick::Tool::Convert.new do |m|
       m << img.path
