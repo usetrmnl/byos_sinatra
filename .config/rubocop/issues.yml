@@ -17,12 +17,6 @@ Naming/VariableNumber:
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/UnfreezeString:
-  Exclude:
-    - 'config/initializers/explicit_forme_plugin.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
 RSpec/BeEq:
   Exclude:
     - 'spec/display_spec.rb'
