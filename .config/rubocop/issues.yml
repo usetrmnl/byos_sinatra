@@ -15,11 +15,6 @@ Naming/VariableNumber:
     - 'app.rb'
     - 'services/screen_fetcher.rb'
 
-# Offense count: 1
-Style/AutoResourceCleanup:
-  Exclude:
-    - 'services/screen_fetcher.rb'
-
 # Offense count: 3
 # Configuration parameters: AllowedVariables.
 Style/GlobalVars:
