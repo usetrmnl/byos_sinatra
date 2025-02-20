@@ -16,20 +16,6 @@ Naming/VariableNumber:
     - 'services/screen_fetcher.rb'
 
 # Offense count: 1
-RSpec/MultipleDescribes:
-  Exclude:
-    - 'spec/app_spec.rb'
-
-# Offense count: 5
-RSpec/MultipleExpectations:
-  Max: 4
-
-# Offense count: 2
-RSpec/RepeatedExampleGroupBody:
-  Exclude:
-    - 'spec/app_spec.rb'
-
-# Offense count: 1
 Style/AutoResourceCleanup:
   Exclude:
     - 'services/screen_fetcher.rb'
