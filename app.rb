@@ -26,13 +26,15 @@ helpers do
   def create_forme model, _is_edit, attrs = {}, options = {}
     attrs[:method] = :post
     options = TailwindConfig.options.merge options
-    if model&.persisted?
+
+    if model && model.persisted?
       attrs[:action] += "/#{model.id}" if model.id
       options[:before] = lambda { |form|
         TailwindConfig.before.call form
         form.to_s << '<input name="_method" value="patch" type="hidden"/>'
       }
     end
+
     f = Forme::Form.new model, options
     f.extend ExplicitFormePlugin
     f.form_tag attrs
