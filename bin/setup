@@ -14,4 +14,17 @@ end
 FileUtils.chdir APP_ROOT do
   puts "Installing dependencies..."
   Runner.call "bundle install"
+
+  puts "Setting environment variables..."
+  APP_ROOT.join(".env").then do |path|
+    break if path.exist?
+
+    path.write <<~BODY
+      APP_ENV=production
+      BASE_URL=http://localhost:4567
+    BODY
+  end
+
+  puts "Preparing database..."
+  Runner.call "bin/rake", "db:prepare"
 end
