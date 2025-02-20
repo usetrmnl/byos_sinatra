@@ -22,6 +22,7 @@ end
   Dir["#{Dir.pwd}/#{sub_dir}/*.rb"].each { |file| require file }
 end
 
+# rubocop:todo Metrics/AbcSize
 helpers do
   def create_forme model, _is_edit, attrs = {}, options = {}
     attrs[:method] = :post
@@ -41,6 +42,7 @@ helpers do
     f
   end
 end
+# rubocop:enable Metrics/AbcSize
 
 configure do
   set :json_encoder, :to_json
