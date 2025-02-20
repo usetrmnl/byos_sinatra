@@ -18,7 +18,7 @@ To set up project, run:
 
 [source,bash]
 ----
-git clone https://github.com/bkuhlmann/byos_sinatra
+git clone https://github.com/usetrmnl/byos_sinatra
 cd byos_sinatra
 bin/setup
 ----
@@ -31,7 +31,7 @@ To contribute, run:
 
 [source,bash]
 ----
-git clone https://github.com/bkuhlmann/byos_sinatra
+git clone https://github.com/usetrmnl/byos_sinatra
 cd byos_sinatra
 bin/setup
 ----
