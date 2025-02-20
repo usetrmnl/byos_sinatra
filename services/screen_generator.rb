@@ -20,7 +20,7 @@ class ScreenGenerator
 
   attr_accessor :input, :output, :image, :processor
 
-  def initialize html, image = false
+  def initialize html, image: false
     self.input = html
     self.image = image
   end
