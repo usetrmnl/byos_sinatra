@@ -21,7 +21,7 @@ class ScreenFetcher
     relative_img_path = "images/generated/#{filename}"
 
     image_url = if base64
-                  img = File.open "public/#{relative_img_path}"
+                  img = File.open { "public/#{relative_img_path}" }
                   "data:image/png;base64,#{Base64.strict_encode64 img.read}"
                 else
                   "#{base_domain}/#{relative_img_path}"
