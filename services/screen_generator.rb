@@ -6,6 +6,7 @@ require "mini_magick"
 require "puppeteer-ruby"
 
 class ScreenGenerator
+  # rubocop:todo Style/GlobalVars
   def Ferrum.cached_browser
     return nil unless $cached_browser
 
@@ -15,6 +16,7 @@ class ScreenGenerator
   def Ferrum.cached_browser= value
     $cached_browser = value
   end
+  # rubocop:enable Style/GlobalVars
 
   attr_accessor :input, :output, :image, :processor
 
