@@ -4,7 +4,7 @@
 require "bundler/setup"
 Bundler.require :tools
 
-require Bundler.root.join("lib/byos_sinatra").to_s
+require Bundler.root.join("app").to_s
 require "irb"
 
 IRB.start __FILE__
