@@ -14,6 +14,7 @@ module TailwindConfig
   def self.after = -> form { "#{form} </div>" }
 
   # rubocop:todo Layout/LineLength
+  # rubocop:todo Metrics/MethodLength
   def self.options
     {
       labeler: :explicit,
@@ -55,4 +56,5 @@ module TailwindConfig
     }
   end
   # rubocop:enable Layout/LineLength
+  # rubocop:enable Metrics/MethodLength
 end
