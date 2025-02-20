@@ -8,7 +8,7 @@ require "puppeteer-ruby"
 class ScreenGenerator
   # rubocop:todo Style/GlobalVars
   def Ferrum.cached_browser
-    return nil unless $cached_browser
+    return unless $cached_browser
 
     $cached_browser
   end

@@ -15,15 +15,6 @@ Naming/VariableNumber:
     - 'app.rb'
     - 'services/screen_fetcher.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: return, return_nil
-Style/ReturnNil:
-  Exclude:
-    - 'services/screen_fetcher.rb'
-    - 'services/screen_generator.rb'
-
 # Offense count: 1
 Style/TopLevelMethodDefinition:
   Exclude:

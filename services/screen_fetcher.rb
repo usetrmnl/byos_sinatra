@@ -15,7 +15,7 @@ class ScreenFetcher
     full_img_path = Dir.glob(File.join(base_path, "*.*"))
                        .max { |a, b| File.ctime(a) <=> File.ctime(b) }
 
-    return nil unless full_img_path
+    return unless full_img_path
 
     filename = File.basename full_img_path # => 1as4ff.bmp
     relative_img_path = "images/generated/#{filename}"
