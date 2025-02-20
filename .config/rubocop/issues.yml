@@ -18,15 +18,6 @@ Layout/LineLength:
     - 'services/screen_fetcher.rb'
     - 'services/screen_generator.rb'
 
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBrackets.
-# SupportedStyles: space, no_space, compact
-# SupportedStylesForEmptyBrackets: space, no_space
-Layout/SpaceInsideArrayLiteralBrackets:
-  Exclude:
-    - 'models/device.rb'
-
 # Offense count: 1
 # Configuration parameters: AllowComments.
 Lint/EmptyFile:
