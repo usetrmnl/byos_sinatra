@@ -15,12 +15,6 @@ Naming/VariableNumber:
     - 'app.rb'
     - 'services/screen_fetcher.rb'
 
-# Offense count: 3
-# Configuration parameters: AllowedVariables.
-Style/GlobalVars:
-  Exclude:
-    - 'services/screen_generator.rb'
-
 # Offense count: 1
 # Configuration parameters: AllowedAddresses.
 # AllowedAddresses: ::
