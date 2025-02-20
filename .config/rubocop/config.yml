@@ -1,4 +1,7 @@
 inherit_gem:
   caliber: config/all.yml
 
-inherit_from: issues.yml
+Naming/VariableNumber:
+  Exclude:
+    - app.rb
+    - services/screen_fetcher.rb
