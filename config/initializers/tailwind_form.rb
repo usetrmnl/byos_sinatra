@@ -3,22 +3,17 @@
 require "forme"
 
 module TailwindConfig
-  def self.label_attr
-    {
-      class: "block text-gray-700 text-md leading-4 font-medium mb-2"
-    }
-  end
+  def self.label_attr = {class: "block text-gray-700 text-md leading-4 font-medium mb-2"}
 
   def self.before
-    lambda { |form|
-      form.to_s << '<div class="rounded-xl bg-gray-50 shadow-sm border mb-6 divide-y divide-gray-200">'
-    }
+    lambda do |form|
+      %(#{form} <div class="rounded-xl bg-gray-50 shadow-sm border mb-6 divide-y divide-gray-200">)
+    end
   end
 
-  def self.after
-    lambda { |form| form.to_s << "</div>" }
-  end
+  def self.after = -> form { "#{form} </div>" }
 
+  # rubocop:todo Layout/LineLength
   def self.options
     {
       labeler: :explicit,
@@ -59,4 +54,5 @@ module TailwindConfig
       }
     }
   end
+  # rubocop:enable Layout/LineLength
 end

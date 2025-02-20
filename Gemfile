@@ -17,8 +17,10 @@ gem "refinements", "~> 13.0"
 gem "sinatra-activerecord", "~> 2.0"
 gem "sqlite3", "~> 2.5"
 
-# browser automation
-gem "ferrum", git: "https://github.com/rubycdp/ferrum.git", ref: "7cc1a63351232b10f9ce191104efe6e9c72acca2"
+gem "ferrum",
+    git: "https://github.com/rubycdp/ferrum.git",
+    ref: "7cc1a63351232b10f9ce191104efe6e9c72acca2"
+
 gem "puppeteer-ruby", "~> 0.45"
 
 group :quality do
