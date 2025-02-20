@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
-require_relative "spec_helper"
+require_relative "sinatra_helper"
 
 RSpec.describe "API setup path tests", type: :feature do
+  subject(:app) { Sinatra::Application }
+
+  include_context "with API"
+
   it "answers not registered when MAC address is invalid" do
-    payload = get_json "/api/setup/"
+    get "/api/setup/"
     expect(payload[:message]).to eq("MAC Address not registered")
   end
 
@@ -13,7 +17,7 @@ RSpec.describe "API setup path tests", type: :feature do
     device = Device.create! name: "Test Trmnl", mac_address: mac
 
     header "ID", mac
-    payload = get_json "/api/setup/"
+    get "/api/setup/"
 
     expect(payload).to eq(
       status: 200,

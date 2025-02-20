@@ -3,6 +3,8 @@
 require_relative "sinatra_helper"
 
 RSpec.describe "Routes", type: :feature do
+  subject(:app) { Sinatra::Application }
+
   it "visits root and instructs how to setup device" do
     visit "/"
     expect(page).to have_content("To set up your device")
