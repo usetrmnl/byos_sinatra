@@ -1,15 +1,14 @@
-#! /usr/bin/env ruby
-# frozen_string_literal: true
+#! /usr/bin/env bash
 
-require "bundler/setup"
-Bundler.require :tools
+set -o nounset
+set -o errexit
+set -o pipefail
+IFS=$'\n\t'
 
-system <<~COMMAND
-  docker run \
-         --disable-content-trust \
-         --pull never \
-         --interactive \
-         --tty \
-         --rm byos_sinatra:latest \
-         bash
-COMMAND
+docker run \
+       --disable-content-trust \
+       --pull never \
+       --interactive \
+       --tty \
+       --rm byos_sinatra:latest \
+       bash
