@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 require "dotenv/load"
+require "refinements/pathname"
 require "sinatra"
 require "sinatra/activerecord"
 require "uri"
 
 require_relative "config/initializers/explicit_forme_plugin"
 require_relative "config/initializers/tailwind_form"
+
+using Refinements::Pathname
+
+Pathname.require_tree "#{__dir__}/lib"
 
 set :bind, ENV.fetch("APP_HOST")
 set :port, 4567
