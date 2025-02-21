@@ -1,16 +1,15 @@
-#! /usr/bin/env ruby
-# frozen_string_literal: true
+#! /usr/bin/env bash
 
-require "bundler/setup"
-Bundler.require :tools
+set -o nounset
+set -o errexit
+set -o pipefail
+IFS=$'\n\t'
 
-version = Bundler.root.join(".ruby-version").read.chop
+read -r version < ".ruby-version"
 
-system <<~COMMAND
-  docker buildx \
-         build \
-         --load \
-         --build-arg RUBY_VERSION=#{version} \
-         --tag byos_sinatra:latest \
-         #{Bundler.root}
-COMMAND
+docker buildx \
+       build \
+       --load \
+       --build-arg RUBY_VERSION="${version}" \
+       --tag byos_sinatra:latest \
+       "$(pwd)"
