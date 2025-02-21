@@ -2,9 +2,10 @@
 
 require_relative "../services/mac_validation"
 
+# The device model.
 class Device < ActiveRecord::Base
   DEFAULT_DEVICE_NAME = "My TRMNL"
-  MODEL = [ {name: "og", width: 800, height: 480, color_depth: 1} ].freeze
+  MODEL = [{name: "og", width: 800, height: 480, color_depth: 1}].freeze
 
   def self.default_scope
     where(adopted: true)

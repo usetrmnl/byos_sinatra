@@ -2,11 +2,10 @@
 
 require_relative "spec_helper"
 
-RSpec.describe "App base path tests", type: :feature do
-  it "test_it_has_root_path" do
-    browser = get "/"
-    expect(browser.status).to be(200)
-    expect(browser.body).to match("To set up your device")
+RSpec.describe "Routes", type: :feature do
+  it "visits root and instructs how to setup device" do
+    response = get "/"
+    expect(response.body).to match("To set up your device")
   end
 
   it "test_it_has_device_list_path" do

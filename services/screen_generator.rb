@@ -6,8 +6,9 @@ require "mini_magick"
 require "puppeteer-ruby"
 
 class ScreenGenerator
+  # rubocop:todo Style/GlobalVars
   def Ferrum.cached_browser
-    return nil unless $cached_browser
+    return unless $cached_browser
 
     $cached_browser
   end
@@ -15,10 +16,11 @@ class ScreenGenerator
   def Ferrum.cached_browser= value
     $cached_browser = value
   end
+  # rubocop:enable Style/GlobalVars
 
   attr_accessor :input, :output, :image, :processor
 
-  def initialize html, image = false
+  def initialize html, image: false
     self.input = html
     self.image = image
   end
@@ -37,6 +39,8 @@ class ScreenGenerator
 
   # Constructs the command and passes the input to the vendor/puppeteer.js
   # script for processing. Returns a base64 encoded string
+  # rubocop:todo Metrics/AbcSize
+  # rubocop:todo Metrics/MethodLength
   def convert_to_image
     retry_count = 0
     begin
@@ -67,10 +71,14 @@ class ScreenGenerator
       puts "ERROR -> Converter::Html#convert_to_image_by_firefox -> #{error.message}"
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
-  # Refer this PR where the author reused the browser instance https://github.com/YusukeIwaki/puppeteer-ruby/pull/100/files
-  # This will increase the throughput of our image rendering process by 60-70%, saving about ~1.5 second per image generation.
-  # On local it takes < 1 second now to generate the subsequent image.
+  # See where the author reused the browser instance:
+  # https://github.com/YusukeIwaki/puppeteer-ruby/pull/100/files
+  # This will increase the throughput of our image rendering process by 60-70%,
+  # saving about ~1.5 second per image generation. On local it takes < 1 second now to
+  # generate the subsequent image.
   def firefox_browser
     @firefox_browser ||= Puppeteer.launch(
       product: "firefox",
@@ -103,11 +111,12 @@ class ScreenGenerator
     end
   end
 
+  # rubocop:todo Metrics/AbcSize
+  # rubocop:todo Metrics/MethodLength
   def mono_image img
-    # Changelog:
-    # ImageMagick 6.XX used to convert the png to bitmap with dithering while maintaining the channel to 1
-    # The same seems to be broken with imagemagick 7.XX
-    # So in order to reduce the channel from 8 to 1, I just rerun the command, and it's working
+    # ImageMagick 6.XX used to convert the png to bitmap with dithering while maintaining the
+    # channel to 1. The same seems to be broken with imagemagick 7.XX. In order to reduce the
+    # channel from 8 to 1, I just rerun the command, and it's working.
     # TODO for future, find a better way to generate image screens.
     MiniMagick::Tool::Convert.new do |m|
       m << img.path
@@ -126,6 +135,8 @@ class ScreenGenerator
       m << ("bmp3:" << img.path) # Converts to Bitmap.
     end
   end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   def width = device[:width]
 

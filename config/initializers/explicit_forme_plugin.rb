@@ -20,11 +20,5 @@ module ExplicitFormePlugin
     @to_s[form_len..]
   end
 
-  def form_output &block
-    form_str = String.new
-    form_str << explicit_open
-    form_str << block.call if block_given?
-    form_str << explicit_close
-    form_str
-  end
+  def form_output = "#{explicit_open}#{yield if block_given?}#{explicit_close}"
 end

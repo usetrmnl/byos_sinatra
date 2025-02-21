@@ -2,15 +2,30 @@
 :toclevels: 5
 :figure-caption!:
 
-= Byos Sinatra
+:docker_link: link:https://www.docker.com[Docker]
+:trmnl_link: link:https://usetrmnl.com[TRMNL]
+
+= TRMNL BYOS (Ruby/Sinatra)
+
+This project allows you to point a {trmnl_link} device to your own server which can be running on your local network or in the cloud.
 
 toc::[]
 
 == Features
 
+* Allows you to run your own server.
+* Allows you to customize and tweak behavior as desired.
+
+== Screencasts
+
+video::3xehPW-PCOM[youtube,role=video]
+
 == Requirements
 
 . link:https://www.ruby-lang.org[Ruby].
+. {docker_link} (optional).
+. A TRMNL device.
+. TRMNL firmware (forked with new base url - your server)
 
 == Setup
 
@@ -24,6 +39,11 @@ bin/setup
 ----
 
 == Usage
+
+[source,bash]
+----
+bundle exec ruby app.rb
+----
 
 == Development
 
@@ -43,6 +63,34 @@ You can also use the IRB console for direct access to all objects:
 bin/console
 ----
 
+Once in the console, you can then do the following:
+
+[source,ruby]
+----
+# View all devices.
+Device.all
+
+# Fetch upcoming render, sorts in descending order by created timestamp.
+ScreenFetcher.call
+
+# Create new image in `/public/images/generated`.
+ScreenGenerator.new("<p>Some HTML here</p>").process
+----
+
+To build a {docker_link} image, run:
+
+[source,bash]
+----
+bin/docker/build
+----
+
+To work witin your {docker_link} image, run:
+
+[source,bash]
+----
+bin/docker/console
+----
+
 == Tests
 
 To test, run:
@@ -52,9 +100,21 @@ To test, run:
 bin/rake
 ----
 
-== link:https://alchemists.io/policies/security[Security]
+== Deployement
+
+*Local*
+
+. Configure `BASE_URL` within `.env` to where your app is hosted (i.e. `http://192.168.x.x:4567`). 💡 Lack of trailing slash is important.
+. Run app in production mode: `ruby app.rb`.
+. Retrieve your machine's local IP, ex 192.168.x.x (Mac: `ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'`)
+. Confirm the application works by visiting `http://192.168.x.x:4567/devices` from any device also on the network.
+. Point your [forked firmware](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to same value as `BASE_URL`.
+
+*Hosted*
+
+More details to be provided soon.
 
 == Credits
 
 * Built with link:https://alchemists.io/projects/rubysmith[Rubysmith].
-* Engineered by link:https://alchemists.io/team/brooke_kuhlmann[Brooke Kuhlmann].
+* Engineered by {trmnl_link}.

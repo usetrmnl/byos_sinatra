@@ -3,9 +3,9 @@
 require_relative "spec_helper"
 
 RSpec.describe "API setup path tests", type: :feature do
-  it "test_it_has_api_setup_path" do
-    _, body = get_json "/api/setup/"
-    expect(body["message"]).to eq("MAC Address not registered")
+  it "answers not registered when MAC address is invalid" do
+    payload = get_json "/api/setup/"
+    expect(payload[:message]).to eq("MAC Address not registered")
   end
 
   it 'test_it_will_not_add_invalid_macs_to_the_database' do

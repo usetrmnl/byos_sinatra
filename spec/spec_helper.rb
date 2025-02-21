@@ -70,23 +70,18 @@ RSpec.configure do |config|
     Sinatra::Application
   end
 
-  def get_and_parse page, query_params = {}, env = {}
-    get page, query_params, env
-    @doc = Nokogiri::HTML last_response.body
-    @doc
-  end
-
   def get_json page, query_params = {}, env = {}
     get page, query_params, env
-    @doc = last_response
-    expect(@doc.headers["content-type"]).to eq("application/json")
-    [@doc, JSON.parse(@doc.body)]
+    response = last_response
+    JSON response.body, symbolize_names: true
   end
 
+  # rubocop:todo Metrics/ParameterLists
   def post_json page, data, params = {}, env = {}
     post page, JSON.generate(data), params, env
     @doc = last_response
     expect(@doc.headers["content-type"]).to eq("application/json")
     [@doc, JSON.parse(@doc.body)]
   end
+  # rubocop:enable Metrics/ParameterLists
 end

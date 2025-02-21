@@ -3,10 +3,12 @@
 class ScreenFetcher
   attr_reader :base64
 
+  # rubocop:todo Naming/MethodParameterName
   def self.call base64: false
     @base64 = base64
     last_generated_image || empty_state_image
   end
+  # rubocop:enable Naming/MethodParameterName
 
   def self.find_last_updated_file
     Dir.glob(File.join(base_path, '*.*')).max { |a, b| File.ctime(a) <=> File.ctime(b) }
@@ -14,13 +16,13 @@ class ScreenFetcher
 
   def self.last_generated_image
     full_img_path = find_last_updated_file
-    return nil unless full_img_path
+    return unless full_img_path
 
     filename = File.basename(full_img_path) # => 1as4ff.bmp
     relative_img_path = "images/generated/#{filename}"
 
     image_url = if @base64
-                  img = File.open("public/#{relative_img_path}")
+                  img = File.open { "public/#{relative_img_path}" }
                   "data:image/png;base64,#{Base64.strict_encode64(img.read)}"
                 else
                   "#{base_domain}/#{relative_img_path}"
@@ -29,7 +31,7 @@ class ScreenFetcher
     { filename: filename, image_url: image_url }
   end
 
-  def self.base_domain = ENV["BASE_URL"]
+  def self.base_domain = ENV.fetch "BASE_URL"
 
   def self.base_path = "#{Dir.pwd}/public/images/generated/"
 
