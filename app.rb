@@ -144,7 +144,7 @@ get "/api/display/" do
 
   if @device
     base64 = (env["HTTP_BASE64"] || params[:base64]) == "true"
-    screen = ScreenFetcher.call(base64:)
+    screen = Screens::Fetcher.call(base64:)
 
     {
       # FIX: On Core, a 202 status loops device back to /api/setup unless User is connected.
