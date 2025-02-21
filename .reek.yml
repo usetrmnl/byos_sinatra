@@ -10,5 +10,5 @@ exclude_paths:
   - db
   - config
   - models
-  - services
+  - lib/
   - app.rb

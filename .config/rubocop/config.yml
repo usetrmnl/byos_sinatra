@@ -4,4 +4,4 @@ inherit_gem:
 Naming/VariableNumber:
   Exclude:
     - app.rb
-    - services/screen_fetcher.rb
+    - lib/screens/fetcher.rb
