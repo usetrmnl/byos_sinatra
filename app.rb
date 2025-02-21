@@ -143,8 +143,8 @@ get "/api/display/" do
   @device = Device.find_by_api_key env["HTTP_ACCESS_TOKEN"]
 
   if @device
-    base64 = (env["HTTP_BASE64"] || params[:base64]) == "true"
-    screen = Screens::Fetcher.call(base64:)
+    encryption = :base_64 if (env["HTTP_BASE64"] || params[:base64]) == "true"
+    screen = Screens::Fetcher.new(encryption:).call Pathname.pwd.join("public/images/generated")
 
     {
       # FIX: On Core, a 202 status loops device back to /api/setup unless User is connected.

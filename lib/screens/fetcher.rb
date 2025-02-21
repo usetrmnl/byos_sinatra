@@ -1,43 +1,44 @@
 # frozen_string_literal: true
 
+require "refinements/pathname"
+
 module Screens
+  # Fetches image for rendering on device screen.
   class Fetcher
-    attr_reader :base64
+    using Refinements::Pathname
 
-    # rubocop:todo Naming/MethodParameterName
-    def self.call base64: false
-      @base64 = base64
-      last_generated_image || empty_state_image
-    end
-    # rubocop:enable Naming/MethodParameterName
+    ALLOWED_ENCRYPTIONS = %i[base_64].freeze
 
-    # rubocop:todo Metrics/MethodLength
-    def self.last_generated_image
-      full_img_path = Dir.glob(File.join(base_path, "*.*"))
-                         .max { |a, b| File.ctime(a) <=> File.ctime(b) }
-
-      return unless full_img_path
-
-      filename = File.basename full_img_path # => 1as4ff.bmp
-      relative_img_path = "images/generated/#{filename}"
-
-      image_url = if base64
-                    img = File.open { "public/#{relative_img_path}" }
-                    "data:image/png;base64,#{Base64.strict_encode64 img.read}"
-                  else
-                    "#{base_domain}/#{relative_img_path}"
-                  end
-
-      {filename:, image_url:}
-    end
-    # rubocop:enable Metrics/MethodLength
-
-    def self.base_domain = ENV.fetch "BASE_URL"
-
-    def self.empty_state_image
-      {filename: "empty_state", image_url: "#{base_domain}/images/setup/setup-logo.bmp"}
+    def initialize encryption: nil, allowed_encryptions: ALLOWED_ENCRYPTIONS, environment: ENV
+      @encryption = encryption
+      @allowed_encryptions = allowed_encryptions
+      @environment = environment
     end
 
-    def self.base_path = "#{Dir.pwd}/public/images/generated/"
+    def call(root_path = Pathname.pwd) = last_generated_image(root_path) || default_image
+
+    private
+
+    attr_reader :encryption, :allowed_encryptions, :environment
+
+    def last_generated_image root_path
+      image_path = root_path.files("*.bmp").max_by(&:ctime)
+
+      return unless image_path
+
+      filename = image_path.basename.to_s
+
+      if allowed_encryptions.include?(encryption) && encryption == :base_64
+        {filename:, image_url: "data:image/bmp;base64,#{Base64.strict_encode64 image_path.read}"}
+      else
+        {filename:, image_url: "#{domain}/images/generated/#{filename}"}
+      end
+    end
+
+    def default_image
+      {filename: "empty_state", image_url: "#{domain}/images/setup/setup-logo.bmp"}
+    end
+
+    def domain = environment.fetch "BASE_URL"
   end
 end
