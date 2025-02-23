@@ -16,9 +16,6 @@
 /.dockerignore
 /Dockerfile*
 
-# Environment
-/.env*
-
 # Git
 /.git/
 /.gitignore

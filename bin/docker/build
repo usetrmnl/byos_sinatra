@@ -7,9 +7,33 @@ IFS=$'\n\t'
 
 read -r version < ".ruby-version"
 
+DOCKER_TAG="byos_sinatra:latest"
+APP_ENV="production"
+BUILD_ARGS=("--build-arg" "RUBY_VERSION=${version}")
+while [ -n "${1-}" ]; do
+       if [ ${1-""} == "-t" ]; then
+              shift
+              DOCKER_TAG="${1:-$DOCKER_TAG}"
+       fi
+       if [ ${1-""} == "--dev" ]; then
+              APP_ENV="development"
+              BUILD_ARGS+=("--build-arg" "RACK_ENV=development" "--build-arg" "BUNDLE_WITHOUT=''")
+       fi
+       shift
+done
+
+if [ ! -e .env ]; then
+       echo "No dotenv found. Using default environment"
+       cat <<DOTENV > .env
+APP_ENV=${APP_ENV}
+APP_HOST=0.0.0.0
+BASE_URL=http://localhost:4567
+DOTENV
+fi
+
 docker buildx \
        build \
        --load \
-       --build-arg RUBY_VERSION="${version}" \
-       --tag byos_sinatra:latest \
+       "${BUILD_ARGS[@]}" \
+       --tag $DOCKER_TAG \
        "$(pwd)"
