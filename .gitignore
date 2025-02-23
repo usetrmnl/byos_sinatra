@@ -1,7 +1,5 @@
 .bundle
 .env
-db/*.sqlite3
-db/*.sqlite3-*
-db/sqlite/*.sqlite3
+db/sqlite
 public/images/generated/*.bmp
 tmp
