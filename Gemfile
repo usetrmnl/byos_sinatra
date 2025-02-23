@@ -5,6 +5,7 @@ ruby file: ".ruby-version"
 source "https://rubygems.org"
 
 gem "activerecord", "~> 8.0"
+gem "ferrum", "~> 0.15"
 gem "forme", "~> 2.6"
 gem "json", "~> 2.10"
 gem "mini_magick", "~> 5.1"
