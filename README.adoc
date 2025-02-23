@@ -42,7 +42,7 @@ bin/setup
 
 [source,bash]
 ----
-bundle exec ruby app.rb
+ruby app.rb
 ----
 
 == Development
@@ -71,10 +71,10 @@ Once in the console, you can then do the following:
 Device.all
 
 # Fetch upcoming render, sorts in descending order by created timestamp.
-ScreenFetcher.call
+Images::Fetcher.new.call
 
 # Create new image in `/public/images/generated`.
-ScreenGenerator.new("<p>Some HTML here</p>").process
+Images::Creator.new.call "<p>hi</p>"
 ----
 
 To build a {docker_link} image, run:
