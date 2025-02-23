@@ -352,6 +352,7 @@ DEPENDENCIES
   dotenv (~> 3.1)
   ferrum (~> 0.15)
   forme (~> 2.6)
+  ferrum (~> 0.15)
   git-lint (~> 9.0)
   irb-kit (~> 1.1)
   json (~> 2.10)

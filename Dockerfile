@@ -12,16 +12,19 @@ RUN <<STEPS
   && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 STEPS
 
-ENV RACK_ENV=production
+ARG RACK_ENV="production"
+ARG BUNDLE_WITHOUT="development:quality:test:tools"
+ENV RACK_ENV="$RACK_ENV"
+ENV BUNDLE_WITHOUT="$BUNDLE_WITHOUT"
+
 ENV BUNDLE_DEPLOYMENT=1
 ENV BUNDLE_PATH=/usr/local/bundle
-ENV BUNDLE_WITHOUT="development:quality:test:tools"
 
 FROM base AS build
 
 RUN <<STEPS
   apt-get update -qq \
-  && apt-get install --no-install-recommends -y build-essential git pkg-config \
+  && apt-get install --no-install-recommends -y build-essential git pkg-config libyaml-dev \
   && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 STEPS
 
@@ -43,9 +46,10 @@ RUN <<STEPS
 STEPS
 
 RUN groupadd --system --gid 1000 app && \
-    useradd app --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
-    chown -R app:app log tmp
+  useradd app --uid 1000 --gid 1000 --create-home --shell /bin/bash && \
+  chown -R app:app log tmp
 
 USER 1000:1000
 
 ENTRYPOINT ["/app/bin/docker/entrypoint"]
+CMD [ "bundle", "exec", "ruby", "app.rb" ]
