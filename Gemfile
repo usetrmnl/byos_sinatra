@@ -24,6 +24,7 @@ group :quality do
 end
 
 group :development do
+  gem "localhost", "~> 1.3"
   gem "rake", "~> 13.2"
 end
 
