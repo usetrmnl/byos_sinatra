@@ -2,6 +2,7 @@
 
 require "forme"
 
+# Defines Tailwind configuration.
 module TailwindConfig
   def self.label_attr = {class: "block text-gray-700 text-md leading-4 font-medium mb-2"}
 
