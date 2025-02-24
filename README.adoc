@@ -14,7 +14,8 @@ toc::[]
 == Features
 
 * Allows you to run your own server.
-* Allows you to customize and tweak behavior as desired.
+* Includes link:https://puma.io[Puma].
+* Includes link:https://www.sqlite.org[SQLite].
 
 == Screencasts
 
@@ -25,7 +26,6 @@ video::3xehPW-PCOM[youtube,role=video]
 . link:https://www.ruby-lang.org[Ruby].
 . {docker_link} (optional).
 . A TRMNL device.
-. TRMNL firmware (forked with new base url - your server)
 
 == Setup
 
@@ -42,8 +42,10 @@ bin/setup
 
 [source,bash]
 ----
-ruby app.rb
+bundle exec puma --config ./config/puma.rb
 ----
+
+💡 Install link:https://github.com/DarthSim/overmind[Overmind] and run `overmind start` to run with full access to all processes (including remote debugging).
 
 == Development
 
@@ -73,8 +75,17 @@ Device.all
 # Fetch upcoming render, sorts in descending order by created timestamp.
 Images::Fetcher.new.call
 
-# Create new image in `/public/images/generated`.
-Images::Creator.new.call "<p>hi</p>"
+# To generate default image.
+Images::Creator.new.call "<p>Test.</p>"
+#<Pathname:byos_sinatra/public/images/generated/81673687-28b0-4a0c-8efc-ebb344b63cf9.bmp>
+
+# To generate image with custom path.
+Images::Creator.new.call "<p>Test.</p>", Pathname.pwd.join("test.bmp")
+#<Pathname:byos_sinatra/test.bmp>
+
+# To generate image with custom path and dynamic name.
+Images::Creator.new.call "<p>Test.</p>", Pathname.pwd.join("%<name>s.bmp")
+#<Pathname:byos_sinatra/c8e41972-c7bb-47d8-b927-ddcf50d20367.bmp>
 ----
 
 To build a {docker_link} image, run:
@@ -104,11 +115,11 @@ bin/rake
 
 *Local*
 
-. Configure `BASE_URL` within `.env` to where your app is hosted (i.e. `http://192.168.x.x:4567`). 💡 Lack of trailing slash is important.
-. Run app in production mode: `ruby app.rb`.
+. Configure `APP_URL` within `.env` to where your app is hosted (i.e. `http://192.168.x.x:4567`). 💡 Lack of trailing slash is important.
+. Prefix `RACK_ENV=production` before launching the server to run in production mode.
 . Retrieve your machine's local IP, ex 192.168.x.x (Mac: `ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}'`)
 . Confirm the application works by visiting `http://192.168.x.x:4567/devices` from any device also on the network.
-. Point your [forked firmware](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to same value as `BASE_URL`.
+. Point your [forked firmware](https://github.com/usetrmnl/firmware) `API_BASE_URL` ([source](https://github.com/usetrmnl/firmware/blob/2ee0723c66a3468b969c83d7663ffb3f8322ad99/include/config.h#L56)) to same value as `APP_URL`.
 
 *Hosted*
 
