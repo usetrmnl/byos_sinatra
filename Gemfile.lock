@@ -369,6 +369,7 @@ DEPENDENCIES
   simplecov (~> 0.22)
   sinatra-activerecord (~> 2.0)
   sqlite3 (~> 2.5)
+  zeitwerk (~> 2.7)
 
 RUBY VERSION
    ruby 3.4.2p28
