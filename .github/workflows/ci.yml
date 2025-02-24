@@ -15,7 +15,7 @@ jobs:
       - name: System Update
         run: |
           sudo apt-get update
-          sudo apt-get install --no-install-recommends -y curl libjemalloc2
+          sudo apt-get install --no-install-recommends -y curl libjemalloc2 imagemagick
 
       - name: Chromium Setup
         uses: nanasess/setup-chromedriver@v2
