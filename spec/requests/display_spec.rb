@@ -7,12 +7,12 @@ RSpec.describe "Display path tests" do
 
   include_context "with API"
 
-  it "test_it_has_api_display_path" do
+  it "answers not found for index with invalid access token" do
     get "/api/display/", format: :json
     expect(payload[:status]).to eq(404)
   end
 
-  it "test_it_has_a_display_path_with_a_device" do
+  it "answers devices with valid access token" do
     device = Device.create! name: "Test Trmnl", mac_address: "aa:ab:ac:00:00:01"
     header "ACCESS_TOKEN", device.api_key
     get "/api/display/"
