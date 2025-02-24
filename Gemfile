@@ -5,13 +5,12 @@ ruby file: ".ruby-version"
 source "https://rubygems.org"
 
 gem "activerecord", "~> 8.0"
+gem "dotenv", "~> 3.1"
 gem "ferrum", "~> 0.15"
 gem "forme", "~> 2.6"
 gem "json", "~> 2.10"
 gem "mini_magick", "~> 5.1"
-gem "pry", "~> 0.15"
 gem "puma", "~> 6.6"
-gem "puppeteer-ruby", "~> 0.45"
 gem "rackup", "~> 2.2"
 gem "refinements", "~> 13.0"
 gem "sinatra-activerecord", "~> 2.0"
@@ -22,10 +21,6 @@ group :quality do
   gem "git-lint", "~> 9.0"
   gem "reek", "~> 6.4", require: false
   gem "simplecov", "~> 0.22", require: false
-end
-
-group :development, :test do
-  gem "dotenv", "~> 3.1", groups: %i[development test]
 end
 
 group :development do
