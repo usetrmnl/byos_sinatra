@@ -1,20 +1,13 @@
 # frozen_string_literal: true
 
-require "dotenv/load"
-require "refinements/pathname"
-require "sinatra"
-require "sinatra/activerecord"
-require "uri"
-
-require_relative "config/initializers/explicit_forme_plugin"
-require_relative "config/initializers/tailwind_form"
+require_relative "config/application"
 
 module TRMNL
   # rubocop:todo Metrics/ClassLength
   class Application < Sinatra::Base
-    using Refinements::Pathname
-
-    Pathname.require_tree "#{__dir__}/lib"
+    def self.loader registry = Zeitwerk::Registry
+      @loader ||= registry.loaders.find { |loader| loader.tag == "trmnl-application" }
+    end
 
     configure :production do
       base_url = URI.parse ENV.fetch "APP_URL"
