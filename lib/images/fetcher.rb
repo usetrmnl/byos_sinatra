@@ -39,6 +39,6 @@ module Images
       {filename: "empty_state", image_url: "#{domain}/images/setup/setup-logo.bmp"}
     end
 
-    def domain = environment.fetch "BASE_URL"
+    def domain = environment.fetch "APP_URL"
   end
 end
