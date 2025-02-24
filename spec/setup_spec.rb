@@ -3,7 +3,7 @@
 require_relative "sinatra_helper"
 
 RSpec.describe "API setup path tests", type: :feature do
-  subject(:app) { Sinatra::Application }
+  subject(:app) { TRMNL::Application }
 
   include_context "with API"
 

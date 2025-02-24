@@ -17,7 +17,7 @@ ActiveRecord::Schema.verbose = false
 load "db/schema.rb"
 
 ENV["LD_PRELOAD"] = nil
-Capybara.app = Sinatra::Application
+Capybara.app = TRMNL::Application
 Capybara.server = :puma, {Silent: true, Threads: "0:1"}
 Capybara.javascript_driver = :cuprite
 Capybara.save_path = Bundler.root.join "tmp/capybara"
