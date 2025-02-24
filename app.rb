@@ -17,7 +17,7 @@ module TRMNL
     Pathname.require_tree "#{__dir__}/lib"
 
     configure :production do
-      base_url = URI.parse ENV.fetch "BASE_URL"
+      base_url = URI.parse ENV.fetch "APP_URL"
       use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.host]
     end
 
@@ -59,7 +59,7 @@ module TRMNL
 
     configure do
       set :json_encoder, :to_json
-      set :base_url, ENV.fetch("BASE_URL")
+      set :base_url, ENV.fetch("APP_URL")
     end
 
     configure :development, :test, :production do
@@ -69,7 +69,7 @@ module TRMNL
     def devices_form device
       create_forme device,
                    device.persisted?,
-                   {autocomplete: "off", action: "#{ENV.fetch "BASE_URL"}/devices"},
+                   {autocomplete: "off", action: "#{ENV.fetch "APP_URL"}/devices"},
                    {namespace: "device"}
     end
 
@@ -87,7 +87,7 @@ module TRMNL
     get "/devices/:id/delete" do
       @device = Device.find params[:id]
       @device.destroy
-      redirect to(%(#{ENV.fetch "BASE_URL"}/devices))
+      redirect to(%(#{ENV.fetch "APP_URL"}/devices))
     end
 
     get "/devices/:id/edit" do
@@ -99,12 +99,12 @@ module TRMNL
     patch "/devices/:id" do
       device = Device.find params[:id]
       device.update params[:device]
-      redirect to(%(#{ENV.fetch "BASE_URL"}/devices))
+      redirect to(%(#{ENV.fetch "APP_URL"}/devices))
     end
 
     post "/devices" do
       Device.create! params[:device]
-      redirect to(%(#{ENV.fetch "BASE_URL"}/devices))
+      redirect to(%(#{ENV.fetch "APP_URL"}/devices))
     end
 
     get "/" do
@@ -120,7 +120,7 @@ module TRMNL
         status = 200
         api_key = @device.api_key
         friendly_id = @device.friendly_id
-        image_url = %(#{ENV.fetch "BASE_URL"}/images/setup/setup-logo.bmp)
+        image_url = %(#{ENV.fetch "APP_URL"}/images/setup/setup-logo.bmp)
         message = "Welcome to TRMNL BYOS"
 
         {status:, api_key:, friendly_id:, image_url:, message:}.to_json

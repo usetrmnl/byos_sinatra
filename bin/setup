@@ -20,9 +20,9 @@ FileUtils.chdir APP_ROOT do
     break if path.exist?
 
     path.write <<~BODY
-      APP_ENV=production
       APP_HOST=0.0.0.0
-      BASE_URL=http://localhost:4567
+      APP_URL=http://localhost:4567
+      RACK_ENV=production
     BODY
   end
 

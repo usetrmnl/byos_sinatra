@@ -9,7 +9,7 @@ RSpec.describe Images::Fetcher do
 
   include_context "with temporary directory"
 
-  let(:environment) { {"BASE_URL" => "https://test.io"} }
+  let(:environment) { {"APP_URL" => "https://test.io"} }
 
   describe "#call" do
     let(:fixture_path) { SPEC_ROOT.join "support/fixtures/test.bmp" }

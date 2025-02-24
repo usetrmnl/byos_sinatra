@@ -23,7 +23,7 @@ RSpec.describe "API setup path tests", type: :feature do
       status: 200,
       api_key: device.api_key,
       friendly_id: device.friendly_id,
-      image_url: %(#{ENV.fetch "BASE_URL"}/images/setup/setup-logo.bmp),
+      image_url: %(#{ENV.fetch "APP_URL"}/images/setup/setup-logo.bmp),
       message: "Welcome to TRMNL BYOS"
     )
   end
