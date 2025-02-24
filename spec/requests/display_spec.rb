@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "sinatra_helper"
+require "sinatra_helper"
 
-RSpec.describe "Display path tests", type: :feature do
+RSpec.describe "Display path tests" do
   subject(:app) { TRMNL::Application }
 
   include_context "with API"
