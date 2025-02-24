@@ -2,7 +2,7 @@
 
 require "refinements/pathname"
 
-module Screens
+module Images
   # Fetches image for rendering on device screen.
   class Fetcher
     using Refinements::Pathname

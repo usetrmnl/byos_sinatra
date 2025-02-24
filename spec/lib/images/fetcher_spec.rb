@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe Screens::Fetcher do
+RSpec.describe Images::Fetcher do
   using Refinements::Pathname
 
   subject(:fetcher) { described_class.new environment: }
