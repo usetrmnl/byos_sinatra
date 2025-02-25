@@ -1,8 +1,0 @@
-<%= @form.input :name, label: "Name", placeholder: "My TRMNL" %>
-<%= @form.input :mac_address, label: "MAC Address", placeholder: "xx:xx:xx:xx:xx:xx" %>
-<% if @device.persisted? %>
-  <%= @form.input :refresh_interval, label: "Refresh Interval", placeholder: "15" %>
-  <%= @form.input :friendly_id, label: "Friendly ID", placeholder: "office_desk" %>
-  <%= @form.input :api_key, label: "API Key", placeholder: "xxxxxxxxxx" %>
-<% end %>
-<%= @form.button 'Save' %>
