@@ -3,7 +3,6 @@
 require_relative "config/application"
 
 module TRMNL
-  # rubocop:todo Metrics/ClassLength
   class Application < Sinatra::Base
     def self.loader registry = Zeitwerk::Registry
       @loader ||= registry.loaders.find { |loader| loader.tag == "trmnl-application" }
@@ -13,37 +12,6 @@ module TRMNL
       base_url = URI.parse ENV.fetch "APP_URL"
       use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.host]
     end
-
-    # rubocop:todo Metrics/AbcSize
-    # rubocop:todo Metrics/MethodLength
-    helpers do
-      # rubocop:todo Metrics/ParameterLists
-      # rubocop:todo Style/OptionHash
-      def create_forme model, _is_edit, attrs = {}, options = {}
-        attrs[:method] = :post
-        options = TailwindConfig.options.merge options
-
-        # rubocop:todo Style/MissingElse
-        if model && model.persisted?
-          attrs[:action] += "/#{model.id}" if model.id
-
-          options[:before] = lambda do |form|
-            TailwindConfig.before.call form
-            form.to_s << '<input name="_method" value="patch" type="hidden"/>'
-          end
-        end
-        # rubocop:enable Style/MissingElse
-        # rubocop:enable Style/OptionHash
-
-        f = Forme::Form.new model, options
-        f.extend ExplicitFormePlugin
-        f.form_tag attrs
-        f
-      end
-      # rubocop:enable Metrics/ParameterLists
-    end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
 
     configure do
       set :json_encoder, :to_json
@@ -65,8 +33,10 @@ module TRMNL
     end
 
     post "/devices" do
-      Device.create! params[:device]
-      redirect to(%(#{ENV.fetch "APP_URL"}/devices))
+      device = Device.create! params[:device]
+      view = Views::Devices::Show.new
+
+      view.call(device:, layout: false).to_s
     end
 
     get "/devices/new" do
@@ -151,5 +121,4 @@ module TRMNL
       puts "API/LOG: #{env}"
     end
   end
-  # rubocop:enable Metrics/ClassLength
 end
