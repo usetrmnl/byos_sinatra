@@ -14,11 +14,6 @@ module TRMNL
       use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.host]
     end
 
-    # make model, service classes accessible
-    %w[models services].each do |sub_dir|
-      Dir["#{Dir.pwd}/#{sub_dir}/*.rb"].each { |file| require file }
-    end
-
     # rubocop:todo Metrics/AbcSize
     # rubocop:todo Metrics/MethodLength
     helpers do
