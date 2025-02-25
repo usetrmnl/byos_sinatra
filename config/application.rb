@@ -9,7 +9,6 @@ Zeitwerk::Loader.new.then do |loader|
   loader.push_dir "#{__dir__}/../app"
   loader.push_dir "#{__dir__}/../app/models"
   loader.push_dir "#{__dir__}/../lib"
-  loader.push_dir "#{__dir__}/initializers"
   loader.tag = "trmnl-application"
   loader.setup
 end
