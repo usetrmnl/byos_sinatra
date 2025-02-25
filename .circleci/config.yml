@@ -1,0 +1,58 @@
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/project
+    docker:
+      - image: bkuhlmann/alpine-ruby:latest
+        environment:
+          APP_HOST: 0.0.0.0
+          APP_URL: http://localhost:4567
+          RACK_ENV: test
+    steps:
+      - run:
+          name: ImageMagick Install
+          command: apk add imagemagick
+
+      - run:
+          name: Chromium Install
+          command: apk add gcompat glib nss libxcb libgcc chromium
+
+      - run:
+          name: Chromium Start
+          command: |
+            export DISPLAY=:99
+            chromedriver --url-base=/wd/hub &
+
+      - checkout
+
+      - restore_cache:
+          name: Gems Restore
+          keys:
+            - gem-cache-{{.Branch}}-{{checksum "Gemfile.lock"}}
+            - gem-cache-
+
+      - run:
+          name: Gems Install
+          command: |
+            gem update --system
+            bundle config set path "vendor/bundle"
+            bundle install
+
+      - save_cache:
+          name: Gems Store
+          key: gem-cache-{{.Branch}}-{{checksum "Gemfile.lock"}}
+          paths:
+            - vendor/bundle
+
+      - run:
+          name: Database Setup
+          command: bin/rake db:prepare
+
+      - run:
+          name: Build
+          command: bin/rake
+
+      - store_artifacts:
+          name: SimpleCov Archive
+          path: ~/project/coverage
+          destination: coverage
