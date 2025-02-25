@@ -35,7 +35,7 @@ GEM
       rubocop-performance (~> 1.24)
       rubocop-rake (~> 0.7)
       rubocop-rspec (~> 3.5)
-      rubocop-thread_safety (~> 0.7)
+      rubocop-thread_safety (~> 0.6)
     capybara (3.40.0)
       addressable
       matrix
