@@ -28,8 +28,6 @@ module Images
 
     attr_reader :settings, :browser
 
-    def launch = browser.new settings
-
     # :reek:FeatureEnvy
     # :reek:TooManyStatements
     def save content, path
