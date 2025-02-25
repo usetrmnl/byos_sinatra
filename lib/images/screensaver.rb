@@ -7,8 +7,10 @@ module Images
   class Screensaver
     SETTINGS = {
       browser_options: {
-        "disable-web-security" => nil,
-        "hide-scrollbar" => nil
+        "disable-dev-shm-usage" => nil,
+        "disable-gpu" => nil,
+        "hide-scrollbar" => nil,
+        "no-sandbox" => nil
       },
       js_errors: true,
       window_size: [800, 480]
