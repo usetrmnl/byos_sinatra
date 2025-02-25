@@ -10,16 +10,23 @@ read -r version < ".ruby-version"
 DOCKER_TAG="byos_sinatra:latest"
 APP_ENV="production"
 BUILD_ARGS=("--build-arg" "RUBY_VERSION=${version}")
+
 while [ -n "${1-}" ]; do
-       if [ ${1-""} == "-t" ]; then
-              shift
-              DOCKER_TAG="${1:-$DOCKER_TAG}"
-       fi
-       if [ ${1-""} == "--dev" ]; then
-              APP_ENV="development"
-              BUILD_ARGS+=("--build-arg" "RACK_ENV=development" "--build-arg" "BUNDLE_WITHOUT=''")
-       fi
-       shift
+  case "${1-}" in
+    -t)
+      shift
+      DOCKER_TAG="${1:-$DOCKER_TAG}"
+      ;;
+    --dev)
+      APP_ENV="development"
+      BUILD_ARGS+=("--build-arg" "RACK_ENV=development" "--build-arg" "BUNDLE_WITHOUT=''")
+      ;;
+    *)
+      echo "Unknown argument \"$1\""
+      exit
+      ;;
+   esac
+   shift
 done
 
 if [ ! -e .env ]; then
