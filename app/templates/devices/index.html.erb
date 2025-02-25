@@ -1,0 +1,17 @@
+<a href="/devices/new">Add New</a>
+
+<% devices.each do |device| %>
+  <article>
+    <header><%= device.name %></header>
+
+    <ul>
+      <li><strong>Friendly ID</strong>: <%= device.friendly_id %></li>
+      <li><strong>API Key</strong>: <%= device.api_key %></li>
+    </ul>
+
+    <footer>
+      <a href="/devices/<%= device.id %>/edit">Edit</a>
+      <a href="/devices/<%= device.id %>/delete">Delete</a>
+    </footer>
+  </article>
+<% end %>

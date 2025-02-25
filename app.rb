@@ -48,17 +48,11 @@ module TRMNL
     configure do
       set :json_encoder, :to_json
       set :base_url, ENV.fetch("APP_URL")
+      set :views, Bundler.root.join("app/templates")
     end
 
     configure :development, :test, :production do
       set :force_ssl, false
-    end
-
-    def devices_form device
-      create_forme device,
-                   device.persisted?,
-                   {autocomplete: "off", action: "#{ENV.fetch "APP_URL"}/devices"},
-                   {namespace: "device"}
     end
 
     get "/devices/?" do
@@ -68,7 +62,6 @@ module TRMNL
 
     get "/devices/new" do
       @device = Device.new
-      @form = devices_form @device
       erb :"devices/new"
     end
 
@@ -80,7 +73,6 @@ module TRMNL
 
     get "/devices/:id/edit" do
       @device = Device.find params[:id]
-      @form = devices_form @device
       erb :"devices/edit"
     end
 
