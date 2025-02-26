@@ -10,7 +10,9 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 
     <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+          href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.conditional.min.css">
+
+    <link rel="stylesheet" href="/site.css">
 
     <script src="https://unpkg.com/htmx.org@2.0.4"
             integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
@@ -23,9 +25,7 @@
     </script>
   </head>
 
-  <body class="site-page">
-    <main class="container">
-      <%= yield %>
-    </main>
+  <body class="container">
+    <%= yield %>
   </body>
 </html>
