@@ -28,6 +28,7 @@ end
 group :development do
   gem "localhost", "~> 1.3"
   gem "rake", "~> 13.2"
+  gem "rerun", "~> 0.14.0"
 end
 
 group :test do
