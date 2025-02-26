@@ -1,17 +1,37 @@
-<a href="/devices/new">Add New</a>
-
-<% devices.each do |device| %>
-  <article>
-    <header><%= device.name %></header>
-
+<header class="pico">
+  <nav>
     <ul>
-      <li><strong>Friendly ID</strong>: <%= device.friendly_id %></li>
-      <li><strong>API Key</strong>: <%= device.api_key %></li>
+      <li><strong>TRMNL</strong></li>
     </ul>
 
-    <footer>
-      <a href="/devices/<%= device.id %>/edit">Edit</a>
-      <a href="/devices/<%= device.id %>/delete">Delete</a>
-    </footer>
-  </article>
-<% end %>
+    <ul>
+      <li><a href="/">Home</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="page-devices">
+  <h1>Devices</h1>
+
+  <ul class="columns">
+    <li class="label">Name</li>
+    <li class="label">Friendly ID</li>
+    <li class="label">MAC</li>
+    <li class="label">Actions</li>
+  </ul>
+
+  <ul class="devices">
+    <% devices.each do |device| %>
+      <%= device.render :device %>
+    <% end %>
+  </ul>
+
+  <a href="/devices/new"
+     class="button button-new"
+     hx-get="/devices/new"
+     hx-trigger="click, keyup[ctrlKey&&key=='n'] from:body"
+     hx-target=".devices"
+     hx-swap="beforeend settle:0.1s">
+    New
+  </a>
+</main>
