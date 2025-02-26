@@ -55,31 +55,13 @@ module TRMNL
       set :force_ssl, false
     end
 
-    get "/devices/?" do
-      @devices = Device.all
-      erb :"devices/index"
+    get "/" do
+      Views::Home::Show.new.call.to_s
     end
 
-    get "/devices/new" do
-      @device = Device.new
-      erb :"devices/new"
-    end
-
-    get "/devices/:id/delete" do
-      @device = Device.find params[:id]
-      @device.destroy
-      redirect to(%(#{ENV.fetch "APP_URL"}/devices))
-    end
-
-    get "/devices/:id/edit" do
-      @device = Device.find params[:id]
-      erb :"devices/edit"
-    end
-
-    patch "/devices/:id" do
-      device = Device.find params[:id]
-      device.update params[:device]
-      redirect to(%(#{ENV.fetch "APP_URL"}/devices))
+    get "/devices" do
+      view = Views::Devices::Index.new
+      view.call(devices: Device.all).to_s
     end
 
     post "/devices" do
@@ -87,11 +69,37 @@ module TRMNL
       redirect to(%(#{ENV.fetch "APP_URL"}/devices))
     end
 
-    get "/" do
-      erb :index
+    get "/devices/new" do
+      view = Views::Devices::New.new
+      view.call(device: Device.new, layout: false).to_s
     end
 
-    # FIRMWARE SETUP
+    get "/devices/:id/edit" do
+      device = Device.find params[:id]
+      view = Views::Devices::Edit.new
+      view.call(device:).to_s
+    end
+
+    get "/devices/:id" do
+      device = Device.find params[:id]
+      view = Views::Devices::Show.new
+
+      view.call(device:).to_s
+    end
+
+    put "/devices/:id" do
+      device = Device.find params[:id]
+      view = Views::Devices::Show.new
+
+      device.update! params[:device]
+      view.call(device:).to_s
+    end
+
+    delete "/devices/:id" do
+      Device.find(params[:id]).destroy!
+      body ""
+    end
+
     get "/api/setup/" do
       content_type :json
       @device = Device.find_by_mac_address env["HTTP_ID"] # => ie "41:B4:10:39:A1:24"
@@ -115,7 +123,6 @@ module TRMNL
       end
     end
 
-    # DISPLAY CONTENT
     get "/api/display/" do
       content_type :json
       @device = Device.find_by_api_key env["HTTP_ACCESS_TOKEN"]
@@ -140,7 +147,6 @@ module TRMNL
       end
     end
 
-    # ERROR MESSAGES
     post "/api/log" do
       puts "API/LOG: #{env}"
     end
