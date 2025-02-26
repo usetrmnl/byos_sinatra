@@ -28,4 +28,14 @@ FileUtils.chdir APP_ROOT do
 
   puts "Preparing database..."
   Runner.call "bin/rake", "db:prepare"
+
+  APP_ROOT.join("Procfile.dev").then do |path|
+    if path.exist?
+      puts "Procfile.dev exists. Skipped."
+    else
+      puts "Creating Procfile.dev..."
+      path.write %(web: rerun --dir app,config,lib --pattern="**/*.{erb,rb}" -- ) +
+                 "bundle exec puma --config ./config/puma.rb"
+    end
+  end
 end
