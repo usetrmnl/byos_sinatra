@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "sinatra_helper"
+require "sinatra_helper"
 
-RSpec.describe "Routes", type: :feature do
+RSpec.describe "Routes" do
   subject(:app) { TRMNL::Application }
 
   describe ".loader" do

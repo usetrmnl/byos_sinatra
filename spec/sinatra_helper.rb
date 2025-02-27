@@ -32,8 +32,12 @@ Pathname.require_tree SPEC_ROOT.join("support/shared_contexts/sinatra")
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
-  config.include Capybara::DSL, Capybara::RSpecMatchers, :web
+  config.include Capybara::DSL, Capybara::RSpecMatchers
   config.include Rack::Test::Methods, type: :request
+
+  config.define_derived_metadata file_path: Regexp.new("/spec/features/") do |metadata|
+    metadata[:type] = :feature
+  end
 
   config.after do
     DatabaseCleaner.strategy = :truncation
