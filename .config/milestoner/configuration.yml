@@ -1,0 +1,19 @@
+organization:
+  label: "TRMNL"
+  uri: "https://usetrmnl.com"
+project:
+  owner: "usetrmnl"
+  uri:
+    icon: "%<organization_uri>s/favicon.ico"
+    logo: "%<organization_uri>s/images/brand/icon--brand.png"
+syndication:
+  id: "%<project_uri_version>s/%<id>s"
+  links:
+    - label: "%<organization_label>s: %<project_label>s (web)"
+      mime: "text/html"
+      relation: "alternate"
+      uri: "%<project_uri_home>s/tags"
+    - label: "%<organization_label>s: %<project_label>s (feed)"
+      mime: "application/atom+xml"
+      relation: "self"
+      uri: "%<organization_uri>s/feeds/projects/%<project_name>s.xml"
