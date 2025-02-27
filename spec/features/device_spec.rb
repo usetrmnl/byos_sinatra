@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "sinatra_helper"
+require "sinatra_helper"
 
-RSpec.describe "Devices", type: :feature do
+RSpec.describe "Devices" do
   subject(:app) { TRMNL::Application }
 
   let(:device) { Device.create! name: "Test", mac_address: "aa:bb:cc:01:02:03" }
