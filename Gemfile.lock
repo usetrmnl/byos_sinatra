@@ -373,6 +373,7 @@ DEPENDENCIES
   forme (~> 2.6)
   git-lint (~> 9.0)
   hanami-view (~> 2.2)
+  infusible (~> 4.2)
   irb-kit (~> 1.1)
   json (~> 2.10)
   launchy (~> 3.1)
