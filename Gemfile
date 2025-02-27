@@ -5,6 +5,7 @@ ruby file: ".ruby-version"
 source "https://rubygems.org"
 
 gem "activerecord", "~> 8.0"
+gem "containable", "~> 1.1"
 gem "dotenv", "~> 3.1"
 gem "ferrum", "~> 0.15"
 gem "forme", "~> 2.6"
