@@ -4,6 +4,14 @@ require_relative "config/application"
 
 module TRMNL
   class Application < Sinatra::Base
+    include Views::Dependencies[
+      device_edit_view: "devices.edit",
+      device_index_view: "devices.index",
+      device_new_view: "devices.new",
+      device_show_view: "devices.show",
+      home_show_view: "home.show"
+    ]
+
     def self.loader registry = Zeitwerk::Registry
       @loader ||= registry.loaders.find { |loader| loader.tag == "trmnl-application" }
     end
@@ -24,45 +32,37 @@ module TRMNL
     end
 
     get "/" do
-      Views::Home::Show.new.call.to_s
+      home_show_view.call.to_s
     end
 
     get "/devices" do
-      view = Views::Devices::Index.new
-      view.call(devices: Device.all).to_s
+      device_index_view.call(devices: Device.all).to_s
     end
 
     post "/devices" do
       device = Device.create! params[:device]
-      view = Views::Devices::Show.new
-
-      view.call(device:, layout: false).to_s
+      device_show_view.call(device:, layout: false).to_s
     end
 
     get "/devices/new" do
-      view = Views::Devices::New.new
-      view.call(device: Device.new, layout: false).to_s
+      device_new_view.call(device: Device.new, layout: false).to_s
     end
 
     get "/devices/:id/edit" do
       device = Device.find params[:id]
-      view = Views::Devices::Edit.new
-      view.call(device:).to_s
+      device_edit_view.call(device:).to_s
     end
 
     get "/devices/:id" do
       device = Device.find params[:id]
-      view = Views::Devices::Show.new
-
-      view.call(device:).to_s
+      device_show_view.call(device:).to_s
     end
 
     put "/devices/:id" do
       device = Device.find params[:id]
-      view = Views::Devices::Show.new
 
       device.update! params[:device]
-      view.call(device:).to_s
+      device_show_view.call(device:).to_s
     end
 
     delete "/devices/:id" do
