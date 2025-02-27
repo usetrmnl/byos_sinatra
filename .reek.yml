@@ -7,8 +7,4 @@ detectors:
     enabled: false
 
 exclude_paths:
-  - db
-  - config
-  - models
-  - lib/
-  - app.rb
+  - db/migrate

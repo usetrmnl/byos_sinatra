@@ -3,6 +3,7 @@
 require_relative "config/application"
 
 module TRMNL
+  # The web application.
   class Application < Sinatra::Base
     include Views::Dependencies[
       device_edit_view: "devices.edit",
