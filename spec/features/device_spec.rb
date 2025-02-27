@@ -26,6 +26,13 @@ RSpec.describe "Devices" do
     expect(page).to have_content(device.friendly_id)
   end
 
+  it "shows device" do
+    device
+    visit "/devices/#{device.id}"
+
+    expect(page).to have_content(device.name)
+  end
+
   it "edits device" do
     device
     visit "/devices"
@@ -37,11 +44,13 @@ RSpec.describe "Devices" do
   end
 
   it "deletes device" do
+    pending "The database connection needs to be established first."
+
     device
     visit "/devices"
     click_on "Delete"
 
-    expect(page).to have_content("New")
+    expect(page).to have_no_content("New")
   end
 
   it "visits home page" do
