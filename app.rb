@@ -16,6 +16,7 @@ module TRMNL
       @loader ||= registry.loaders.find { |loader| loader.tag == "trmnl-application" }
     end
 
+    # :nocov:
     configure :production do
       base_url = URI.parse ENV.fetch "APP_URL"
       use Rack::Protection::HostAuthorization, permitted_hosts: [base_url.host]
