@@ -9,7 +9,14 @@ RSpec.describe "API setup path tests" do
 
   it "answers not registered when MAC address is invalid" do
     get "/api/setup/"
-    expect(payload[:message]).to eq("MAC Address not registered")
+
+    expect(payload).to eq(
+      status: 404,
+      api_key: nil,
+      friendly_id: nil,
+      image_url: nil,
+      message: "MAC Address not registered"
+    )
   end
 
   it "registers device" do
