@@ -5,6 +5,8 @@ require_relative "config/application"
 module TRMNL
   # The web application.
   class Application < Sinatra::Base
+    include Dependencies[:log_keys, :logger]
+
     include Views::Dependencies[
       device_edit_view: "devices.edit",
       device_index_view: "devices.index",
@@ -74,53 +76,59 @@ module TRMNL
 
     get "/api/setup/" do
       content_type :json
-      @device = Device.find_by_mac_address env["HTTP_ID"] # => ie "41:B4:10:39:A1:24"
+      device = Device.find_by_mac_address env["HTTP_ID"]
+      payload = {}
 
-      if @device
-        status = 200
-        api_key = @device.api_key
-        friendly_id = @device.friendly_id
-        image_url = %(#{ENV.fetch "APP_URL"}/images/setup/setup-logo.bmp)
-        message = "Welcome to TRMNL BYOS"
-
-        {status:, api_key:, friendly_id:, image_url:, message:}.to_json
+      if device
+        payload.merge! status: 200,
+                       api_key: device.api_key,
+                       friendly_id: device.friendly_id,
+                       image_url: %(#{ENV.fetch "APP_URL"}/images/setup/setup-logo.bmp),
+                       message: "Welcome to TRMNL BYOS"
       else
-        {
-          status: 404,
-          api_key: nil,
-          friendly_id: nil,
-          image_url: nil,
-          message: "MAC Address not registered"
-        }.to_json
+        payload.merge! status: 404,
+                       api_key: nil,
+                       friendly_id: nil,
+                       image_url: nil,
+                       message: "MAC Address not registered"
+
+        status 404
       end
+
+      logger.info(path: env.fetch("PATH_INFO"), **payload)
+      payload.to_json
     end
 
     get "/api/display/" do
       content_type :json
-      @device = Device.find_by_api_key env["HTTP_ACCESS_TOKEN"]
+      device = Device.find_by_api_key env["HTTP_ACCESS_TOKEN"]
+      payload = {}
 
-      if @device
+      if device
         encryption = :base_64 if (env["HTTP_BASE64"] || params[:base64]) == "true"
         screen = Images::Fetcher.new(encryption:).call Pathname.pwd.join("public/images/generated")
 
-        {
-          # FIX: On Core, a 202 status loops device back to /api/setup unless User is connected.
-          status: 0,
-          image_url: screen[:image_url],
-          filename: screen[:filename],
-          refresh_rate: @device.refresh_interval,
-          reset_firmware: false,
-          update_firmware: false,
-          firmware_url: nil,
-          special_function: "sleep"
-        }.to_json
+        # FIX: On Core, a 202 status loops device back to /api/setup unless User is connected.
+        payload.merge! status: 0,
+                       image_url: screen[:image_url],
+                       filename: screen[:filename],
+                       refresh_rate: device.refresh_interval,
+                       reset_firmware: false,
+                       update_firmware: false,
+                       firmware_url: nil,
+                       special_function: "sleep"
       else
-        {status: 404}.to_json
+        status 404
+        payload[:status] = 404
       end
+
+      logger.info(path: env.fetch("PATH_INFO"), **payload)
+      payload.to_json
     end
 
     post "/api/log" do
-      puts "API/LOG: #{env}"
+      logger.info(**env.slice(*log_keys))
+      ""
     end
   end
 end
