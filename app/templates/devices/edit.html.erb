@@ -9,6 +9,11 @@
              placeholder="MAC"
              autocomplete="mac">
 
+      <input name="device[refresh_interval]"
+             value="<%= device.refresh_interval %>"
+             placeholder="Refresh Rate"
+             autocomplete="refresh_rate">
+
       <input type="submit"
              value="Save"
              hx-put="/devices/<%= device.id %>"
