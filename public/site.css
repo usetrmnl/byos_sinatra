@@ -29,7 +29,7 @@
     border-radius: 0.5rem;
     display: grid;
     gap: 0.5rem;
-    grid-template: 1fr / repeat(4, 1fr);
+    grid-template: 1fr / repeat(auto-fit, minmax(0, 1fr));
     margin: 0;
     padding: 0.5rem 1rem;
   }
