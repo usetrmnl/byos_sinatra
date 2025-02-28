@@ -17,13 +17,12 @@ RSpec.describe "Devices" do
   it "creates device" do
     visit "/devices"
     click_on "New"
-    fill_in "Name", with: "Test"
+    fill_in "Name", with: "Test New"
     fill_in "MAC", with: "aa:bb:cc:01:02:03"
+    fill_in "Refresh Rate", with: 100
     click_on "Save"
 
-    device = Device.find_by name: "Test"
-
-    expect(page).to have_content(device.friendly_id)
+    expect(page).to have_content(/Test New.+aa:bb:cc:01:02:03.+100/)
   end
 
   it "shows device" do
@@ -38,9 +37,11 @@ RSpec.describe "Devices" do
     visit "/devices"
     click_on "Edit"
     fill_in "Name", with: "Test Edit"
+    fill_in "MAC", with: "aa:aa:aa:00:00:00"
+    fill_in "Refresh Rate", with: 123
     click_on "Save"
 
-    expect(page).to have_content("Test Edit")
+    expect(page).to have_content(/Test Edit.+aa:aa:aa:00:00:00.+123/)
   end
 
   it "deletes device" do
