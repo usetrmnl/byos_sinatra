@@ -3,7 +3,7 @@
 require "spec_helper"
 
 RSpec.describe Images::Screensaver do
-  subject(:creator) { described_class.new }
+  subject(:screensaver) { described_class.new }
 
   include_context "with temporary directory"
 
@@ -28,12 +28,12 @@ RSpec.describe Images::Screensaver do
     let(:path) { temp_dir.join "test.jpeg" }
 
     it "creates screenshot" do
-      creator.call content, path
+      screensaver.call content, path
       expect(path.exist?).to be(true)
     end
 
     it "answers image path" do
-      expect(creator.call(content, path)).to be(path)
+      expect(screensaver.call(content, path)).to be(path)
     end
   end
 end
