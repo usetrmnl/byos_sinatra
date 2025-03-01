@@ -106,12 +106,12 @@ module TRMNL
 
       if device
         encryption = :base_64 if (env["HTTP_BASE64"] || params[:base64]) == "true"
-        screen = Images::Fetcher.new(encryption:).call Pathname.pwd.join("public/images/generated")
+        image = Images::Rotator.new.call(Pathname.pwd.join("public/images/generated"), encryption:)
 
         # FIX: On Core, a 202 status loops device back to /api/setup unless User is connected.
         payload.merge! status: 0,
-                       image_url: screen[:image_url],
-                       filename: screen[:filename],
+                       image_url: image[:image_url],
+                       filename: image[:filename],
                        refresh_rate: device.refresh_interval,
                        reset_firmware: false,
                        update_firmware: false,
