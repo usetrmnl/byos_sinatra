@@ -32,24 +32,20 @@ RSpec.describe Images::Fetcher do
     end
 
     it "answers generated image with encryption" do
-      fetcher = described_class.new(encryption: :base_64, environment:)
-
       path = temp_dir.join("public/images/generated").mkpath.join("test.bmp")
       fixture_path.copy path
 
-      expect(fetcher.call(path.parent)).to match(
+      expect(fetcher.call(path.parent, encryption: :base_64)).to match(
         filename: "test.bmp",
         image_url: %r(data:image/bmp;base64,.+)
       )
     end
 
     it "answers generated image without encryption when given invalid encryption" do
-      fetcher = described_class.new(encryption: :bogus, environment:)
-
       path = temp_dir.join("public/images/generated").mkpath.join("test.bmp")
       fixture_path.copy path
 
-      expect(fetcher.call(path.parent)).to eq(
+      expect(fetcher.call(path.parent, encryption: :bogus)).to eq(
         filename: "test.bmp",
         image_url: "https://test.io/images/generated/test.bmp"
       )
