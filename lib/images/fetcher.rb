@@ -10,19 +10,20 @@ module Images
 
     ALLOWED_ENCRYPTIONS = %i[base_64].freeze
 
-    def initialize encryption: nil, allowed_encryptions: ALLOWED_ENCRYPTIONS, environment: ENV
-      @encryption = encryption
+    def initialize allowed_encryptions: ALLOWED_ENCRYPTIONS, environment: ENV
       @allowed_encryptions = allowed_encryptions
       @environment = environment
     end
 
-    def call(root_path = Pathname.pwd) = last_generated_image(root_path) || default_image
+    def call root_path = Pathname.pwd, encryption: nil
+      last_generated_image(root_path, encryption) || default_image
+    end
 
     private
 
-    attr_reader :encryption, :allowed_encryptions, :environment
+    attr_reader :allowed_encryptions, :environment
 
-    def last_generated_image root_path
+    def last_generated_image root_path, encryption
       image_path = root_path.files("*.bmp").max_by(&:ctime)
 
       return unless image_path
