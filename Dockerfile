@@ -38,6 +38,7 @@ COPY --from=build "${BUNDLE_PATH}" "${BUNDLE_PATH}"
 COPY --from=build /app /app
 
 RUN <<STEPS
+  mkdir -p /app/public/images/generated
   mkdir -p /app/log
   mkdir -p /app/tmp
 STEPS
