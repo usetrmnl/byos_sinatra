@@ -30,11 +30,9 @@ module Images
 
     attr_reader :settings, :browser
 
-    # :reek:FeatureEnvy
-    # :reek:TooManyStatements
     def save content, path
       browser.new(settings).then do |instance|
-        instance.goto "about:blank"
+        instance.create_page
         instance.resize(**dimensions)
         instance.execute "document.documentElement.innerHTML = `#{content}`;"
         instance.network.wait_for_idle

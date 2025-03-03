@@ -16,8 +16,6 @@ module Images
 
     private
 
-    # :reek:FeatureEnvy
-    # :reek:TooManyStatements
     def convert input_path, output_path
       client.convert do |converter|
         converter << input_path.to_s
