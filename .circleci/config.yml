@@ -45,8 +45,11 @@ jobs:
             - vendor/bundle
 
       - run:
-          name: Database Setup
-          command: bin/rake db:prepare
+          name: Setup
+          command: |
+            mkdir -p public/images/generated
+            cp public/images/demo/rover.bmp public/images/generated/rover.bmp
+            bin/rake db:prepare
 
       - run:
           name: Build
