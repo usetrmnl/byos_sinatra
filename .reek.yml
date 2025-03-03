@@ -3,8 +3,16 @@ exclude_paths:
   - vendor
 
 detectors:
+  FeatureEnvy:
+    exclude:
+      - Images::Greyscaler#convert
+      - Images::Screensaver#save
   LongParameterList:
     enabled: false
+  TooManyStatements:
+    exclude:
+      - Images::Greyscaler#convert
+      - Images::Screensaver#save
 
 exclude_paths:
   - db/migrate
