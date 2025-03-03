@@ -40,12 +40,16 @@ bin/setup
 
 == Usage
 
+To launch the server, run:
+
 [source,bash]
 ----
 bundle exec puma --config ./config/puma.rb
 ----
 
 💡 Install link:https://github.com/DarthSim/overmind[Overmind] and run `overmind start` to run with full access to all processes (including remote debugging).
+
+To use the app, open `http://localhost:4567` in your browser to view the app and manage your device(s).
 
 == Development
 
@@ -88,6 +92,80 @@ Images::Creator.new.call "<p>Test.</p>", Pathname.pwd.join("%<name>s.bmp")
 #<Pathname:byos_sinatra/c8e41972-c7bb-47d8-b927-ddcf50d20367.bmp>
 ----
 
+When creating images, you might find this HTML template valuable as a starting point as this let's you use the full capabilities of HTML to create new images for your device.
+
+.HTML Template
+[%collapsible]
+====
+[source,html]
+----
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+    <title>Demo</title>
+
+    <meta charset="utf-8">
+
+    <style type="text/css">
+      * {
+        margin: 0;
+      }
+    </style>
+
+    <script type="text/javascript">
+    </script>
+  </head>
+
+  <body>
+    <img src="uri/to/image" alt="Image"/>
+  </body>
+</html>
+----
+====
+
+Use of `margin` zero is important to prevent default browser styles from creating borders around your image which will show up when rendered on your device. Otherwise, you have full capabilities to render any kind of page you want using whatever HTML you like. Anything is possible because `Images::Creator` is designed to screenshot your rendered HTML as a 800x480 image to render on your device. If you put all this together, that means you can do this in the console:
+
+.Console Image Generation
+[%collapsible]
+====
+[source,ruby]
+----
+creator = Images::Creator.new
+
+creator.call(<<~CONTENT, Pathname("public/images/generated/"%<name>s.bmp""))
+  <!DOCTYPE html>
+
+  <html lang="en">
+    <head>
+      <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+
+      <title>Demo</title>
+
+      <meta charset="utf-8">
+
+      <style type="text/css">
+        * {
+          margin: 0;
+        }
+      </style>
+
+      <script type="text/javascript">
+      </script>
+    </head>
+
+    <body>
+      <h1>Hello, World!</h1>
+    </body>
+  </html>
+CONTENT
+----
+====
+
+The above will create a new image in the `public/images/generated` folder of this application which will eventually render on your device. 🎉
+
 To build a {docker_link} image, run:
 
 [source,bash]
@@ -111,7 +189,7 @@ To test, run:
 bin/rake
 ----
 
-== Deployement
+== Deployment
 
 *Local*
 
