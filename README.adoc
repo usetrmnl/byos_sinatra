@@ -81,6 +81,61 @@ bundle exec puma --config ./config/puma.rb
 
 To use the app, open `http://localhost:4567` in your browser to view the app and manage your device(s).
 
+=== APIs
+
+The following APIs are supported:
+
+[source,bash]
+----
+## Display
+curl "http://localhost:4567/api/display/" \
+     -H 'ID: <redacted>' \
+     -H 'Access-Token: <redacted>' \
+     -H 'Accept: application/json' \
+     -H 'Content-Type: application/json'
+
+## Setup
+curl "http://localhost:4567/api/setup/" \
+    -H 'ID: <redacted>' \
+    -H 'Access-Token: <redacted>' \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json'
+
+
+## Logs
+curl -X "POST" "http://localhost:4567/api/log" \
+     -H 'ID: <redacted>' \
+     -H 'Access-Token: <redacted>' \
+     -H 'Accept: application/json' \
+     -H 'Content-Type: application/json'
+
+## Images
+curl -X "POST" "http://localhost:4567/api/images" \
+    -H 'ID: <redacted>' \
+    -H 'Access-Token: <redacted>' \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d $'{
+ "image": {
+   "content": "<p>Test</p>"
+   "file_name": "test"
+ }
+}'
+----
+
+💡 The images API supports full HTML so you can supply CSS styles, full DOM, etc. At a minimum, you'll want to use the following to prevent white borders showing up around your generated images:
+
+[source,css]
+----
+* {
+  margin: 0;
+}
+----
+
+If you don't supply a `file_name`, the server will generate one for you using a UUID for the file name. You can find all generated images in `public/images/generated`.
+
+💡 The `ID` is your device's MAC and the `Access-Token` is your device API Key.
+
 == Development
 
 To contribute, run:
