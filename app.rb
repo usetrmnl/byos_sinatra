@@ -2,8 +2,11 @@
 
 require_relative "config/application"
 
+require "refinements/string_io"
+
 module TRMNL
   # The web application.
+  # rubocop:todo Metrics/ClassLength
   class Application < Sinatra::Base
     include Dependencies[:log_keys, :logger]
 
@@ -14,6 +17,8 @@ module TRMNL
       device_show_view: "devices.show",
       home_show_view: "home.show"
     ]
+
+    using Refinements::StringIO
 
     def self.loader registry = Zeitwerk::Registry
       @loader ||= registry.loaders.find { |loader| loader.tag == "trmnl-application" }
@@ -74,6 +79,17 @@ module TRMNL
       body ""
     end
 
+    post "/api/images" do
+      content_type :json
+
+      body = JSON request.body.reread, symbolize_names: true
+      image = body.fetch :image, {}
+      file_name = image.fetch :file_name, "%<name>s"
+      path = Bundler.root.join "public/images/generated/#{file_name}.bmp"
+
+      {path: Images::Creator.new.call(image[:content], path)}.to_json
+    end
+
     get "/api/setup/" do
       content_type :json
       device = Device.find_by_mac_address env["HTTP_ID"]
@@ -131,4 +147,5 @@ module TRMNL
       ""
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
