@@ -29,7 +29,9 @@ RSpec.describe Images::Screensaver do
 
     it "creates screenshot" do
       screensaver.call content, path
-      expect(path.exist?).to be(true)
+      image = MiniMagick::Image.open path
+
+      expect(image).to have_attributes(width: 800, height: 480, type: "JPEG", exif: {})
     end
 
     it "answers image path" do

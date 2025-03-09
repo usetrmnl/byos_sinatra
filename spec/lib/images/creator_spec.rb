@@ -32,9 +32,10 @@ RSpec.describe Images::Creator do
       image = MiniMagick::Image.open path
 
       expect(image).to have_attributes(
-        dimensions: [800, 480],
-        exif: {},
+        width: 800,
+        height: 480,
         type: "BMP3",
+        exif: {},
         data: hash_including("depth" => 1, "baseDepth" => 1)
       )
     end

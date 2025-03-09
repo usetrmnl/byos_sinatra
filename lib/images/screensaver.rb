@@ -12,17 +12,18 @@ module Images
         "hide-scrollbar" => nil,
         "no-sandbox" => nil
       },
-      js_errors: true,
-      window_size: [800, 480]
+      js_errors: true
     }.freeze
+
+    VIEWPORT = {width: 800, height: 480, scale_factor: 1}.freeze
 
     def initialize settings: SETTINGS, browser: Ferrum::Browser
       @settings = settings
       @browser = browser
     end
 
-    def call content, path
-      save content, path
+    def call content, path, viewport: VIEWPORT
+      save content, path, viewport
       path
     end
 
@@ -30,17 +31,15 @@ module Images
 
     attr_reader :settings, :browser
 
-    def save content, path
+    def save content, path, viewport
       browser.new(settings).then do |instance|
         instance.create_page
-        instance.resize(**dimensions)
+        instance.set_viewport(**viewport)
         instance.execute "document.documentElement.innerHTML = `#{content}`;"
         instance.network.wait_for_idle
         instance.screenshot path: path.to_s
         instance.quit
       end
     end
-
-    def dimensions = settings.fetch(:window_size).then { |width, height| {width:, height:} }
   end
 end
