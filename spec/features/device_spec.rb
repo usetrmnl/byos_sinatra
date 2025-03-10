@@ -16,11 +16,11 @@ RSpec.describe "Devices" do
 
   it "creates device" do
     visit "/devices"
-    click_on "New"
+    click_link "New"
     fill_in "Name", with: "Test New"
     fill_in "MAC", with: "aa:bb:cc:01:02:03"
     fill_in "Refresh Rate", with: 100
-    click_on "Save"
+    click_button "Save"
 
     expect(page).to have_content(/Test New.+aa:bb:cc:01:02:03.+100/)
   end
@@ -35,11 +35,11 @@ RSpec.describe "Devices" do
   it "edits device" do
     device
     visit "/devices"
-    click_on "Edit"
+    click_link "Edit"
     fill_in "Name", with: "Test Edit"
     fill_in "MAC", with: "aa:aa:aa:00:00:00"
     fill_in "Refresh Rate", with: 123
-    click_on "Save"
+    click_button "Save"
 
     expect(page).to have_content(/Test Edit.+aa:aa:aa:00:00:00.+123/)
   end
@@ -49,14 +49,14 @@ RSpec.describe "Devices" do
 
     device
     visit "/devices"
-    click_on "Delete"
+    click_button "Delete"
 
     expect(page).to have_no_content("New")
   end
 
   it "visits home page" do
     visit "/devices"
-    click_on "Home"
+    click_link "Home"
 
     expect(page).to have_content("Welcome")
   end
