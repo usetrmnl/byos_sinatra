@@ -7,6 +7,8 @@
 
 = TRMNL BYOS (Ruby/Sinatra)
 
+‼️ *This implementation has been eclipsed by our link:https://github.com/usetrmnl/byos_hanami[Terminus] (BYOS Hanami) implementation which is our flagship implementation. Terminus is where all of our active development is and provides a lot more features. Please use Terminus instead. Thanks and enjoy!*
+
 This project allows you to point a {trmnl_link} device to your own server which can be running on your local network or in the cloud.
 
 toc::[]
