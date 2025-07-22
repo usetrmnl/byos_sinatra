@@ -21,7 +21,7 @@ module TRMNL
     using Refinements::StringIO
 
     def self.loader registry = Zeitwerk::Registry
-      @loader ||= registry.loaders.find { |loader| loader.tag == "trmnl-application" }
+      @loader ||= registry.loaders.each.find { |loader| loader.tag == "trmnl-application" }
     end
 
     # :nocov:
