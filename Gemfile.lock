@@ -404,7 +404,7 @@ DEPENDENCIES
   zeitwerk (~> 2.7)
 
 RUBY VERSION
-   ruby 3.4.6p54
+   ruby 3.4.7p58
 
 BUNDLED WITH
    2.6.9
