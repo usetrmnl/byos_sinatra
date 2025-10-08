@@ -13,6 +13,6 @@ module Container
   end
 
   register :logger do
-    Cogger.add_filter(:api_key).add_filter("HTTP_ACCESS_TOKEN").new id: :trmnl, formatter: :json
+    Cogger.add_filters(:api_key, "HTTP_ACCESS_TOKEN").new id: :trmnl, formatter: :json
   end
 end

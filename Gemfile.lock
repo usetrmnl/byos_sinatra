@@ -47,7 +47,7 @@ GEM
       xpath (~> 3.2)
     childprocess (5.1.0)
       logger (~> 1.5)
-    cogger (1.5.0)
+    cogger (1.6.0)
       core (~> 2.0)
       logger (~> 1.7)
       refinements (~> 13.5)
